@@ -3,21 +3,22 @@
 
 
 
-#' Title Aqui titulo
-#'
-#' @param model Este es el modelo
-#' @param len Esto es el tamano del vector de frecuencias
-#' @param dt 
-#' @param A0 
-#' @param sigma 
-#' @param coefs 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
 ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL,
    coefs = NULL){
+  #' Title Aqui titulo
+  #'
+  #' @param model Este es el modelo
+  #' @param len Esto es el tamano del vector de frecuencias
+  #' @param dt 
+  #' @param A0 
+  #' @param sigma 
+  #' @param coefs 
+  #'
+  #' @return
+  #' @export
+  #'
+  #' @examples
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
                       sigma <- summary(model)$cov
