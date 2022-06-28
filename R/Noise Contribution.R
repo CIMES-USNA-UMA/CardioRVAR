@@ -3,7 +3,7 @@
 # References:
 # Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 # J Clin Monit Comput. 2006;20(1):101-8
-
+#
 
 
 NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.4, use.coh  =TRUE,
