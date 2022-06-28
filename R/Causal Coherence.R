@@ -4,7 +4,7 @@
 # the causal coherence from X to Y and Y to X. The calculation is as indicated
 # by Faes et al. 
 #
-# References: ------------------------------------------------------------
+# References: -------------------------------------------------------------
 #
 # Faes L, Porta A, Antolini R, Nollo G. Role of causality in the evaluation of coherence and 
 # transfer function between heart period and systolic pressure in humans. Comput Cardiol.
