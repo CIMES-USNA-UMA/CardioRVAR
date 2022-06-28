@@ -10,7 +10,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
   #'
   #' @param model Este es el modelo
   #' @param len Esto es el tamano del vector de frecuencias
-  #' @param dt Hola
+  #' @param dt Hola adios
   #' @param A0 
   #' @param sigma 
   #' @param coefs 
