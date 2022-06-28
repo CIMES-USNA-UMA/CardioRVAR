@@ -1,8 +1,15 @@
 # Developed by Alvaro Chao-Ecija
 # 
 # These are several functions to calculate estimates from each frequency
-# domain function. These functions can be weighted using a Gaussian functions,
-# according to the procedure described by
+# domain function. The calculated transfer functions can be weighted using a Gaussian functions,
+# according to the procedure described by MacLoone & Ringwood. This procedure consists
+# of estimating a Gaussian function that will be employed to weight the estimates.
+# See argument "weight" for more details.
+#
+# References:
+#
+# McLoone V, Ringwood JV. A system identification approach to baroreflex sensitivity
+# estimation
 
 
 GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
@@ -25,10 +32,6 @@ GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
       }
     }
     if(weight){
-       #tLF <- 1:NROW(LF_band)
-       #tHF <- 1:NROW(HF_band)
-       #wLF <- exp(-((tLF - mean(tLF))^2) / (2 * var(tLF)))
-       #wHF <- exp(-((tHF - mean(tHF))^2) / (2 * var(tHF)))
        supLF <- seq(-1, 1, len = NROW(LF_band))
        supHF <- seq(-1, 1, len = NROW(HF_band))
        wLF <- dnorm(supLF, sd = sd(supLF))
