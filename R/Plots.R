@@ -3,6 +3,7 @@
 # Several functions to plot the calculated transfer functions and spectra from the
 # frecuency domain models.
 #
+#
 
 PlotTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
                             xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
