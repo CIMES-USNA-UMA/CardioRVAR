@@ -11,3 +11,9 @@ Description: This is an R package designed for modelling cardiovascular open-
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    lmtest,
+    tools,
+    tseries,
+    vars,
+    waveslim
