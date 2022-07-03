@@ -29,7 +29,7 @@ DetrendByCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16",
   #for(n in 3:5) dx[[n]] <- double(N)
   dx <- waveslim::universal.thresh.modwt(dx, level, hard = TRUE)
   for(n in level2:(level-1)) dx[[n]] <- double(N)
-  trend <- imodwt(dx)
+  trend <- waveslim::imodwt(dx)
   return(x - mean(x) - trend)
 }
 
