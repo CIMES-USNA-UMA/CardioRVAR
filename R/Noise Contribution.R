@@ -53,8 +53,6 @@ PlotCausality <- function(SM, index, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NUL
     SM$Noise_Spectra[2, 2] / abs(SM$Spectra[1,1,])
   G12 <- (abs(SM$Noise_Transfer_fun[2, 1, ])^2) *
     SM$Noise_Spectra[1, 1] / abs(SM$Spectra[2,2,])
-  #G21 <- -log(1 - G21)
-  #G12 <- -log(1 - G12)
   Max <- max(max(G12[(freqs <= HF) & (freqs >= VLF)]), max(G21[(freqs <= HF) & (freqs >= VLF)]))
   G = list(G12, G21)
   if(index == 1) index1 <- 2
@@ -67,55 +65,6 @@ PlotCausality <- function(SM, index, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NUL
   abline(v = VLF, col = "grey")
   abline(v = LF, col = "grey")
   abline(v = HF, col = "grey")
-}
-
-PlotCausality2 <- function(SM, index, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL,
-                          dif = FALSE){
-  freqs <- SM$Freqs 
-  if(is.null(xlim)){
-    xlim = c(VLF, HF)
-  }
-  G21 <- (abs(SM$Noise_Transfer_fun[1, 1, ])^2) *
-    SM$Noise_Spectra[1, 1] / abs(SM$Spectra[1,1,])
-  G12 <- (abs(SM$Noise_Transfer_fun[2, 2, ])^2) *
-    SM$Noise_Spectra[2, 2] / abs(SM$Spectra[2,2,])
-  G21 <- -log(G21)
-  G12 <- -log(G12)
-  Max <- max(max(G12[(freqs <= HF) & (freqs >= VLF)]), max(G21[(freqs <= HF) & (freqs >= VLF)]))
-  G = list(G21, G12)
-  if(index == 1) index1 <- 2
-  if(index == 2) index1 <- 1
-  if(!dif){
-  plot(freqs, G[[index]], xlim = xlim, xlab = "Frequency",
-       ylab = "Causality",
-       main = "Causal flow (current branch in red)", type = "l",
-       ylim = c(0, Max), col = "red")
-  lines(freqs, G[[index1]])
-  } else {
-    plot(freqs, G[[index]] - G[[index1]], xlim = xlim, xlab = "Frequency",
-         ylab = "Causality",
-         main = "Causal flow (difference)", type = "l")
-  }
-  abline(v = VLF, col = "grey")
-  abline(v = LF, col = "grey")
-  abline(v = HF, col = "grey")
-  if(dif) abline(h = 0, col = "red")
-}
-
-
-CalculateCausality <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL,
-                          dif = FALSE){
-  freqs <- SM$Freqs 
-  if(is.null(xlim)){
-    xlim = c(VLF, HF)
-  }
-  G21 <- (abs(SM$Noise_Transfer_fun[1, 1, ])^2) *
-    SM$Noise_Spectra[1, 1] / abs(SM$Spectra[1,1,])
-  G12 <- (abs(SM$Noise_Transfer_fun[2, 2, ])^2) *
-    SM$Noise_Spectra[2, 2] / abs(SM$Spectra[2,2,])
-  G21 <- -log(G21)
-  G12 <- -log(G12)
-  return(list(G21 = G21, G12 = G12, Freqs = freqs))
 }
 
 
