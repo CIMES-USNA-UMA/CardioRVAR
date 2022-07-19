@@ -83,7 +83,7 @@ PSD <- function(x, p,
   }
   if(output){
     fHF <- freqs[(freqs <= HF) & (freqs > LF)]
-    fLF <- freqs[(freqs <= HF) & (freqs > LF)]
+    fLF <- freqs[(freqs <= LF) & (freqs >= VLF)]
     HF <- gain[(freqs <= HF) & (freqs > LF)]
     LF <- gain[(freqs <= LF) & (freqs >= VLF)]
     funHF <- splinefun(fHF, HF, "monoH.FC")
