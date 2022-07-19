@@ -57,7 +57,7 @@ PSD <- function(x, p,
     xlim = c(VLF, HF)
   }
   S <- spec.ar(ts(x, start = 0, frequency = f), plot = FALSE, order = p, n.freq = n)
-  gain <- S$spec * 2
+  gain <- S$spec * 2 * f
   freqs <- S$freq
   gain <- gain[(freqs <= HF) & (freqs >= VLF)]
   freqs <- freqs[(freqs <= HF) & (freqs >= VLF)]
