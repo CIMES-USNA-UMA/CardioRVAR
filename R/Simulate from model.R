@@ -86,8 +86,8 @@ PSD <- function(x, p,
     fLF <- freqs[(freqs <= LF) & (freqs >= VLF)]
     gHF <- gain[(freqs <= HF) & (freqs > LF)]
     gLF <- gain[(freqs <= LF) & (freqs >= VLF)]
-    funHF <- splinefun(fHF, HF, "monoH.FC")
-    funLF <- splinefun(fLF, LF, "monoH.FC")
+    funHF <- splinefun(fHF, gHF, "monoH.FC")
+    funLF <- splinefun(fLF, gLF, "monoH.FC")
     igHF <- integrate(funHF, lower = min(fHF), upper = max(fHF))
     igLF <- integrate(funLF, lower = min(fLF), upper = max(fLF))
     return(c(HF = igHF$value,
