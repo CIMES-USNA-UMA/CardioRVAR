@@ -82,8 +82,16 @@ PSD <- function(x, p,
   }
   }
   if(output){
-    return(c(HF = sum(gain[(freqs <= HF) & (freqs > LF)]),
-             LF = sum(gain[(freqs <= LF) & (freqs >= VLF)]),
+    fHF <- freqs[(freqs <= HF) & (freqs > LF)]
+    fLF <- freqs[(freqs <= HF) & (freqs > LF)]
+    HF <- gain[(freqs <= HF) & (freqs > LF)]
+    LF <- gain[(freqs <= LF) & (freqs >= VLF)]
+    funHF <- splinefun(fHF, HF, "monoH.FC")
+    funLF <- splinefun(fLF, LF, "monoH.FC")
+    gHF <- integrate(funHF, lower = min(fHF), upper = max(fHF))
+    gLF <- integrate(funLF, lower = min(fLF), upper = max(fLF))
+    return(c(HF = gHF,
+             LF = gLF,
              peakHF = freqs[match(max(gain[(freqs <= HF) & (freqs > LF)]), gain)],
              peakLF = freqs[match(max(gain[(freqs <= LF) & (freqs >= VLF)]), gain)]))
   }
