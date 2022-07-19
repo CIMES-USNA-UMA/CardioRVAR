@@ -90,8 +90,8 @@ PSD <- function(x, p,
     funLF <- splinefun(fLF, LF, "monoH.FC")
     gHF <- integrate(funHF, lower = min(fHF), upper = max(fHF))
     gLF <- integrate(funLF, lower = min(fLF), upper = max(fLF))
-    return(c(HF = gHF,
-             LF = gLF,
+    return(c(HF = gHF$value,
+             LF = gLF$value,
              peakHF = freqs[match(max(gain[(freqs <= HF) & (freqs > LF)]), gain)],
              peakLF = freqs[match(max(gain[(freqs <= LF) & (freqs >= VLF)]), gain)]))
   }
