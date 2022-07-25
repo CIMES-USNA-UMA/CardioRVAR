@@ -1,17 +1,48 @@
-# Developed by Alvaro Chao-Ecija
-# 
-# These are several functions to calculate estimates from each frequency
-# domain function. The calculated transfer functions can be weighted using a Gaussian functions,
-# according to the procedure described by MacLoone & Ringwood. This procedure consists
-# of estimating a Gaussian function that will be employed to weight the estimates.
-# See argument "weight" for more details.
-#
-# References:
-#
-# McLoone V, Ringwood JV. A system identification approach to baroreflex sensitivity
-# estimation
 
 
+#' Compute expected values
+#' 
+#' Compute expected values from a frequency domain model of a particular system
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param str boolean, if TRUE the output will be the structure of the returned R object.
+#'            Default is FALSE
+#' @param weight applies gaussian-weighting function to the estimates before
+#'               calculating the expected values. Default is TRUE
+#' @param use.coh boolean, if TRUE the coherence and coherence threshold will be
+#'                used for the computation of expected values. Default is TRUE
+#' @param thr a coherence threshold to ensure the validity of the estimates. Default is 0.5
+#' @param coherence the spectral coherence between the analyzed variables            
+#'
+#' @return A list containing the expected values computed at the HF and LF bands; or
+#'         the structure of this list.
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#' @references 
+#' McLoone V, Ringwood JV. A system identification approach to baroreflex sensitivity
+#' estimation
+#'         
+#' @export
+#' 
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' 
+#' GetExpectedVals(freq_model, use.coh = FALSE)
+#' 
+#' ExpectedVals <- GetExpectedVals(freq_model, use.coh = FALSE, str = FALSE)
+#' 
+#' # If the coherence is to be used:
+#' coherence <- CalculateCoherence(freq_model, 1, 2)
+#' 
+#' ExpectedVals <- GetExpectedVals(freq_model, weight = FALSE, coherence = coherence,
+#' str = FALSE)
+#' 
 GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
     str = TRUE, weight = TRUE, use.coh = TRUE, thr = 0.5, coherence){
     frequency <- SM$Freqs 
@@ -70,6 +101,41 @@ GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
     }
 } 
 
+
+
+
+
+#' Get estimates at maximum coherence
+#' 
+#' Use the coherence between two variables to get estimates of the frequency model
+#' at each band at maximum coherence levels
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param str boolean, if TRUE the output will be the structure of the returned R object.
+#'            Default is FALSE
+#' @param coherence the spectral coherence between the analyzed variables            
+#'
+#' @return A list containing the estimates at the HF and LF bands; or
+#'         the structure of this list.
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#' @export
+#' 
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' 
+#' coherence <- CalculateCoherence(freq_model, 1, 2)
+#' 
+#' GetEstimateAtMaxCoh(freq_model, coherence = coherence)
+#' Estimates <- GetEstimateAtMaxCoh(freq_model, coherence = coherence,
+#' str = FALSE)
+#' 
 GetEstimateAtMaxCoh <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
                               str = TRUE, coherence){
   frequency <- SM$Freqs 
@@ -103,7 +169,32 @@ GetEstimateAtMaxCoh <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
 } 
 
 
-
+#' Get peaks for each band
+#' 
+#' Get the frequency values in which the maximum peaks are located for each band
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param str boolean, if TRUE the output will be the structure of the returned R object.
+#'            Default is FALSE
+#'
+#' @return A list containing the estimates at the HF and LF bands; or
+#'         the structure of this list.
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#' @export
+#' 
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' 
+#' GetPeaks(freq_model)
+#' Peaks <- GetEstimateAtMaxCoh(freq_model, str = FALSE)
+#' 
 GetPeaks <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
                                  str = TRUE){
   frequency <- SM$Freqs 
@@ -134,5 +225,5 @@ GetPeaks <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
   }
 }
 
-# References
+
 

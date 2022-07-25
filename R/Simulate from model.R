@@ -20,6 +20,36 @@ SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow"
   return(S/f)
 }
 
+
+#' Plot simulated model
+#' 
+#' Generates a graphical representation of the noise transfer functions
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param S simulated spectral matrix from the model to be analyzed
+#' @param index numeric index to specify a variable from the model
+#' @param unit unit of the output variable. Default is ms2/Hz
+#' @param xlim specific limits for the frequency axis. Default is NULL
+#' @param HFcolor color for the HF band. Default is yellow
+#' @param LFcolor color for the LF band. Default is green
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param show.cols boolean, show colors in the plot. Default is TRUE
+#' @param phase.col color for the phase difference plot. Default is red
+#' 
+#' 
+#'
+#' @return None
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#'         
+#' @export
+#' 
+#' @examples
+#' # ADD EXAMPLE
+#' 
 PlotSimulatedS <- function(SM, S, index, unit = "ms2/Hz",
                            xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                            LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red"){
@@ -48,7 +78,43 @@ PlotSimulatedS <- function(SM, S, index, unit = "ms2/Hz",
   }
 }
 
-
+#' Compute and plot spectral density
+#' 
+#' Computes and plots spectral density estimates from a certain variable
+#'
+#' @param x a vector with observations to be analyzed
+#' @param p model order for the autoregressive model
+#' @param xlim specific limits for the frequency axis. Default is NULL
+#' @param HFcolor color for the HF band. Default is yellow
+#' @param LFcolor color for the LF band. Default is green
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param show.cols boolean, show colors in the plot. Default is TRUE
+#' @param phase.col color for the phase difference plot. Default is red
+#' @param f sample rate of the vector of observations. Default is 4 Hz
+#' @param plot boolean, plot the PSD function. Default is TRUE
+#' @param output boolean, return the PSD function. Default is FALSE
+#' @param n length of the vector of frequencies. Default is 1500
+#' @param unit unit of the output variable. Default is ms2/Hz
+#' 
+#'
+#' @return If the output argument is TRUE, a list with the computed power at
+#'         LF and HF bands, as well as the peak frequencies, is returned.
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#'         
+#' @export
+#' 
+#' @examples
+#' data(DetrendedData)
+#' RR <- DetrendedData$RR
+#' 
+#' PSD(RR, 21)
+#' 
+#' HRV <- PSD(RR, 21, plot = FALSE, output = TRUE)
+#' 
 PSD <- function(x, p, 
                            xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                            LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red", f = 4, 

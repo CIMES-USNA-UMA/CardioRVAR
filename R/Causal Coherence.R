@@ -15,6 +15,22 @@
 # 2013 Nov;178(1-2):96-102.
 
 
+
+
+
+
+
+#' Calculate phase difference from causal coherence
+#'
+#' @param ccoh computed causal coherence
+#'
+#' @return the computed phase difference
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' 
+#' @examples
+#' ADD EXAMPLE
 CalculateCausalPhase <- function(ccoh){
   N <- length(ccoh)
   for(n in 1:N){
@@ -23,7 +39,29 @@ CalculateCausalPhase <- function(ccoh){
   return(ccoh)
 }
 
-
+#' Calculate causal coherence from a system modelled in the frequency domain
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#'
+#' @return a list with the following components: causal coherence from y to x (C1),
+#'         causal coherence from x to y (C2) and the standard, non-causal squared 
+#'         coherence (C2)
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @references
+#' Faes L, Porta A, Antolini R, Nollo G. Role of causality in the evaluation of coherence and 
+#' transfer function between heart period and systolic pressure in humans. Comput Cardiol.
+#' 2004;277-80.
+#
+#' Faes L, Mase M, Nollo G, Chon KH, Florian JP. Measuring postural-related changes of spontaneous
+#' baroreflex sensitivity after repeated long-duration diving: frequency domain approaches. Auton Neurosci. 
+#' 2013 Nov;178(1-2):96-102.
+#' 
+#' @export
+#' 
+#' @examples
+#' ADD EXAMPLE
 CalculateCausalCoherence <- function(SM){
   S <- SM$Spectra
   H <- SM$Noise_Transfer_fun
@@ -38,7 +76,24 @@ CalculateCausalCoherence <- function(SM){
 
 
 
-
+#' Plot Causal coherence
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param CCoh the computed causal coherence from the system to be analyzed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param xlim vector with minimum and maximum limits for the graphical representation.
+#'        Default is NULL
+#'
+#' @return None
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @export
+#' 
+#' @examples
+#' ADD EXAMPLE
 PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL){
   freqs <- SM$Freqs 
   if(is.null(xlim)){
@@ -62,7 +117,27 @@ PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim 
   
 }
   
-
+#' Get mean coherence
+#' 
+#' Computes the expected coherence values for the HF and LF bands
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param coherence the coherence function to be decomposed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param weight applies gaussian-weighting function to the estimates before
+#'               calculating the expected values. Default is TRUE
+#'
+#' @return A list with the computed expected values at the LF and HF bands for the 
+#'         coherence
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#' @export
+#' 
+#' @examples
+#' ADD EXAMPLE
 GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
                              weight = TRUE){
   frequency <- SM$Freqs 
@@ -95,6 +170,26 @@ GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
   return(list(HF = HF, LF = LF))
 }
 
+
+#' Get maximum coherence
+#' 
+#' Computes the maximum coherence values for the LF and HF bands
+#'
+#' @param SM the computed frequency domain model from the system to be analyzed
+#' @param coherence the coherence function to be decomposed
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#'
+#' @return A list with the computed maximum values at the LF and HF bands for the 
+#'         coherence
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @export
+#' 
+#' @examples
+#' ADD EXAMPLE
 GetMaxCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
   frequency <- SM$Freqs 
   F <- NROW(frequency)

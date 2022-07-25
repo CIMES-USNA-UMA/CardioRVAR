@@ -1,9 +1,20 @@
-# Developed by Alvaro Chao-Ecija
-#
-# Function for interpolating the data. It uses some default parameters, like
-# other packages such as RHRV.It also supports (if available) DBP and
-# respiration data.
-
+#' Interpolate data
+#'
+#' Interpolates data up to a particular sample rate
+#' @param x a list containing data to be interpolated
+#' @param f sample rate for the interpolated series. Default is 4 Hz
+#'
+#' @return A list containing the interpolated data.
+#'         
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#'
+#' @export
+#'
+#' @examples
+#' data(Cardiovascular)
+#' interpolated <- InterpolateData(Cardiovascular)
 
 InterpolateData <- function(x, f = 4){
                    IntFunRR <- splinefun(x$Time, x$RR, 

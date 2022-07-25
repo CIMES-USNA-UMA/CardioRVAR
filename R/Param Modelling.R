@@ -1,24 +1,44 @@
-
+#' Parametric frequency model estimation
+#'
+#' Estimates frequency model parameters from a time domain VAR model.
+#' @param model a time domain VAR model
+#' @param len length of the vector of frequencies. Default is 1000
+#' @param dt inverse of sample rate. Default is 0.25
+#' @param A0 boolean; add 0 effects. Default TRUE
+#' @param sigma include a specific covariance matrix; otherwise it is obtained
+#'              from the VAR model. Default is NULL
+#' @param coefs include VAR coefficients; otherwise these are obtained from the
+#'              VAR model. Default is NULL
+#'
+#' @return A list with the estimated components of the frequency domain model.
+#'         These components include closed-loop transfer functions, open-loop
+#'         transfer functions, open-vs-closed-loop overestimations, noise transfer
+#'         functions, and spectral estimations of the variables.
+#'         
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' @export
+#'
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
  
-
-
-
-
 ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL,
    coefs = NULL){
-  #' Title Aqui titulo
-  #'
-  #' @param model Este es el modelo
-  #' @param len Esto es el tamano del vector de frecuencias
-  #' @param dt Hola adios
-  #' @param A0 
-  #' @param sigma 
-  #' @param coefs 
-  #'
-  #' @return
-  #' @export
-  #'
-  #' @examples
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
                       sigma <- summary(model)$cov
@@ -51,7 +71,41 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
 }
 
 
-
+#' Include A0 effects 
+#'
+#' Estimates and includes A0 effects for a frequency domain model
+#' @param system the model of the system whose instantaneous effects we want to include
+#'
+#' @return A list with the estimated components of the frequency domain model.
+#'         These components include closed-loop transfer functions, open-loop
+#'         transfer functions, open-vs-closed-loop overestimations, noise transfer
+#'         functions, and spectral estimations of the variables.
+#'         
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @export
+#'
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model, A0 = FALSE)
+#' 
+#' #To include the A0 function:
+#' freq_model <- IncludeA0Effects(freq_model)
 IncludeA0Effects <- function(system){
                 sigma <- system$Noise_Spectra 
                 Noise_Transfer_fun <- system$Noise_Transfer_fun
@@ -85,7 +139,33 @@ IncludeA0Effects <- function(system){
 
 
 
-
+#' Estimate A0 function
+#'
+#' Estimates the A0 function from a covariance matrix by applying an LDLT decomposition
+#' @param sigma a covariance matrix
+#'
+#' @return A list which includes the A0 function as well as the new covariance matrix
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'         
+#' @references
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetA0Fun <- function(sigma){
             b <- t(chol(sigma))
             D <- diag(b)
@@ -95,6 +175,34 @@ GetA0Fun <- function(sigma){
             return(list(a0 = a0, sigma = new_sigma))
 }
 
+#' Update coefficients with A0 function
+#'
+#' Updates VAR model coefficients using an A0 function
+#' @param A0 the A0 function
+#' @param coefs coefficients to update
+#'
+#' @return The updated coefficients
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'       
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 UpdateWithA0 <- function(A0, coefs){
             ncoefs <- coefs
             for(n in 1:length(coefs)){
@@ -104,7 +212,33 @@ UpdateWithA0 <- function(A0, coefs){
 }
 
 
-
+#' Get coefs from VAR model
+#'
+#' Extracts VAR model coefficients for further analysis
+#' @param var a VAR model
+#'
+#' @return The extracted coefficients from this VAR model
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetCoefs <- function(var){
             max.lag = var$p
             K <- var$K
@@ -124,10 +258,39 @@ GetCoefs <- function(var){
 
 
 
-
-GetMatrixBfromVAR <- function(var, coefs, freqs, dt = 0.25){
+#' Calculate transfer function B from VAR model
+#'
+#' Calculates transfer function B from a specific VAR model
+#' @param var a var model
+#' @param freqs a vector of frequencies 
+#' @param dt inverse sample rate. Default is 0.25
+#'
+#' @return The auxiliary matrix B
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'       
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
+GetMatrixBfromVAR <- function(var, freqs, dt = 0.25){
               K <- var$K
               lags <- 1:var$p
+              if(is.null(coefs)) coefs <- GetCoefs(var)
               B <- array(0, dim = c(K, K, NROW(freqs)))
               for(n in 1:K){
                   for(m in 1:K){
@@ -140,6 +303,36 @@ GetMatrixBfromVAR <- function(var, coefs, freqs, dt = 0.25){
               return(B)
 }
 
+
+#' Calculate transfer function B from VAR coefficients
+#'
+#' Calculates transfer function B from a specific VAR model coefficients
+#' @param coefs coefficients from a var model
+#' @param freqs a vector of frequencies 
+#' @param dt inverse sample rate. Default is 0.25
+#'
+#' @return The auxiliary matrix B
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#' 
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
               K <- ncol(coefs[[1]])
               lags <- 1:length(coefs)
@@ -156,7 +349,33 @@ GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
 }
 
 
-
+#' Calculate transfer function B from transfer function A
+#'
+#' Calculates transfer function B from a previously calculated transfer function A
+#' @param B transfer function B
+#'
+#' @return Transfer function A
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetMatrixAfromB <- function(B){
               A <- array(0, dim(B))
               for(n in 1:dim(B)[3]){
@@ -165,7 +384,33 @@ GetMatrixAfromB <- function(B){
               return(A)
 }
 
-
+#' Calculate noise transfer function from transfer function A
+#'
+#' Calculates noise transfer function H from a previously computed transfer function A
+#' @param A transfer function A
+#'
+#' @return The noise transfer function H
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetMatrixHfromA <- function(A){
               H <- array(0, dim(A))
               for(n in 1:dim(A)[3]){
@@ -174,6 +419,33 @@ GetMatrixHfromA <- function(A){
               return(H)
 }
 
+#' Calculate closed-loop transfer functions
+#'
+#' Calculates closed-loop transfer functions from a previously computed transfer function A
+#' @param A transfer function A
+#'
+#' @return Closed-loop transfer functions
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'       
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetTransFuns <- function(A){
               TFuns <- array(0, dim(A))
               dims <- dim(A)
@@ -185,7 +457,36 @@ GetTransFuns <- function(A){
               return(TFuns)
 }
 
-
+#' Calculate spectral matrix
+#'
+#' Calculates spectral matrix from the noise transfer function and the covariance
+#' matrix
+#' 
+#' @param H a noise transfer function
+#' @param sigma a covariance matrix 
+#'
+#' @return The spectral matrix
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'       
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetSpectra <- function(H, sigma){
               S <- array(0, dim(H))
               for(n in 1:dim(H)[3]){
@@ -194,32 +495,83 @@ GetSpectra <- function(H, sigma){
               return(S)
 }
 
-GetOpenTFuns2 <- function(S){
-              OpenTFuns <- array(0, dim(S))
-              dims <- dim(S)
-              for(n in 1:dims[2]){
-                  for(m in 1:dims[2]){
-                      OpenTFuns[m,n,] <-  sqrt(abs(S[m,m,]) / abs(S[n,n,]))
-                  }
-              }
-              return(OpenTFuns)
-}
 
-# New version of GetOpenTFuns:
 
-GetOpenTFuns <- function(S){
+
+#' Calculate open-loop transfer functions
+#'
+#' Calculates open-loop transfer functions from the spectral matrix
+#' 
+#' @param S a spectral matrix
+#' @param use.cross boolean; use cross-spectrum to compute the transfer functions.
+#'                  default is TRUE 
+#'
+#' @return Open-loop transfer functions
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'       
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
+GetOpenTFuns <- function(S, use.cross = TRUE){
   OpenTFuns <- array(0, dim(S))
   dims <- dim(S)
   for(n in 1:dims[2]){
     for(m in 1:dims[2]){
-      OpenTFuns[n,m,] <-  S[m,n,] / abs(S[m,m,])
+      if(use.cross){
+        OpenTFuns[n,m,] <-  S[m,n,] / abs(S[m,m,])
+      } else {
+        OpenTFuns[m,n,] <-  sqrt(abs(S[m,m,]) / abs(S[n,n,]))
+      }
     }
   }
   return(OpenTFuns)
 }
 
 
-
+#' Calculate open-vs-closed-loop estimation difference
+#'
+#' 
+#' @param open Open-loop transfer functions
+#' @param closed Closed loop transfer functions 
+#'
+#' @return Estimation difference between open and closed loop transfer functions
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'      
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetOpenVSClosedDif <- function(open, closed){
               pers <- array(0, dim(open))
               dims <- dim(open)
@@ -229,7 +581,36 @@ GetOpenVSClosedDif <- function(open, closed){
               }
               return(pers)
 }
-                            
+
+
+#' Calculate transfer function B from transfer function A
+#'
+#' 
+#' @param A transfer function A
+#' @param a0 an A0 function
+#'
+#' @return Transfer function B
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'      
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetMatrixBfromA <- function(A, a0){
               B <- array(0, dim(A))
               for(n in 1:dim(B)[3]){
@@ -239,7 +620,33 @@ GetMatrixBfromA <- function(A, a0){
               return(B)
 }
 
-
+#' Calculate transfer function A from noise transfer function
+#'
+#' 
+#' @param H noise transfer function
+#' 
+#' @return Transfer function A
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#'        
+#' @references 
+#' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
+#' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
+#'
+#' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
+#' Carrault. Linear multivariate models for physiological signal analysis: applications. 
+#' Comput Methods Programs Biomed. 1996;51(1-2):121-30
+#'
+#'
+#' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
+#' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
+#' Communications and Software. 2011
+#'
+#' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
+#' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' @examples
+#' #ADD EXAMPLE
 GetMatrixAfromH <- function(H){
               A <- array(0, dim(H))
               for(n in 1:dim(A)[3]){

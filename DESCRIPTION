@@ -2,7 +2,8 @@ Package: CardioRVAR
 Type: Package
 Title: Title
 Version: 0.1.0
-Author: Alvaro Chao Ecija <dummyemail@gmail-.com> [aut, cre]
+Author: Alvaro Chao Ecija <dummyemail@gmail-.com> [aut, cre], 
+        Marc Stefan Dwaid-Milner <dummyemail@gmail-.com> [aut]
 Maintainer: Alvaro Chao Ecija <dummyemail@gmail-.com>
 Description: This is an R package designed for modelling cardiovascular open-
              and closed-loop interactions. It is advisable that this package 
@@ -16,3 +17,6 @@ Imports:
     tseries,
     vars,
     waveslim
+RoxygenNote: 7.2.1
+Depends: 
+    R (>= 2.10)
