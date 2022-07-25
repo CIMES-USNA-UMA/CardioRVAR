@@ -233,7 +233,7 @@ DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "bl
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #' 
-#'
+#' @keywords internal
 #'
 #' @examples
 #' data(DetrendedData)

@@ -27,7 +27,7 @@ None
 Plot Causal coherence
 }
 \examples{
-ADD EXAMPLE
+#ADD EXAMPLE
 }
 \author{
 Alvaro Chao-Ecija

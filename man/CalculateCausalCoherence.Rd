@@ -12,7 +12,7 @@ CalculateCausalCoherence(SM)
 \value{
 a list with the following components: causal coherence from y to x (C1),
         causal coherence from x to y (C2) and the standard, non-causal squared 
-        coherence (C2)
+        coherence (C3)
 }
 \description{
 Calculate causal coherence from a system modelled in the frequency domain
@@ -24,6 +24,7 @@ ADD EXAMPLE
 Faes L, Porta A, Antolini R, Nollo G. Role of causality in the evaluation of coherence and 
 transfer function between heart period and systolic pressure in humans. Comput Cardiol.
 2004;277-80.
+
 Faes L, Mase M, Nollo G, Chon KH, Florian JP. Measuring postural-related changes of spontaneous
 baroreflex sensitivity after repeated long-duration diving: frequency domain approaches. Auton Neurosci. 
 2013 Nov;178(1-2):96-102.

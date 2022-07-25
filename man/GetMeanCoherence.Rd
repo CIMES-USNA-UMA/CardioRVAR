@@ -28,7 +28,7 @@ A list with the computed expected values at the LF and HF bands for the
 Computes the expected coherence values for the HF and LF bands
 }
 \examples{
-ADD EXAMPLE
+#ADD EXAMPLE
 }
 \author{
 Alvaro Chao-Ecija

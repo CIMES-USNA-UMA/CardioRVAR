@@ -16,7 +16,7 @@ the computed phase difference
 Calculate phase difference from causal coherence
 }
 \examples{
-ADD EXAMPLE
+#ADD EXAMPLE
 }
 \author{
 Alvaro Chao-Ecija

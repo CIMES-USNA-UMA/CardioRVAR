@@ -148,6 +148,8 @@ IncludeA0Effects <- function(system){
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #'         
+#' @keywords internal      
+#'         
 #' @references
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 #' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
@@ -184,6 +186,8 @@ GetA0Fun <- function(sigma){
 #' @return The updated coefficients
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'   
+#' @keywords internal
 #'       
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -220,6 +224,8 @@ UpdateWithA0 <- function(A0, coefs){
 #' @return The extracted coefficients from this VAR model
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#' 
+#' @keywords internal
 #'        
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -269,6 +275,8 @@ GetCoefs <- function(var){
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #'       
+#' @keywords internal     
+#'       
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 #' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
@@ -315,6 +323,9 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25){
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #' 
+#' @keywords internal
+#' 
+#' 
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 #' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
@@ -358,6 +369,9 @@ GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #'        
+#' @keywords internal    
+#'        
+#'        
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 #' Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
@@ -392,6 +406,9 @@ GetMatrixAfromB <- function(B){
 #' @return The noise transfer function H
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'     
+#' @keywords internal 
+#'     
 #'        
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -427,6 +444,9 @@ GetMatrixHfromA <- function(A){
 #' @return Closed-loop transfer functions
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'       
+#' @keywords internal  
+#'       
 #'       
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -468,6 +488,9 @@ GetTransFuns <- function(A){
 #' @return The spectral matrix
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'    
+#' @keywords internal
+#'    
 #'       
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -509,6 +532,10 @@ GetSpectra <- function(H, sigma){
 #' @return Open-loop transfer functions
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'     
+#' @keywords internal 
+#'     
+#'     
 #'       
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -553,6 +580,9 @@ GetOpenTFuns <- function(S, use.cross = TRUE){
 #' @return Estimation difference between open and closed loop transfer functions
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'    
+#' @keywords internal
+#'    
 #'      
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -592,6 +622,9 @@ GetOpenVSClosedDif <- function(open, closed){
 #' @return Transfer function B
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'    
+#'    
+#' @keywords internal
 #'      
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -628,6 +661,9 @@ GetMatrixBfromA <- function(A, a0){
 #' @return Transfer function A
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
+#'     
+#' @keywords internal
+#'     
 #'        
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate

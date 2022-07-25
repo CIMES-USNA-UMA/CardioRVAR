@@ -25,7 +25,7 @@ A list with the computed maximum values at the LF and HF bands for the
 Computes the maximum coherence values for the LF and HF bands
 }
 \examples{
-ADD EXAMPLE
+#ADD EXAMPLE
 }
 \author{
 Alvaro Chao-Ecija

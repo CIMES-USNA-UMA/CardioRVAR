@@ -30,7 +30,7 @@
 #'        
 #' 
 #' @examples
-#' ADD EXAMPLE
+#' #ADD EXAMPLE
 CalculateCausalPhase <- function(ccoh){
   N <- length(ccoh)
   for(n in 1:N){
@@ -45,7 +45,7 @@ CalculateCausalPhase <- function(ccoh){
 #'
 #' @return a list with the following components: causal coherence from y to x (C1),
 #'         causal coherence from x to y (C2) and the standard, non-causal squared 
-#'         coherence (C2)
+#'         coherence (C3)
 #' @author Alvaro Chao-Ecija
 #' @author Marc Stefan Dawid-Milner
 #'        
@@ -53,7 +53,7 @@ CalculateCausalPhase <- function(ccoh){
 #' Faes L, Porta A, Antolini R, Nollo G. Role of causality in the evaluation of coherence and 
 #' transfer function between heart period and systolic pressure in humans. Comput Cardiol.
 #' 2004;277-80.
-#
+#'
 #' Faes L, Mase M, Nollo G, Chon KH, Florian JP. Measuring postural-related changes of spontaneous
 #' baroreflex sensitivity after repeated long-duration diving: frequency domain approaches. Auton Neurosci. 
 #' 2013 Nov;178(1-2):96-102.
@@ -93,7 +93,7 @@ CalculateCausalCoherence <- function(SM){
 #' @export
 #' 
 #' @examples
-#' ADD EXAMPLE
+#' #ADD EXAMPLE
 PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL){
   freqs <- SM$Freqs 
   if(is.null(xlim)){
@@ -137,7 +137,7 @@ PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim 
 #' @export
 #' 
 #' @examples
-#' ADD EXAMPLE
+#' #ADD EXAMPLE
 GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
                              weight = TRUE){
   frequency <- SM$Freqs 
@@ -189,7 +189,7 @@ GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
 #' @export
 #' 
 #' @examples
-#' ADD EXAMPLE
+#' #ADD EXAMPLE
 GetMaxCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
   frequency <- SM$Freqs 
   F <- NROW(frequency)
