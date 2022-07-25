@@ -23,7 +23,44 @@
 # preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
 
 
-
+#' Check stationarity
+#'
+#' Check stationarity of the data
+#' @param x a matrix with the data to be checked. Number of columns should be equal
+#'          to the number of variables.
+#' @param alpha significance level for testing. Default is 0.05
+#' @param lags specify a certain level of lags for the test. Default is NULL
+#' @param warnings boolean, show warnings regarding the test results. Default is TRUE
+#' @param verbose boolean, show results from the test in captions. Default is FALSE
+#' @param correction choose a p-value correction method for multiple hypotheses. Default
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods}
+#'
+#' @return A boolean variable indicating if the multivariate time series is stationary or not,
+#'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
+#'         FALSE
+#'
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#' 
+#' 
+#'         
+#' @references 
+#' Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
+#' Neurosci Methods. 2010;186(2):262-73.
+#'
+#' Seth AK. Granger Causal Conectivity Analysis: A MATLAB Toolbox. 2011.
+#'
+#' Ding M, Bressler S, Yang W, Liang H. Short-window spectral analysis of cortical 
+#' event-related potentials by adaptative multivariate autoregressive modelling: data
+#' preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
+#' @export
+#' @import tseries
+#'
+#' @examples
+#' data(DetrendedData)
+#' 
+#' CheckStationarity(DetrendedData)
+#' CheckStationarity(DetrendedData, verbose = TRUE)
 CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
   verbose = FALSE, correction = "bonferroni"){
    N <- dim(x)[1]
@@ -76,7 +113,42 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 
 
 
-
+#' Check white-noise nature of residuals
+#'
+#' Check that residuals from a VAR model are a white-noise process
+#' @param model a VAR model to be checked
+#' @param alpha significance level for testing. Default is 0.05
+#' @param lags specify a certain level of lags for the test. Default is NULL
+#' @param correction choose a p-value correction method for multiple hypotheses. Default
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods}
+#' @param verbose boolean, show results from the test in captions. Default is FALSE
+#'
+#' @return A boolean variable indicating if the multivariate time series is stationary or not,
+#'         or a caption indicating so, whether the argument verbose is TRUE or
+#'         FALSE
+#'
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#' 
+#' 
+#'         
+#' @references 
+#' Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
+#' Neurosci Methods. 2010;186(2):262-73.
+#'
+#' Seth AK. Granger Causal Conectivity Analysis: A MATLAB Toolbox. 2011.
+#'
+#' Ding M, Bressler S, Yang W, Liang H. Short-window spectral analysis of cortical 
+#' event-related potentials by adaptative multivariate autoregressive modelling: data
+#' preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
+#' @export
+#' @import lmtest
+#'
+#' @examples
+#' data(DetrendedData)
+#' 
+#' model <- EstimateVAR(DetrendedData)
+#' DiagnoseResiduals(model)
 DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
    verbose = FALSE){
     lms <- model$varresult
@@ -97,9 +169,45 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 
 
 
-
-DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE){
-    roots <- vars::roots(model)
+#' Check stability of a VAR model
+#'
+#' Check that the estimated VAR model is stable
+#' @param model a VAR model to be checked
+#' @param do.plot boolean, plot a unitary circle showing the inverse roots of the
+#'                model. Default is FALSE
+#' @param verbose boolean, show results from the test in captions. Default is FALSE
+#' @param col color for the roots inside the unit circle. Default is blue
+#' @param col2 color for the roots outside the unit circle. Default is red
+#'
+#' @return A boolean variable indicating if the multivariate time series is stationary or not,
+#'         or a caption indicating so, whether the argument verbose is TRUE or
+#'         FALSE
+#'
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#' 
+#' 
+#'         
+#' @references 
+#' Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
+#' Neurosci Methods. 2010;186(2):262-73.
+#'
+#' Seth AK. Granger Causal Conectivity Analysis: A MATLAB Toolbox. 2011.
+#'
+#' Ding M, Bressler S, Yang W, Liang H. Short-window spectral analysis of cortical 
+#' event-related potentials by adaptative multivariate autoregressive modelling: data
+#' preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
+#' @export
+#' @import lmtest
+#'
+#' @examples
+#' data(DetrendedData)
+#' 
+#' model <- EstimateVAR(DetrendedData)
+#' DiagnoseStability(model, do.plot = TRUE)
+DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "blue",
+                              col2 = "red"){
+    roots <- vars::roots(model, col = col, col2 = col2)
     if(do.plot) PlotRoots(model)
     if(verbose & !(TRUE %in% (roots >= 1))){
        print("The model is stable")
@@ -110,43 +218,38 @@ DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE){
     }
 }
 
+
+#' Plot VAR model inverse roots
+#'
+#' Plot a unit circle with inverse roots computed from a VAR model
+#' @param model a VAR model to be checked
+#' @param col color for the roots inside the unit circle. Default is blue
+#' @param col2 color for the roots outside the unit circle. Default is red
+#'
+#' @return A boolean variable indicating if the multivariate time series is stationary or not,
+#'         or a caption indicating so, whether the argument verbose is TRUE or
+#'         FALSE
+#'
+#' @author Alvaro Chao-Ecija
+#' @author Marc Stefan Dawid-Milner
+#' 
+#'
+#'
+#' @examples
+#' data(DetrendedData)
+#' 
+#' model <- EstimateVAR(DetrendedData)
+#' PlotRoots(model)
 PlotRoots <- function(model, col = "blue", col2 = "red"){
   roots <- vars::roots(model, FALSE)
+  roots_outside <- roots[abs(roots) > 1]
   plot(Re(roots), Im(roots), xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2), col = col)
+  if(length(roots_outside) != 0) points(roots_outside, col = col2)
   lines(seq(-1, 1, len = 1000), sqrt(1 - seq(-1, 1, len = 1000)^2))
   lines(seq(-1, 1, len = 1000), -sqrt(1 - seq(-1, 1, len = 1000)^2))
 }
 
 
-
-roots2 <- function(x, modulus = TRUE) 
-{
-    if (!(class(x) == "varest")) {
-        stop("\nPlease provide an object of class 'varest', generated by 'VAR()'.\n")
-    }
-    K <- x$K
-    p <- x$p
-    A <- Acoef(x)
-    sigma <- summary(x)$cov
-    a0 <- GetA0Fun(sigma)$a0
-    for(n in 1:length(A)){
-        A[[n]] <- solve(a0) %*% A[[n]]
-    }
-    A <- unlist(A)
-    companion <- matrix(0, nrow = K * p, ncol = K * p)
-    companion[1:K, 1:(K * p)] <- A
-    if (p > 1) {
-        j <- 0
-        for (i in (K + 1):(K * p)) {
-            j <- j + 1
-            companion[i, j] <- 1
-        }
-    }
-    roots <- eigen(companion)$values
-    if (modulus) 
-        roots <- Mod(roots)
-    return(roots)
-}
 
 
 
