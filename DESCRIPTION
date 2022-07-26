@@ -1,0 +1,25 @@
+Package: CardioRVAR
+Type: Package
+Title: CardioRVAR
+Version: 0.1.0
+Author: Alvaro Chao Ecija [aut, cre] (<https://orcid.org/0000-0002-2691-6936>), 
+        Marc Stefan Dwaid-Milner [aut]
+Maintainer: Alvaro Chao Ecija 
+Description: This is an R package designed for modelling cardiovascular open-
+             and closed-loop interactions. It is advisable that this package 
+             is used with the separate ShinyApp interface, CarioRVAR Shiny,
+             for a better user-friendly experience.
+License: GPL-2
+URL: https://github.com/CIMES-USNA-UMA/CardioRVAR
+BugReports: https://github.com/CIMES-USNA-UMA/CardioRVAR/issues
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    lmtest (>= 0.9-40),
+    tseries (>= 0.10-50),
+    vars (>= 1.5-6),
+    waveslim (>= 1.8.2)
+RoxygenNote: 7.2.1
+NeedsCompilation: no
+Depends: 
+    R (>= 3.0.0)
