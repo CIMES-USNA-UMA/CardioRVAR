@@ -14,7 +14,7 @@
 #' 
 #'         
 #' @export
-#' @import vars
+#' @import waveslim
 #'
 #' @examples
 #' data(Cardiovascular)
