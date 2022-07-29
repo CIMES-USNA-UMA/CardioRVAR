@@ -18,11 +18,9 @@
 #'
 #' @examples
 #' data(Cardiovascular)
-#' 
 #' data <- InterpolateData(data)
-#' 
-#' RR <- DetrendByCutoff(data$RR)
-#' SBP <- DetrendByCutoff(data$SBP)
+#' RR <- DetrendByCutoff(data$RR) # The RR series is detrended
+#' SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
 DetrendByCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16", 
                             max_f = 0.4){
   N = NROW(x)
@@ -46,7 +44,6 @@ DetrendByCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16",
     }
   }
   dx = waveslim::modwt(x - mean(x), wf = wv, level)
-  #for(n in 3:5) dx[[n]] <- double(N)
   dx <- waveslim::universal.thresh.modwt(dx, level, hard = TRUE)
   for(n in level2:(level-1)) dx[[n]] <- double(N)
   trend <- waveslim::imodwt(dx)

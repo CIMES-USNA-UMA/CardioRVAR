@@ -49,16 +49,15 @@ Compute expected values from a frequency domain model of a particular system
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 GetExpectedVals(freq_model, use.coh = FALSE)
-
 ExpectedVals <- GetExpectedVals(freq_model, use.coh = FALSE, str = FALSE)
+ExpectedVals
 
 # If the coherence is to be used:
 coherence <- CalculateCoherence(freq_model, 1, 2)
-
 ExpectedVals <- GetExpectedVals(freq_model, weight = FALSE, coherence = coherence,
 str = FALSE)
+ExpectedVals
 
 }
 \references{

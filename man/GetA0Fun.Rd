@@ -7,7 +7,7 @@
 GetA0Fun(sigma)
 }
 \arguments{
-\item{sigma}{a covariance matrix}
+\item{sigma}{A covariance matrix}
 }
 \value{
 A list which includes the A0 function as well as the new covariance matrix
@@ -35,8 +35,6 @@ Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modellin
 J Clin Monit Comput. 2006;20(1):101-8
 }
 \author{
-Alvaro Chao-Ecija
-
-Marc Stefan Dawid-Milner
+Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }
 \keyword{internal}

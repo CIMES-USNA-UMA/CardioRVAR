@@ -25,7 +25,11 @@ A list with the computed maximum values at the LF and HF bands for the
 Computes the maximum coherence values for the LF and HF bands
 }
 \examples{
-#ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+coh <- CalculateCoherence(freq_model)
+GetMaxCoherence(freq_model, coh)
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

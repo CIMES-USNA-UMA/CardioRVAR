@@ -60,9 +60,7 @@ Plots the spectral coherence between two variables
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 coherence <- CalculateCoherence(freq_model, 1, 2)
-
 PlotCoherence(freq_model, 1, 2, coherence)
 
 }

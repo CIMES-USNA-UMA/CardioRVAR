@@ -65,10 +65,8 @@ functions
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
-coherence <- CalculateCoherence(freq_model, 1, 2)
-
-PlotCoherence(freq_model, 1, 2, coherence)
+PlotTransferFun(freq_model, 1, 2) # Closed-loop
+PlotTransferFun(freq_model, 1, 2, open  = TRUE) # Open-loop
 
 }
 \author{

@@ -22,8 +22,11 @@ Estimates the phase transfer function out of the closed-loop transfer functions
 of a particular system
 }
 \examples{
-data(Cardiovascular)
-interpolated <- InterpolateData(Cardiovascular)
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+Phase <- GetTransFunPhase(model, 1, 2)
+Phase[1:100]
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

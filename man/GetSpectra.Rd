@@ -7,9 +7,9 @@
 GetSpectra(H, sigma)
 }
 \arguments{
-\item{H}{a noise transfer function}
+\item{H}{A noise transfer function}
 
-\item{sigma}{a covariance matrix}
+\item{sigma}{A covariance matrix}
 }
 \value{
 The spectral matrix

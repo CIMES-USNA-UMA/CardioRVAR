@@ -10,32 +10,58 @@ ParamFreqModel(
   dt = 0.25,
   A0 = TRUE,
   sigma = NULL,
-  coefs = NULL
+  coefs = NULL,
+  freq_support = c("pgram", "seq")
 )
 }
 \arguments{
-\item{model}{a time domain VAR model}
+\item{model}{A time domain VAR model}
 
-\item{len}{length of the vector of frequencies. Default is 1000}
+\item{len}{Length of the vector of frequencies. Default is 1000}
 
-\item{dt}{inverse of sample rate. Default is 0.25}
+\item{dt}{Inverse of sample rate. Default is 0.25}
 
-\item{A0}{boolean; add 0 effects. Default TRUE}
+\item{A0}{Boolean; add 0 effects. Default TRUE}
 
-\item{sigma}{include a specific covariance matrix; otherwise it is obtained
+\item{sigma}{Include a specific covariance matrix; otherwise it is obtained
 from the VAR model. Default is NULL}
 
-\item{coefs}{include VAR coefficients; otherwise these are obtained from the
+\item{coefs}{Include VAR coefficients; otherwise these are obtained from the
 VAR model. Default is NULL}
 }
 \value{
-A list with the estimated components of the frequency domain model.
-        These components include closed-loop transfer functions, open-loop
-        transfer functions, open-vs-closed-loop overestimations, noise transfer
-        functions, and spectral estimations of the variables.
+A list with the estimated components of the frequency domain model:
+\item{Freqs}{Vector of frequency values}
+\item{Vars_Transfer_funs}{Frequency-domain represantations of the VAR model blocks} 
+\item{Transfer_Functions}{The computed closed-loop baroreflex transfer functions}
+\item{Open_Transfer_Functions}{The computed open-loop baroreflex transfer functions}
+\item{Open_Transfer_Functions_Overestimation}{How the open loop condition overestimates the results}
+\item{Noise_Transfer_Functions}{The computed transfer functions from the noise source model}
+\item{Spectra}{The computed auto-spectra and cross-spectra of the variables}
+\item{Noise_Spectra}{The spectra of the white noise sources}
+\item{a0}{The computed immediate effects of the model}
 }
 \description{
 Estimates frequency model parameters from a time domain VAR model.
+}
+\details{
+This function calculates the frequency domain components and transfer functions
+from the time domain MVAR model. The functions are estimated taking into account the following representations 
+of the model:
+
+X = BX + W
+AX = W
+X = HW
+
+So that:
+
+S = H * sigma * t(Conj(H))
+A * S * t(Conj(A)) = sigma
+
+By allowing immediate effects from SBP to RR, the baroreflex transfer function
+is calculated as:
+
+b21/(1-b22) = -a21/a22 = h21/h11
 }
 \examples{
 data(DetrendedData)
@@ -50,11 +76,13 @@ Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P,
 Carrault. Linear multivariate models for physiological signal analysis: applications. 
 Comput Methods Programs Biomed. 1996;51(1-2):121-30
 
-
 Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 Communications and Software. 2011
 
 Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 J Clin Monit Comput. 2006;20(1):101-8
+}
+\author{
+Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }

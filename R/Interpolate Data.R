@@ -14,6 +14,7 @@
 #' @examples
 #' data(Cardiovascular)
 #' interpolated <- InterpolateData(Cardiovascular)
+#' plot(interpolated$Time, interpolated$RR, xlab = "Time (sec)", ylab = "RR intervals (ms)")
 
 InterpolateData <- function(x, f = 4){
                    IntFunRR <- splinefun(x$Time, x$RR, 

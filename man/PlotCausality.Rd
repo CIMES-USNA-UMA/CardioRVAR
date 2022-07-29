@@ -29,9 +29,8 @@ Generates frequency domain plots indicating the behavior of the causal flow of a
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 PlotCausality(freq_model, 1)
-
+PlotCausality(freq_model, 2)
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

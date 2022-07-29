@@ -29,9 +29,9 @@ Get the frequency values in which the maximum peaks are located for each band
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 GetPeaks(freq_model)
 Peaks <- GetEstimateAtMaxCoh(freq_model, str = FALSE)
+Peaks
 
 }
 \author{

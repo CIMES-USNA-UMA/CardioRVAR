@@ -108,11 +108,9 @@ PlotSimulatedS <- function(SM, S, index, unit = "ms2/Hz",
 #' @examples
 #' data(DetrendedData)
 #' RR <- DetrendedData[,"RR"]
-#' 
 #' PSD(RR, 21)
-#' 
 #' HRV <- PSD(RR, 21, plot = FALSE, output = TRUE)
-#' 
+#' HRV
 PSD <- function(x, p, 
                            xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                            LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red", f = 4, 

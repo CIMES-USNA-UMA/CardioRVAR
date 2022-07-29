@@ -31,16 +31,15 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
 #' GetExpectedVals(freq_model, use.coh = FALSE)
-#' 
 #' ExpectedVals <- GetExpectedVals(freq_model, use.coh = FALSE, str = FALSE)
+#' ExpectedVals
 #' 
 #' # If the coherence is to be used:
 #' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' 
 #' ExpectedVals <- GetExpectedVals(freq_model, weight = FALSE, coherence = coherence,
 #' str = FALSE)
+#' ExpectedVals
 #' 
 GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
     str = TRUE, weight = TRUE, use.coh = TRUE, thr = 0.5, coherence){
@@ -127,12 +126,11 @@ GetExpectedValues <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
 #' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' 
 #' GetEstimateAtMaxCoh(freq_model, coherence = coherence)
 #' Estimates <- GetEstimateAtMaxCoh(freq_model, coherence = coherence,
 #' str = FALSE)
+#' Estimates
 #' 
 GetEstimateAtMaxCoh <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
                               str = TRUE, coherence){
@@ -188,9 +186,9 @@ GetEstimateAtMaxCoh <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4,
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
 #' GetPeaks(freq_model)
 #' Peaks <- GetEstimateAtMaxCoh(freq_model, str = FALSE)
+#' Peaks
 #' 
 GetPeaks <- function(SM, VLF = 0.04, LF = 0.15, HF = 0.4, 
                                  str = TRUE){

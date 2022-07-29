@@ -7,13 +7,19 @@
 IncludeA0Effects(system)
 }
 \arguments{
-\item{system}{the model of the system whose instantaneous effects we want to include}
+\item{system}{The model of the system whose instantaneous effects we want to include}
 }
 \value{
-A list with the estimated components of the frequency domain model.
-        These components include closed-loop transfer functions, open-loop
-        transfer functions, open-vs-closed-loop overestimations, noise transfer
-        functions, and spectral estimations of the variables.
+A list with the estimated components of the frequency domain model:
+\item{Freqs}{Vector of frequency values}
+\item{Vars_Transfer_funs}{Frequency-domain represantations of the VAR model blocks} 
+\item{Transfer_Functions}{The computed closed-loop baroreflex transfer functions}
+\item{Open_Transfer_Functions}{The computed open-loop baroreflex transfer functions}
+\item{Open_Transfer_Functions_Overestimation}{How the open loop condition overestimates the results}
+\item{Noise_Transfer_Functions}{The computed transfer functions from the noise source model}
+\item{Spectra}{The computed auto-spectra and cross-spectra of the variables}
+\item{Noise_Spectra}{The spectra of the white noise sources}
+\item{a0}{The computed immediate effects of the model}
 }
 \description{
 Estimates and includes A0 effects for a frequency domain model
@@ -41,4 +47,7 @@ Communications and Software. 2011
 
 Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 J Clin Monit Comput. 2006;20(1):101-8
+}
+\author{
+Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }

@@ -7,7 +7,7 @@
 GetCoefs(var)
 }
 \arguments{
-\item{var}{a VAR model}
+\item{var}{A VAR model}
 }
 \value{
 The extracted coefficients from this VAR model

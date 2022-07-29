@@ -32,12 +32,11 @@ at each band at maximum coherence levels
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 coherence <- CalculateCoherence(freq_model, 1, 2)
-
 GetEstimateAtMaxCoh(freq_model, coherence = coherence)
 Estimates <- GetEstimateAtMaxCoh(freq_model, coherence = coherence,
 str = FALSE)
+Estimates
 
 }
 \author{

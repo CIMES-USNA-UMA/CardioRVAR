@@ -7,11 +7,11 @@
 GetMatrixBfromVAR(var, freqs, dt = 0.25)
 }
 \arguments{
-\item{var}{a var model}
+\item{var}{A var model}
 
-\item{freqs}{a vector of frequencies}
+\item{freqs}{A vector of frequencies}
 
-\item{dt}{inverse sample rate. Default is 0.25}
+\item{dt}{Inverse sample rate. Default is 0.25}
 }
 \value{
 The auxiliary matrix B

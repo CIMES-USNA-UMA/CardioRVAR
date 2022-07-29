@@ -27,7 +27,11 @@ None
 Plot Causal coherence
 }
 \examples{
-#ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+ccoh <- CalculateCausalCoherence(freq_model)
+PlotCausalCoherence(ccoh)
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

@@ -20,6 +20,7 @@ Interpolates data up to a particular sample rate
 \examples{
 data(Cardiovascular)
 interpolated <- InterpolateData(Cardiovascular)
+plot(interpolated$Time, interpolated$RR, xlab = "Time (sec)", ylab = "RR intervals (ms)")
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

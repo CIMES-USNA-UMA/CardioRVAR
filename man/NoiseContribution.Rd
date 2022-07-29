@@ -46,14 +46,13 @@ Estimates the noise source contribution for the variables of the analyzed system
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
 noise_con <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
+noise_con
 
 # The coherence can be used as a method for identifying reliable estimates
-
 coherence <- CalculateCoherence(freq_model, 1, 2)
-
 noise_con_thr <- NoiseSourceContribution(freq_model, 1, 2, coherence = coherence)
+noise_con_thr
 
 }
 \references{

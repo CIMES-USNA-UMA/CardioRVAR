@@ -7,9 +7,9 @@
 UpdateWithA0(A0, coefs)
 }
 \arguments{
-\item{A0}{the A0 function}
+\item{A0}{The A0 function}
 
-\item{coefs}{coefficients to update}
+\item{coefs}{Coefficients to be updated}
 }
 \value{
 The updated coefficients

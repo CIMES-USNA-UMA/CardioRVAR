@@ -17,8 +17,11 @@
 #' @export
 #'
 #' @examples
-#' data(Cardiovascular)
-#' interpolated <- InterpolateData(Cardiovascular)
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' Phase <- GetTransFunPhase(model, 1, 2)
+#' Phase[1:100]
 GetTransFunPhase <- function(SM, index1, index2){
   TF <- SM$Transfer_Functions[index1, index2,]
   phase <- atan2(Im(TF), Re(TF))
@@ -43,8 +46,11 @@ GetTransFunPhase <- function(SM, index1, index2){
 #' @export
 #'
 #' @examples
-#' data(Cardiovascular)
-#' interpolated <- InterpolateData(Cardiovascular)
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' Phase_open <- GetOpenTransFunPhase(model, 1, 2)
+#' Phase_open[1:100]
 GetOpenTransFunPhase <- function(SM, index1, index2){
   S <- GetMatrixAfromH(SM$Spectra)
   chosenS <- S[index1, index2,]

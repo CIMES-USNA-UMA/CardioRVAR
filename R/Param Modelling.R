@@ -1,19 +1,45 @@
 #' Parametric frequency model estimation
 #'
 #' Estimates frequency model parameters from a time domain VAR model.
-#' @param model a time domain VAR model
-#' @param len length of the vector of frequencies. Default is 1000
-#' @param dt inverse of sample rate. Default is 0.25
-#' @param A0 boolean; add 0 effects. Default TRUE
-#' @param sigma include a specific covariance matrix; otherwise it is obtained
+#' @param model A time domain VAR model
+#' @param len Length of the vector of frequencies. Default is 1000
+#' @param dt Inverse of sample rate. Default is 0.25
+#' @param A0 Boolean; add 0 effects. Default TRUE
+#' @param sigma Include a specific covariance matrix; otherwise it is obtained
 #'              from the VAR model. Default is NULL
-#' @param coefs include VAR coefficients; otherwise these are obtained from the
+#' @param coefs Include VAR coefficients; otherwise these are obtained from the
 #'              VAR model. Default is NULL
 #'
-#' @return A list with the estimated components of the frequency domain model.
-#'         These components include closed-loop transfer functions, open-loop
-#'         transfer functions, open-vs-closed-loop overestimations, noise transfer
-#'         functions, and spectral estimations of the variables.
+#' @return A list with the estimated components of the frequency domain model:
+#' \item{Freqs}{Vector of frequency values}
+#' \item{Vars_Transfer_funs}{Frequency-domain represantations of the VAR model blocks} 
+#' \item{Transfer_Functions}{The computed closed-loop baroreflex transfer functions}
+#' \item{Open_Transfer_Functions}{The computed open-loop baroreflex transfer functions}
+#' \item{Open_Transfer_Functions_Overestimation}{How the open loop condition overestimates the results}
+#' \item{Noise_Transfer_Functions}{The computed transfer functions from the noise source model}
+#' \item{Spectra}{The computed auto-spectra and cross-spectra of the variables}
+#' \item{Noise_Spectra}{The spectra of the white noise sources}
+#' \item{a0}{The computed immediate effects of the model}
+#'         
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
+#' @details 
+#'This function calculates the frequency domain components and transfer functions
+#' from the time domain MVAR model. The functions are estimated taking into account the following representations 
+#' of the model:
+#'
+#' X = BX + W
+#' AX = W
+#' X = HW
+#'
+#' So that:
+#'
+#' S = H * sigma * t(Conj(H))
+#' A * S * t(Conj(A)) = sigma
+#'
+#' By allowing immediate effects from SBP to RR, the baroreflex transfer function
+#' is calculated as:
+#'
+#' b21/(1-b22) = -a21/a22 = h21/h11
 #'         
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -22,7 +48,6 @@
 #' Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
-#'
 #'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
@@ -36,9 +61,8 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
- 
 ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL,
-   coefs = NULL){
+   coefs = NULL, freq_support = c("pgram", "seq")){
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
                       sigma <- summary(model)$cov
@@ -47,9 +71,8 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    } else if(is.null(sigma) & !is.null(coefs)){
                              stop("Indicate covariance matrix")
                    }
-                   # For compatibility with other packages such as grangers.
-                   freqs <- spec.pgram(model$y[,1], plot = FALSE, 
-                                       pad = len/(model$totobs/2) - 1)$freq
+                   freq_support <- match.arg(freq_support, model, len, dt)
+                   freqs <- GetFreqs(freq_support)
                    B <- GetMatrixBfromCoefs(coefs, freqs) 
                    A <- GetMatrixAfromB(B)
                    H <- GetMatrixHfromA(A)
@@ -74,12 +97,20 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
 #' Include A0 effects 
 #'
 #' Estimates and includes A0 effects for a frequency domain model
-#' @param system the model of the system whose instantaneous effects we want to include
+#' @param system The model of the system whose instantaneous effects we want to include
 #'
-#' @return A list with the estimated components of the frequency domain model.
-#'         These components include closed-loop transfer functions, open-loop
-#'         transfer functions, open-vs-closed-loop overestimations, noise transfer
-#'         functions, and spectral estimations of the variables.
+#' @return A list with the estimated components of the frequency domain model:
+#' \item{Freqs}{Vector of frequency values}
+#' \item{Vars_Transfer_funs}{Frequency-domain represantations of the VAR model blocks} 
+#' \item{Transfer_Functions}{The computed closed-loop baroreflex transfer functions}
+#' \item{Open_Transfer_Functions}{The computed open-loop baroreflex transfer functions}
+#' \item{Open_Transfer_Functions_Overestimation}{How the open loop condition overestimates the results}
+#' \item{Noise_Transfer_Functions}{The computed transfer functions from the noise source model}
+#' \item{Spectra}{The computed auto-spectra and cross-spectra of the variables}
+#' \item{Noise_Spectra}{The spectra of the white noise sources}
+#' \item{a0}{The computed immediate effects of the model}
+#'
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #'         
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -142,11 +173,10 @@ IncludeA0Effects <- function(system){
 #' Estimate A0 function
 #'
 #' Estimates the A0 function from a covariance matrix by applying an LDLT decomposition
-#' @param sigma a covariance matrix
+#' @param sigma A covariance matrix
 #'
 #' @return A list which includes the A0 function as well as the new covariance matrix
-#' @author Alvaro Chao-Ecija
-#' @author Marc Stefan Dawid-Milner
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #'         
 #' @keywords internal      
 #'         
@@ -180,8 +210,8 @@ GetA0Fun <- function(sigma){
 #' Update coefficients with A0 function
 #'
 #' Updates VAR model coefficients using an A0 function
-#' @param A0 the A0 function
-#' @param coefs coefficients to update
+#' @param A0 The A0 function
+#' @param coefs Coefficients to be updated
 #'
 #' @return The updated coefficients
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -218,7 +248,7 @@ UpdateWithA0 <- function(A0, coefs){
 #' Get coefs from VAR model
 #'
 #' Extracts VAR model coefficients for further analysis
-#' @param var a VAR model
+#' @param var A VAR model
 #'
 #' @return The extracted coefficients from this VAR model
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -265,9 +295,9 @@ GetCoefs <- function(var){
 #' Calculate transfer function B from VAR model
 #'
 #' Calculates transfer function B from a specific VAR model
-#' @param var a var model
-#' @param freqs a vector of frequencies 
-#' @param dt inverse sample rate. Default is 0.25
+#' @param var A var model
+#' @param freqs A vector of frequencies 
+#' @param dt Inverse sample rate. Default is 0.25
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -312,9 +342,9 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25){
 #' Calculate transfer function B from VAR coefficients
 #'
 #' Calculates transfer function B from a specific VAR model coefficients
-#' @param coefs coefficients from a var model
-#' @param freqs a vector of frequencies 
-#' @param dt inverse sample rate. Default is 0.25
+#' @param coefs Coefficients from a var model
+#' @param freqs A vector of frequencies 
+#' @param dt Inverse sample rate. Default is 0.25
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -359,7 +389,7 @@ GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
 #' Calculate transfer function B from transfer function A
 #'
 #' Calculates transfer function B from a previously calculated transfer function A
-#' @param B transfer function B
+#' @param B Transfer function B
 #'
 #' @return Transfer function A
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -433,7 +463,7 @@ GetMatrixHfromA <- function(A){
 #' Calculate closed-loop transfer functions
 #'
 #' Calculates closed-loop transfer functions from a previously computed transfer function A
-#' @param A transfer function A
+#' @param A Transfer function A
 #'
 #' @return Closed-loop transfer functions
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -475,8 +505,8 @@ GetTransFuns <- function(A){
 #' Calculates spectral matrix from the noise transfer function and the covariance
 #' matrix
 #' 
-#' @param H a noise transfer function
-#' @param sigma a covariance matrix 
+#' @param H A noise transfer function
+#' @param sigma A covariance matrix 
 #'
 #' @return The spectral matrix
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -517,8 +547,8 @@ GetSpectra <- function(H, sigma){
 #'
 #' Calculates open-loop transfer functions from the spectral matrix
 #' 
-#' @param S a spectral matrix
-#' @param use.cross boolean; use cross-spectrum to compute the transfer functions.
+#' @param S A spectral matrix
+#' @param use.cross Boolean; use cross-spectrum to compute the transfer functions.
 #'                  default is TRUE 
 #'
 #' @return Open-loop transfer functions
@@ -606,8 +636,8 @@ GetOpenVSClosedDif <- function(open, closed){
 #' Calculate transfer function B from transfer function A
 #'
 #' 
-#' @param A transfer function A
-#' @param a0 an A0 function
+#' @param A Transfer function A
+#' @param a0 An A0 function
 #'
 #' @return Transfer function B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -678,52 +708,45 @@ GetMatrixAfromH <- function(H){
               } 
               return(A)
 }                        
-                       
+
+#' Get vector of frequencies
+#'
+#' 
+#' @param type Method to get the vector of frequencies
+#' @param model A time domain VAR model
+#' @param len Length of the vector of frequencies
+#' @param dt Inverse of sample rate
+#'
+#' @return Vector of frequency values
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
+#'
+#' @details This function allows to obtain vectors of frequency values by either creating a sequence
+#' or by spectral estimation. This second option was introduced to make the results compatible (and thus
+#' reproducible) with the ones obtained from other packages such as package grangers (for more information
+#' regarding this package, please check the reference section).
+#'    
+#' @keywords internal
+#'      
+#' @references 
+#' Matteo Farne' and Angela Montanari (2019). grangers: Inference on Granger-Causality in the Frequency
+#' Domain. R package version 0.1.0. https://CRAN.R-project.org/package=grangers
+#' 
+#' @examples
+#' #ADD EXAMPLE
+GetFreqs <- function(type, model, len, dt){
+  if(type == "pgram"){
+    # For compatibility and reproducibility with other packages such as grangers.
+    freqs <- spec.pgram(model$y[,1], plot = FALSE, 
+                        pad = len/(model$totobs/2) - 1)$freq
+  } else {
+    freqs <- seq(0, 1/(2*dt), len = len)
+  }
+  return(freqs)
+}                      
 
 
 
-# Developed by Alvaro Chao-Ecija
-#
-# This function calculates the frequency domain components and transfer functions
-# from the time domain MVAR model. For compatibility purposes, the frequency support
-# and the covariance matrix are estimated such as other packages do, like package
-# grangers (see references).
-#
-# The functions are estimated taking into account the following representations 
-# of the model:
-#
-# X = BX + W
-# AX = W
-# X = HW
-#
-# So that:
-#
-# S = H * sigma * t(Conj(H))
-# A * S * t(Conj(A)) = sigma
-#
-# By allowing immediate effects from SBP to RR, the baroreflex transfer function
-# is calculated as:
-#
-# b21/(1-b22) = -a21/a22 = h21/h11
-#
-# References ---------------------------------------------------------------------
-#
-# Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
-# Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
-#
-# Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
-# Carrault. Linear multivariate models for physiological signal analysis: applications. 
-# Comput Methods Programs Biomed. 1996;51(1-2):121-30
-#
-#
-# Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
-# in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
-# Communications and Software. 2011
-#
-# Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
-# J Clin Monit Comput. 2006;20(1):101-8
-#
-# CITA GRANGERS!!
+
 
 
 

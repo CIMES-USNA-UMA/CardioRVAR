@@ -63,11 +63,9 @@ Computes and plots spectral density estimates from a certain variable
 \examples{
 data(DetrendedData)
 RR <- DetrendedData[,"RR"]
-
 PSD(RR, 21)
-
 HRV <- PSD(RR, 21, plot = FALSE, output = TRUE)
-
+HRV
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

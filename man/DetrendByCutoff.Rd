@@ -26,11 +26,9 @@ Detrends a vector of observations using the discrete wavelet transform
 }
 \examples{
 data(Cardiovascular)
-
 data <- InterpolateData(data)
-
-RR <- DetrendByCutoff(data$RR)
-SBP <- DetrendByCutoff(data$SBP)
+RR <- DetrendByCutoff(data$RR) # The RR series is detrended
+SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

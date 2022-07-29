@@ -32,10 +32,8 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
-#' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' 
-#' PlotCoherence(freq_model, 1, 2, coherence)
+#' PlotTransferFun(freq_model, 1, 2) # Closed-loop
+#' PlotTransferFun(freq_model, 1, 2, open  = TRUE) # Open-loop
 #' 
 PlotTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
                             xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
@@ -135,10 +133,7 @@ PlotTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
-#' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' 
-#' PlotCoherence(freq_model, 1, 2, coherence)
+#' PlotNoiseTransferFun(fre_model, 1, 2)
 #' 
 PlotNoiseTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
                                  xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,

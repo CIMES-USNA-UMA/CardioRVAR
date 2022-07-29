@@ -7,18 +7,22 @@
 CalculateCausalCoherence(SM)
 }
 \arguments{
-\item{SM}{the computed frequency domain model from the system to be analyzed}
+\item{SM}{The computed frequency domain model from the system to be analyzed}
 }
 \value{
-a list with the following components: causal coherence from y to x (C1),
-        causal coherence from x to y (C2) and the standard, non-causal squared 
-        coherence (C3)
+A list containing the following components: 
+\item{C1}{Causal coherence from y to x}
+\item{C2}{Causal coherence from x to y} 
+\item{C3}{The standard, non-causal squared coherence}
 }
 \description{
 Calculate causal coherence from a system modelled in the frequency domain
 }
 \examples{
-ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+ccoh <- CalculateCausalCoherence(freq_model)
 }
 \references{
 Faes L, Porta A, Antolini R, Nollo G. Role of causality in the evaluation of coherence and 

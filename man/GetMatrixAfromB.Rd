@@ -7,7 +7,7 @@
 GetMatrixAfromB(B)
 }
 \arguments{
-\item{B}{transfer function B}
+\item{B}{Transfer function B}
 }
 \value{
 Transfer function A

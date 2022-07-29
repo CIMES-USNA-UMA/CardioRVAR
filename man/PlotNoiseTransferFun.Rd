@@ -61,10 +61,7 @@ Generates a graphical representation of the noise transfer functions
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-
-coherence <- CalculateCoherence(freq_model, 1, 2)
-
-PlotCoherence(freq_model, 1, 2, coherence)
+PlotNoiseTransferFun(fre_model, 1, 2)
 
 }
 \author{

@@ -7,7 +7,7 @@
 GetTransFuns(A)
 }
 \arguments{
-\item{A}{transfer function A}
+\item{A}{Transfer function A}
 }
 \value{
 Closed-loop transfer functions

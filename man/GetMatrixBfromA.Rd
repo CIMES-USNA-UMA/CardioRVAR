@@ -7,9 +7,9 @@
 GetMatrixBfromA(A, a0)
 }
 \arguments{
-\item{A}{transfer function A}
+\item{A}{Transfer function A}
 
-\item{a0}{an A0 function}
+\item{a0}{An A0 function}
 }
 \value{
 Transfer function B

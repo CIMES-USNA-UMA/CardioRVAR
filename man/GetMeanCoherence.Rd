@@ -28,7 +28,12 @@ A list with the computed expected values at the LF and HF bands for the
 Computes the expected coherence values for the HF and LF bands
 }
 \examples{
-#ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+coh <- CalculateCoherence(freq_model)
+GetMeanCoherence(freq_model, coh, weight = FALSE) # No Gaussian weights
+GetMeanCoherence(freq_model, coh, weight = TRUE) # Gaussian weights are applied
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

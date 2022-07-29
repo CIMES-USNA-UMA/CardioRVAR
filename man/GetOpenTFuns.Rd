@@ -7,9 +7,9 @@
 GetOpenTFuns(S, use.cross = TRUE)
 }
 \arguments{
-\item{S}{a spectral matrix}
+\item{S}{A spectral matrix}
 
-\item{use.cross}{boolean; use cross-spectrum to compute the transfer functions.
+\item{use.cross}{Boolean; use cross-spectrum to compute the transfer functions.
 default is TRUE}
 }
 \value{

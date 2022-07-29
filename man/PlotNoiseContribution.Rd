@@ -26,13 +26,12 @@ data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
 
-noise_con <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
-
-# The coherence can be used as a method for identifying reliable estimates
-
-coherence <- CalculateCoherence(freq_model, 1, 2)
-
-noise_con_thr <- NoiseSourceContribution(freq_model, 1, 2, coherence = coherence)
+noise_con1 <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
+noise_con2 <- NoiseSourceContribution(freq_model, 1, 1, use.coh = FALSE)
+noise_con1
+noise_con2
+noise_con1 + noise_con2
+PlotNoiseContribution(noise_con1, noise_con2)
 
 }
 \author{

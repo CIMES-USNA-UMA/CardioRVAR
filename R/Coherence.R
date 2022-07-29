@@ -18,8 +18,8 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
 #' coherence <- CalculateCoherence(freq_model, 1, 2)
+#' coherence
 #' 
 CalculateCoherence <- function(SM, index1, index2){
   coherence <- SM$Spectra[index1,index2,]  / sqrt(SM$Spectra[index1,index1,]*SM$Spectra[index2,index2,])
@@ -58,9 +58,7 @@ CalculateCoherence <- function(SM, index1, index2){
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' 
 #' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' 
 #' PlotCoherence(freq_model, 1, 2, coherence)
 #' 
 PlotCoherence <- function(SM, index1, index2, coherence, thr = 0.5, xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,

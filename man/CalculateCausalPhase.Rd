@@ -7,19 +7,21 @@
 CalculateCausalPhase(ccoh)
 }
 \arguments{
-\item{ccoh}{computed causal coherence}
+\item{ccoh}{A vector containing causal coherence values}
 }
 \value{
-the computed phase difference
+The computed phase difference
 }
 \description{
 Calculate phase difference from causal coherence
 }
 \examples{
-#ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+ccoh <- CalculateCausalCoherence(freq_model)
+phase <- CalculateCausalPhase(ccoh)
 }
 \author{
-Alvaro Chao-Ecija
-
-Marc Stefan Dawid-Milner
+Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }

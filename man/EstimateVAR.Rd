@@ -49,15 +49,23 @@ A boolean variable indicating if the multivariate time series is stationary or n
 Estimates and validates a VAR model
 }
 \details{
-This function uses the function \link[vars]{VAR} to estimate a particular VAR model. At the same
-time, it checks the different properties of the variables and the model and thus informs about
-the model's validity.
+This function estimates a particular VAR model, and at the same
+time, checks the different properties of the variables and the model and thus informs about
+the model's validity. For mor information regarding the VAR model estimation, please check the 
+references section.
 }
 \examples{
 data(DetrendedData)
 
 CheckStationarity(DetrendedData)
 CheckStationarity(DetrendedData, verbose = TRUE)
+}
+\references{
+Bernhard Pfaff (2008). VAR, SVAR and SVEC Models: Implementation Within R Package vars. Journal of
+  Statistical Software 27(4). URL https://www.jstatsoft.org/v27/i04/.
+
+  Pfaff, B. (2008) Analysis of Integrated and Cointegrated Time Series with R. Second Edition. Springer,
+  New York. ISBN 0-387-27960-1
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
