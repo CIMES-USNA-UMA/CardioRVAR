@@ -33,14 +33,14 @@
 #' @param warnings boolean, show warnings regarding the test results. Default is TRUE
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
-#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods}
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods} from
+#'                  package \href{https://CRAN.R-project.org/package=stats}{stats}
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
 #'         FALSE
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
-#' 
 #' 
 #'         
 #' @references 
@@ -195,7 +195,7 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #' event-related potentials by adaptative multivariate autoregressive modelling: data
 #' preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
 #' @export
-#' @import lmtest
+#' @import vars
 #'
 #' @examples
 #' data(DetrendedData)

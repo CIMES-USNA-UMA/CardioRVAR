@@ -1,20 +1,30 @@
 #' Detrend variables
 #'
 #' Detrends a vector of observations using the discrete wavelet transform
-#' @param x a vector of observations
-#' @param cutoff a frequency used as limit for the detrending. Default is 0.04 Hz
-#' @param f sample rate of the vector of observations. Default is 4 Hz
-#' @param wv wavelet to be passed into the \link[waveslim]{modwt} function. Default is
+#' @param x A vector of observations
+#' @param cutoff A frequency used as limit for the detrending. Default is 0.04 Hz
+#' @param f Sample rate of the vector of observations. Default is 4 Hz
+#' @param wv Wavelet to be passed into the function \link[waveslim]{modwt} of package
+#'           \href{https://CRAN.R-project.org/package=waveslim}{waveslim}. Default is
 #'           d16
-#' @param max_f maximum frequency to be accounted for in the detrending. default is 0.4 Hz
+#' @param max_f Maximum frequency to be accounted for in the detrending. default is 0.4 Hz
 #'
 #' @return The detrended vector of observations
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
+#' @details This function uses a wavelet detrending algorithm to select the aproppriate componets of a signal
+#' and discard low frequency components. This function requires package \href{https://CRAN.R-project.org/package=waveslim}{waveslim}:
+#' for more information regarding this package, please check the references section.
+#' 
+#' @references 
+#' 
+#' Brandon Whitcher (2020). waveslim: Basic Wavelet Routines for One-, Two-, and Three-Dimensional Signal
+#' Processing. R package version 1.8.2. https://CRAN.R-project.org/package=waveslim
 #'         
 #' @export
 #' @import waveslim
+#' 
 #'
 #' @examples
 #' data(Cardiovascular)

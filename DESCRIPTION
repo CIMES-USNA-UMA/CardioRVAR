@@ -4,7 +4,7 @@ Title: CardioRVAR
 Version: 0.1.0
 Author: Alvaro Chao Ecija [aut, cre]  (<https://orcid.org/0000-0002-2691-6936>), 
         Marc Stefan Dwaid-Milner [aut]
-Maintainer: Alvaro Chao Ecija
+Maintainer: Alvaro Chao Ecija  
 Description: This is an R package designed for modelling cardiovascular open-
              and closed-loop interactions. It is advisable that this package 
              is used with the separate ShinyApp interface, CarioRVARapp,
