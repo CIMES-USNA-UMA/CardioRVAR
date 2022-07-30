@@ -3,7 +3,35 @@
 
 
 
-
+#' simulate frequency domain model
+#' 
+#' Simulates the behavior of a frequency domain model after choosing several variables
+#'
+#' @param SM A computed frequency domain model
+#' @param noises Which noise spectra to be included in the simulation
+#' @param a0 Which immediate effects to be included in the simulation
+#' @param f Sample frequency
+#' @param xlim Specific limits for the frequency axis. Default is NULL
+#' @param HFcolor Color for the HF band. Default is yellow
+#' @param LFcolor color for the LF band. Default is green
+#' @param VLF maximum limit for the VLF band. Default is 0.04
+#' @param LF maximum limit for the LF band. Default is 0.15
+#' @param HF maximum limit for the HF band. Default is 0.4
+#' @param show.cols boolean, show colors in the plot. Default is TRUE
+#' @param phase.col color for the phase difference plot. Default is red
+#' 
+#'
+#' @return A modified version of the original model according to the chosen parameters
+#' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
+#'         
+#'         
+#' @export
+#' 
+#' @examples
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
 SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                               LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red" ){
   sigma <- diag(noises)
@@ -25,18 +53,18 @@ SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow"
 #' 
 #' Generates a graphical representation of the noise transfer functions
 #'
-#' @param SM the computed frequency domain model from the system to be analyzed
-#' @param S simulated spectral matrix from the model to be analyzed
-#' @param index numeric index to specify a variable from the model
-#' @param unit unit of the output variable. Default is ms2/Hz
-#' @param xlim specific limits for the frequency axis. Default is NULL
-#' @param HFcolor color for the HF band. Default is yellow
-#' @param LFcolor color for the LF band. Default is green
-#' @param VLF maximum limit for the VLF band. Default is 0.04
-#' @param LF maximum limit for the LF band. Default is 0.15
-#' @param HF maximum limit for the HF band. Default is 0.4
-#' @param show.cols boolean, show colors in the plot. Default is TRUE
-#' @param phase.col color for the phase difference plot. Default is red
+#' @param SM The computed frequency domain model from the system to be analyzed
+#' @param S Simulated spectral matrix from the model to be analyzed
+#' @param index Numeric index to specify a variable from the model
+#' @param unit Unit of the output variable. Default is ms2/Hz
+#' @param xlim Specific limits for the frequency axis. Default is NULL
+#' @param HFcolor Color for the HF band. Default is yellow
+#' @param LFcolor Color for the LF band. Default is green
+#' @param VLF Maximum limit for the VLF band. Default is 0.04
+#' @param LF Maximum limit for the LF band. Default is 0.15
+#' @param HF Maximum limit for the HF band. Default is 0.4
+#' @param show.cols Boolean, show colors in the plot. Default is TRUE
+#' @param phase.col Color for the phase difference plot. Default is red
 #' 
 #' 
 #'
@@ -47,7 +75,11 @@ SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow"
 #' @export
 #' 
 #' @examples
-#' # ADD EXAMPLE
+#' data(DetrendedData)
+#' model <- EstimateVAR(DetrendedData)
+#' freq_model <- ParamFreqModel(model)
+#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
+#' PlotSimulatedS(freq_model, new_model, 2)
 #' 
 PlotSimulatedS <- function(SM, S, index, unit = "ms2/Hz",
                            xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,

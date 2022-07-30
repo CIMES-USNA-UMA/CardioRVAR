@@ -71,8 +71,8 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    } else if(is.null(sigma) & !is.null(coefs)){
                              stop("Indicate covariance matrix")
                    }
-                   freq_support <- match.arg(freq_support, model, len, dt)
-                   freqs <- GetFreqs(freq_support)
+                   freq_support <- match.arg(freq_support)
+                   freqs <- GetFreqs(freq_support, model, len, dt)
                    B <- GetMatrixBfromCoefs(coefs, freqs) 
                    A <- GetMatrixAfromB(B)
                    H <- GetMatrixHfromA(A)

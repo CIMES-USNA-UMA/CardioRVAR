@@ -7,16 +7,17 @@
 DetrendByCutoff(x, cutoff = 0.04, f = 4, wv = "d16", max_f = 0.4)
 }
 \arguments{
-\item{x}{a vector of observations}
+\item{x}{A vector of observations}
 
-\item{cutoff}{a frequency used as limit for the detrending. Default is 0.04 Hz}
+\item{cutoff}{A frequency used as limit for the detrending. Default is 0.04 Hz}
 
-\item{f}{sample rate of the vector of observations. Default is 4 Hz}
+\item{f}{Sample rate of the vector of observations. Default is 4 Hz}
 
-\item{wv}{wavelet to be passed into the \link[waveslim]{modwt} function. Default is
+\item{wv}{Wavelet to be passed into the function \link[waveslim]{modwt} of package
+\href{https://CRAN.R-project.org/package=waveslim}{waveslim}. Default is
 d16}
 
-\item{max_f}{maximum frequency to be accounted for in the detrending. default is 0.4 Hz}
+\item{max_f}{Maximum frequency to be accounted for in the detrending. default is 0.4 Hz}
 }
 \value{
 The detrended vector of observations
@@ -24,11 +25,20 @@ The detrended vector of observations
 \description{
 Detrends a vector of observations using the discrete wavelet transform
 }
+\details{
+This function uses a wavelet detrending algorithm to select the aproppriate componets of a signal
+and discard low frequency components. This function requires package \href{https://CRAN.R-project.org/package=waveslim}{waveslim}:
+for more information regarding this package, please check the references section.
+}
 \examples{
 data(Cardiovascular)
 data <- InterpolateData(data)
 RR <- DetrendByCutoff(data$RR) # The RR series is detrended
 SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
+}
+\references{
+Brandon Whitcher (2020). waveslim: Basic Wavelet Routines for One-, Two-, and Three-Dimensional Signal
+Processing. R package version 1.8.2. https://CRAN.R-project.org/package=waveslim
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
