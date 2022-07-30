@@ -20,29 +20,29 @@ PlotSimulatedS(
 )
 }
 \arguments{
-\item{SM}{the computed frequency domain model from the system to be analyzed}
+\item{SM}{The computed frequency domain model from the system to be analyzed}
 
-\item{S}{simulated spectral matrix from the model to be analyzed}
+\item{S}{Simulated spectral matrix from the model to be analyzed}
 
-\item{index}{numeric index to specify a variable from the model}
+\item{index}{Numeric index to specify a variable from the model}
 
-\item{unit}{unit of the output variable. Default is ms2/Hz}
+\item{unit}{Unit of the output variable. Default is ms2/Hz}
 
-\item{xlim}{specific limits for the frequency axis. Default is NULL}
+\item{xlim}{Specific limits for the frequency axis. Default is NULL}
 
-\item{HFcolor}{color for the HF band. Default is yellow}
+\item{HFcolor}{Color for the HF band. Default is yellow}
 
-\item{LFcolor}{color for the LF band. Default is green}
+\item{LFcolor}{Color for the LF band. Default is green}
 
-\item{VLF}{maximum limit for the VLF band. Default is 0.04}
+\item{VLF}{Maximum limit for the VLF band. Default is 0.04}
 
-\item{LF}{maximum limit for the LF band. Default is 0.15}
+\item{LF}{Maximum limit for the LF band. Default is 0.15}
 
-\item{HF}{maximum limit for the HF band. Default is 0.4}
+\item{HF}{Maximum limit for the HF band. Default is 0.4}
 
-\item{show.cols}{boolean, show colors in the plot. Default is TRUE}
+\item{show.cols}{Boolean, show colors in the plot. Default is TRUE}
 
-\item{phase.col}{color for the phase difference plot. Default is red}
+\item{phase.col}{Color for the phase difference plot. Default is red}
 }
 \value{
 None
@@ -51,7 +51,11 @@ None
 Generates a graphical representation of the noise transfer functions
 }
 \examples{
-# ADD EXAMPLE
+data(DetrendedData)
+model <- EstimateVAR(DetrendedData)
+freq_model <- ParamFreqModel(model)
+new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
+PlotSimulatedS(freq_model, new_model)
 
 }
 \author{
