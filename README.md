@@ -12,17 +12,24 @@ To install the package, use the following code line in R (package devtools is re
 
 *devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")*
 
+## Shiny application
+
+There is a complementary shinny application available for this package. To access it, please use the following code line (you
+may need to install *shiny*, *ggplot2* and *CardioRVAR*):
+
+*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA")*
+
 ## Issues and requests
 
 Please access the following website to create an issue or request:
 
-[https://github.com/CIMES-USNA-UMA/CardioRVAR/issues]
+https://github.com/CIMES-USNA-UMA/CardioRVAR/issues
 
 ## Contact information
 
 Email: alvaro.rprojects@gmail.com
 
-ORCID: [https://orcid.org/0000-0002-2691-6936]
+ORCID: https://orcid.org/0000-0002-2691-6936
 
 
 

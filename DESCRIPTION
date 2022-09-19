@@ -23,3 +23,7 @@ RoxygenNote: 7.2.1
 NeedsCompilation: no
 Depends: 
     R (>= 4.0.0)
+Sugests:
+    ggplot2 (>= 3.3.6)
+    tools (>= 4.0.3)
+    shiny (>= 1.7.2)
