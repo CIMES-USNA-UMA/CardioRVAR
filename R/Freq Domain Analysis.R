@@ -23,7 +23,8 @@
 #'         
 #' @references 
 #' McLoone V, Ringwood JV. A system identification approach to baroreflex sensitivity
-#' estimation
+#' estimation. IET Irish Signals and Systems Conference (ISSC 2012); 2012. 
+#' p. 1-6. doi: 10.1049/ic.2012.0219.
 #'         
 #' @export
 #' 
