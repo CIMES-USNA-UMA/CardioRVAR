@@ -11,7 +11,7 @@
 #'           specified. Default is AIC, the Akaike criterium
 #' @param alpha Significance level for testing. Default is 0.05
 #' @param correction Choose a p-value correction method for multiple hypotheses. Default
-#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods} from
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust} from
 #'                  package \href{https://CRAN.R-project.org/package=stats}{stats}
 #' @param type Parameter to be passed into the \link[vars]{VAR} function of package 
 #'             \href{https://CRAN.R-project.org/package=vars}{vars}, indicating the type of model.

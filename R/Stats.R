@@ -33,7 +33,7 @@
 #' @param warnings boolean, show warnings regarding the test results. Default is TRUE
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
-#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods} from
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust} from
 #'                  package \href{https://CRAN.R-project.org/package=stats}{stats}
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
@@ -119,7 +119,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #' @param alpha significance level for testing. Default is 0.05
 #' @param lags specify a certain level of lags for the test. Default is NULL
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
-#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust.methods}
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust}
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
