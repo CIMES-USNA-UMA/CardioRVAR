@@ -39,6 +39,9 @@ SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
 \references{
 Brandon Whitcher (2020). waveslim: Basic Wavelet Routines for One-, Two-, and Three-Dimensional Signal
 Processing. R package version 1.8.2. https://CRAN.R-project.org/package=waveslim
+
+Li L, Liu C, Li K, Liu C. Comparison of Detrending Methods in Spectral Analysis of Heart Rate Variability.
+Res J Appl Sci Eng Technol. 2011;3(9):1014-21
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

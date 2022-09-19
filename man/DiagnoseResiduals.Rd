@@ -17,7 +17,7 @@ DiagnoseResiduals(
 \item{alpha}{significance level for testing. Default is 0.05}
 
 \item{correction}{choose a p-value correction method for multiple hypotheses. Default
-is bonferroni. For other methods, please check \link[stats]{p.adjust.methods}}
+is bonferroni. For other methods, please check \link[stats]{p.adjust}}
 
 \item{verbose}{boolean, show results from the test in captions. Default is FALSE}
 

@@ -26,7 +26,7 @@ to the number of variables.}
 \item{verbose}{boolean, show results from the test in captions. Default is FALSE}
 
 \item{correction}{choose a p-value correction method for multiple hypotheses. Default
-is bonferroni. For other methods, please check \link[stats]{p.adjust.methods} from
+is bonferroni. For other methods, please check \link[stats]{p.adjust} from
 package \href{https://CRAN.R-project.org/package=stats}{stats}}
 }
 \value{

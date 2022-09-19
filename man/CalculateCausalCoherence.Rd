@@ -2,7 +2,7 @@
 % Please edit documentation in R/Causal Coherence.R
 \name{CalculateCausalCoherence}
 \alias{CalculateCausalCoherence}
-\title{Calculate causal coherence from a system modelled in the frequency domain}
+\title{Calculate causal coherence from a system modeled in the frequency domain}
 \usage{
 CalculateCausalCoherence(SM)
 }
@@ -16,7 +16,7 @@ A list containing the following components:
 \item{C3}{The standard, non-causal squared coherence}
 }
 \description{
-Calculate causal coherence from a system modelled in the frequency domain
+Calculate causal coherence from a system modeled in the frequency domain
 }
 \examples{
 data(DetrendedData)
