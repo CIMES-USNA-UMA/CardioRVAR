@@ -6,5 +6,24 @@ Malaga) and PhD. Marc Stefan Dawid-Milner (head of the unit and supervisor of th
 The functions provided by this R package allow the analysis of closed-loop 
 cardiovascular interactions.
 
-***Warning: this package is currently in the process of being documented, we will
-update this information once the package has been properly documented***
+## Installation
+
+To install the package, use the following code line in R (package devtools is required):
+
+*devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")*
+
+## Issues and requests
+
+Please access the following website to create an issue or request:
+
+[https://github.com/CIMES-USNA-UMA/CardioRVAR/issues]
+
+## Contact information
+
+Email: alvaro.rprojects@gmail.com
+
+ORCID: [https://orcid.org/0000-0002-2691-6936]
+
+
+
+

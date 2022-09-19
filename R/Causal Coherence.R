@@ -21,7 +21,7 @@ CalculateCausalPhase <- function(ccoh){
   return(ccoh)
 }
 
-#' Calculate causal coherence from a system modelled in the frequency domain
+#' Calculate causal coherence from a system modeled in the frequency domain
 #'
 #' @param SM The computed frequency domain model from the system to be analyzed
 #'
