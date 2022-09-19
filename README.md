@@ -17,7 +17,7 @@ To install the package, use the following code line in R (package devtools is re
 There is a complementary shinny application available for this package. To access it, please use the following code line (you
 may need to install *shiny*, *ggplot2* and *CardioRVAR*):
 
-*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA")*
+*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)*
 
 ## Issues and requests
 
