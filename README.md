@@ -10,15 +10,18 @@ cardiovascular interactions.
 
 To install the package, use the following code line in R (package devtools is required):
 
-*devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")*
+```ruby
+devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")
+```
 
 ## Shiny application
 
 There is a complementary shinny application available for this package. To access it, please use the following code line (you
 may need to install *shiny*, *ggplot2* and *CardioRVAR*):
 
-*shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)*
-
+```ruby
+shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.browser = TRUE)
+```
 ## Issues and requests
 
 Please access the following website to create an issue or request:
