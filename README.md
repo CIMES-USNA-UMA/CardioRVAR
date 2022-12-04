@@ -24,7 +24,7 @@ shiny::runGitHub("CardioRVARapp", "CIMES-USNA-UMA", subdir = "inst/app", launch.
 ```
 ## Issues and requests
 
-Please access the following website to create an issue or request:
+Please use the following link to create an issue or request:
 
 https://github.com/CIMES-USNA-UMA/CardioRVAR/issues
 
