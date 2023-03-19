@@ -11,7 +11,7 @@ cardiovascular interactions.
 To install the package, use the following code line in R (package devtools is required):
 
 ```ruby
-devtools::install_github("CIMES-USNA-UMA/CardioRVAR", upgrade = "never")
+devtools::install_github("CIMES-USNA-UMA/CardioRVAR")
 ```
 
 ## Shiny application
