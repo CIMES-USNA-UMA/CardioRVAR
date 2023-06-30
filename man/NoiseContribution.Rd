@@ -13,7 +13,8 @@ NoiseContribution(
   HF = 0.4,
   use.coh = TRUE,
   thr = 0.5,
-  coherence
+  coherence,
+  print.flow = FALSE
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ used for the computation of expected values. Default is TRUE}
 \item{thr}{a specific coherence threshold. Default is 0.5}
 
 \item{coherence}{a vector with the spectral coherence values}
+
+\item{print.flow}{Boolean. If TRUE, prints a message describing the analysed
+contribution}
 }
 \value{
 None

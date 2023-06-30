@@ -13,6 +13,8 @@
 #'                used for the computation of expected values. Default is TRUE
 #' @param thr a specific coherence threshold. Default is 0.5
 #' @param coherence a vector with the spectral coherence values 
+#' @param print.flow Boolean. If TRUE, prints a message describing the analysed
+#'                   contribution
 #' 
 #'
 #' @return None
@@ -36,7 +38,7 @@
 #' noise_con_thr
 #' 
 NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.4, use.coh  =TRUE,
-                              thr = 0.5, coherence){
+                              thr = 0.5, coherence, print.flow = FALSE){
   frequency <- SM$Freqs 
   F <- NROW(frequency)
   LF_f <- frequency[frequency >= VLF]
@@ -62,6 +64,13 @@ NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.
                    SM$Noise_Spectra[index2, index2], na.rm = TRUE) / sum(abs(SM$Spectra[index1,
                                                                           index1,
                                                                           LF_band]), na.rm = TRUE)
+  if(print.flow){
+    variable_names <- colnames(SM$a0)
+    variable_S <- variable_names[index1]
+    variable_Noise <- variable_names[index2]
+    print(paste("Noise source contribution of", variable_Noise, 
+                "to the spectrum of", variable_S))
+  }
   return(c(HF = HF_cont*100, LF = LF_cont*100))
 }
 
