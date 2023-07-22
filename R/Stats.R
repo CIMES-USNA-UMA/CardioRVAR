@@ -117,7 +117,6 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #' Check that residuals from a VAR model are a white-noise process
 #' @param model a VAR model to be checked
 #' @param alpha significance level for testing. Default is 0.05
-#' @param lags specify a certain level of lags for the test. Default is NULL
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
 #'                  is bonferroni. For other methods, please check \link[stats]{p.adjust}
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
@@ -231,11 +230,6 @@ DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "bl
 #' 
 #' @keywords internal
 #'
-#' @examples
-#' data(DetrendedData)
-#' 
-#' model <- EstimateVAR(DetrendedData)
-#' PlotRoots(model)
 PlotRoots <- function(model, col = "blue", col2 = "red"){
   roots <- vars::roots(model, FALSE)
   roots_outside <- roots[abs(roots) > 1]

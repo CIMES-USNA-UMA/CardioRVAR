@@ -32,9 +32,9 @@ for more information regarding this package, please check the references section
 }
 \examples{
 data(Cardiovascular)
-data <- InterpolateData(data)
-RR <- DetrendByCutoff(data$RR) # The RR series is detrended
-SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
+int_data <- InterpolateData(Cardiovascular)
+RR <- DetrendByCutoff(int_data$RR) # The RR series is detrended
+SBP <- DetrendByCutoff(int_data$SBP) # The SBP series is detrended
 }
 \references{
 Brandon Whitcher (2020). waveslim: Basic Wavelet Routines for One-, Two-, and Three-Dimensional Signal

@@ -3,7 +3,7 @@
 
 
 
-#' simulate frequency domain model
+#' Simulate frequency domain model
 #' 
 #' Simulates the behavior of a frequency domain model after choosing several variables
 #'
@@ -31,7 +31,7 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
+#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
 SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                               LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red" ){
   sigma <- diag(noises)

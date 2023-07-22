@@ -32,9 +32,9 @@
 #'
 #' @examples
 #' data(Cardiovascular)
-#' data <- InterpolateData(data)
-#' RR <- DetrendByCutoff(data$RR) # The RR series is detrended
-#' SBP <- DetrendByCutoff(data$SBP) # The SBP series is detrended
+#' int_data <- InterpolateData(Cardiovascular)
+#' RR <- DetrendByCutoff(int_data$RR) # The RR series is detrended
+#' SBP <- DetrendByCutoff(int_data$SBP) # The SBP series is detrended
 DetrendByCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16", 
                             max_f = 0.4){
   N = NROW(x)

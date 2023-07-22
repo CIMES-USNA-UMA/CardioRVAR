@@ -26,8 +26,8 @@ data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
 
-noise_con1 <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
-noise_con2 <- NoiseSourceContribution(freq_model, 1, 1, use.coh = FALSE)
+noise_con1 <- NoiseContribution(freq_model, 1, 2, use.coh = FALSE)
+noise_con2 <- NoiseContribution(freq_model, 1, 1, use.coh = FALSE)
 noise_con1
 noise_con2
 noise_con1 + noise_con2

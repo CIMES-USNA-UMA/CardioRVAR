@@ -20,8 +20,6 @@ DiagnoseResiduals(
 is bonferroni. For other methods, please check \link[stats]{p.adjust}}
 
 \item{verbose}{boolean, show results from the test in captions. Default is FALSE}
-
-\item{lags}{specify a certain level of lags for the test. Default is NULL}
 }
 \value{
 A boolean variable indicating if the multivariate time series is stationary or not,

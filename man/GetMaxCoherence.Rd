@@ -28,7 +28,7 @@ Computes the maximum coherence values for the LF and HF bands
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-coh <- CalculateCoherence(freq_model)
+coh <- abs(CalculateCoherence(freq_model))^2
 GetMaxCoherence(freq_model, coh)
 }
 \author{

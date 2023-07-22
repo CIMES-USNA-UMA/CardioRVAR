@@ -30,7 +30,7 @@ data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
 GetPeaks(freq_model)
-Peaks <- GetEstimateAtMaxCoh(freq_model, str = FALSE)
+Peaks <- GetPeaks(freq_model, str = FALSE)
 Peaks
 
 }

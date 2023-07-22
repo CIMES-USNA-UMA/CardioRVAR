@@ -9,6 +9,7 @@
 #'              from the VAR model. Default is NULL
 #' @param coefs Include VAR coefficients; otherwise these are obtained from the
 #'              VAR model. Default is NULL
+#' @param freq_support Method to compute the frequency support vector
 #'
 #' @return A list with the estimated components of the frequency domain model:
 #' \item{Freqs}{Vector of frequency values}

@@ -31,7 +31,7 @@ data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
 ccoh <- CalculateCausalCoherence(freq_model)
-PlotCausalCoherence(ccoh)
+PlotCausalCoherence(freq_model, ccoh)
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

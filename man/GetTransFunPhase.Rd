@@ -25,7 +25,7 @@ of a particular system
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-Phase <- GetTransFunPhase(model, 1, 2)
+Phase <- GetTransFunPhase(freq_model, 1, 2)
 Phase[1:100]
 }
 \author{

@@ -29,12 +29,12 @@
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' noise_con <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
+#' noise_con <- NoiseContribution(freq_model, 1, 2, use.coh = FALSE)
 #' noise_con
 #' 
 #' # The coherence can be used as a method for identifying reliable estimates
 #' coherence <- CalculateCoherence(freq_model, 1, 2)
-#' noise_con_thr <- NoiseSourceContribution(freq_model, 1, 2, coherence = coherence)
+#' noise_con_thr <- NoiseContribution(freq_model, 1, 2, coherence = coherence)
 #' noise_con_thr
 #' 
 NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.4, use.coh  =TRUE,
@@ -96,8 +96,8 @@ NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 #' 
-#' noise_con1 <- NoiseSourceContribution(freq_model, 1, 2, use.coh = FALSE)
-#' noise_con2 <- NoiseSourceContribution(freq_model, 1, 1, use.coh = FALSE)
+#' noise_con1 <- NoiseContribution(freq_model, 1, 2, use.coh = FALSE)
+#' noise_con2 <- NoiseContribution(freq_model, 1, 1, use.coh = FALSE)
 #' noise_con1
 #' noise_con2
 #' noise_con1 + noise_con2

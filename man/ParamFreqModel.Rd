@@ -28,6 +28,8 @@ from the VAR model. Default is NULL}
 
 \item{coefs}{Include VAR coefficients; otherwise these are obtained from the
 VAR model. Default is NULL}
+
+\item{freq_support}{Method to compute the frequency support vector}
 }
 \value{
 A list with the estimated components of the frequency domain model:

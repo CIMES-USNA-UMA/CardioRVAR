@@ -4,10 +4,12 @@
 \alias{CalculateCausalCoherence}
 \title{Calculate causal coherence from a system modeled in the frequency domain}
 \usage{
-CalculateCausalCoherence(SM)
+CalculateCausalCoherence(SM, Mod = TRUE)
 }
 \arguments{
 \item{SM}{The computed frequency domain model from the system to be analyzed}
+
+\item{Mod}{Compute absolute values. Default is TRUE}
 }
 \value{
 A list containing the following components: 

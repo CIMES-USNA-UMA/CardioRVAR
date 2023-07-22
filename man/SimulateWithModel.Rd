@@ -2,7 +2,7 @@
 % Please edit documentation in R/Simulate from model.R
 \name{SimulateWithModel}
 \alias{SimulateWithModel}
-\title{simulate frequency domain model}
+\title{Simulate frequency domain model}
 \usage{
 SimulateWithModel(
   SM,
@@ -54,7 +54,7 @@ Simulates the behavior of a frequency domain model after choosing several variab
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
+new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

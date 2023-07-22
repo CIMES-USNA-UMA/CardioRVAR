@@ -5,13 +5,14 @@
 #'
 #' @return The computed phase difference
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
-#'        
+#'
+#' @export      
 #' 
 #' @examples
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' ccoh <- CalculateCausalCoherence(freq_model)
+#' ccoh <- CalculateCausalCoherence(freq_model, Mod = FALSE)
 #' phase <- CalculateCausalPhase(ccoh)
 CalculateCausalPhase <- function(ccoh){
   N <- length(ccoh)
@@ -24,6 +25,7 @@ CalculateCausalPhase <- function(ccoh){
 #' Calculate causal coherence from a system modeled in the frequency domain
 #'
 #' @param SM The computed frequency domain model from the system to be analyzed
+#' @param Mod Compute absolute values. Default is TRUE
 #'
 #' @return A list containing the following components: 
 #' \item{C1}{Causal coherence from y to x}
@@ -48,15 +50,20 @@ CalculateCausalPhase <- function(ccoh){
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 #' ccoh <- CalculateCausalCoherence(freq_model)
-CalculateCausalCoherence <- function(SM){
+CalculateCausalCoherence <- function(SM, Mod = TRUE){
   S <- SM$Spectra
   H <- SM$Noise_Transfer_fun
   sigma <- SM$Noise_Spectra
-  C1 <- abs(sigma[2,2]*abs(H[1,2,]^2)/S[1,1,]) #H21 = 0, Causalidad de S2 a S1 
-  C2 <- abs(sigma[1,1]*abs(H[2,1,]^2)/S[2,2,]) #H12 = 0, Causalidad de S1 a S2
+  C1 <- sigma[2,2]*abs(H[1,2,]^2)/S[1,1,] #H21 = 0, Causalidad de S2 a S1 
+  C2 <- sigma[1,1]*abs(H[2,1,]^2)/S[2,2,] #H12 = 0, Causalidad de S1 a S2
   # S2 = Input (RR)
   # S1 = Output (SBP)
-  C3 <- abs(CalculateCoherence(SM, 1, 2))^2
+  C3 <- CalculateCoherence(SM, 1, 2)
+  if(Mod){
+    C1 <- abs(C1)
+    C2 <- abs(C2)
+    C3 <- abs(C3)^2
+  }
   return(list(C1 = C1, C2 = C2, Cr = C3))
 }
 
@@ -82,7 +89,7 @@ CalculateCausalCoherence <- function(SM){
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 #' ccoh <- CalculateCausalCoherence(freq_model)
-#' PlotCausalCoherence(ccoh)
+#' PlotCausalCoherence(freq_model, ccoh)
 PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim = NULL){
   freqs <- SM$Freqs 
   if(is.null(xlim)){
@@ -184,7 +191,7 @@ GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' coh <- CalculateCoherence(freq_model)
+#' coh <- abs(CalculateCoherence(freq_model))^2
 #' GetMaxCoherence(freq_model, coh)
 GetMaxCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
   frequency <- SM$Freqs 

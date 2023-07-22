@@ -21,12 +21,6 @@ A boolean variable indicating if the multivariate time series is stationary or n
 \description{
 Plot a unit circle with inverse roots computed from a VAR model
 }
-\examples{
-data(DetrendedData)
-
-model <- EstimateVAR(DetrendedData)
-PlotRoots(model)
-}
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }

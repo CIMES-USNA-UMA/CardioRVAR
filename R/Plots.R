@@ -133,7 +133,7 @@ PlotTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' PlotNoiseTransferFun(fre_model, 1, 2)
+#' PlotNoiseTransferFun(freq_model, 1, 2)
 #' 
 PlotNoiseTransferFun <- function(SM, index1, index2, unit1 = "ms", unit2 = "mmHg",
                                  xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,

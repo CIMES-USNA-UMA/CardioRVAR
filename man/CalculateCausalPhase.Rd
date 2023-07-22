@@ -19,7 +19,7 @@ Calculate phase difference from causal coherence
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-ccoh <- CalculateCausalCoherence(freq_model)
+ccoh <- CalculateCausalCoherence(freq_model, Mod = FALSE)
 phase <- CalculateCausalPhase(ccoh)
 }
 \author{
