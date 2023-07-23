@@ -39,7 +39,7 @@ UpdateTimeDomain <- function(model){
            output <- list()
            output$Coefs <- coefs
            output$Sigma <- sigma
-           output$A0 <- A0
+           output$A0 <- a0 #CMD check
            output$Lags <- TimeModel$Lags
            model$TimeDomain$Updated <- output
            return(model)
