@@ -27,13 +27,14 @@ data known as Cardiovascular:
 
 ```{r Get data, eval = TRUE}
 data("Cardiovascular")
+Cardiovascular <- ResampleData(Cardiovascular, f = 4)
 Data <- cbind(SBP = Cardiovascular$SBP, IBI = Cardiovascular$RR)
 ```
 
 
 To examine the recordings, use the following commands:
 
-```{r Plot recordings, eval = TRUE}
+```{r Plot recordings, eval = TRUE, fig.align = "center", fig.width = 7}
 par(mfrow = c(1,2))
 plot(Cardiovascular$Time, Data[,"IBI"], xlab = "Time", ylab = "IBI", type = "l")
 plot(Cardiovascular$Time, Data[, "SBP"], xlab = "Time", ylab = "SBP", type = "l")
@@ -62,11 +63,16 @@ CheckStationarity(Data, verbose = TRUE)
 CheckStationarity(Data)
 
 ```
-As there is a breakpoint, the data is not stationary. We will separate the data into two stationary subsets, Pre and Post:
+As there is a breakpoint, the data is not stationary. We will separate the data into two stationary subsets, Pre and Post. We will also detrend this data:
 
 ```{r Check stationarity again, eval = TRUE}
-Pre <- Data[1:120,]
-Post <- Data[150:230,]
+Pre <- Data[1:400,]
+Post <- Data[500:928,]
+
+Pre[,"IBI"] <- DetrendByCutoff(Pre[,"IBI"])
+Pre[,"SBP"] <- DetrendByCutoff(Pre[,"SBP"])
+Post[,"IBI"] <- DetrendByCutoff(Post[,"IBI"])
+Post[,"SBP"] <- DetrendByCutoff(Post[,"SBP"])
 
 CheckStationarity(Pre, warnings = FALSE)
 CheckStationarity(Post, warnings = FALSE)
@@ -118,6 +124,8 @@ The previous steps can be performed automatically using the following function:
 ```{r Generate full model automatically, eval = TRUE}
 model_pre <- EstimateVAR(Pre)
 model_post <- EstimateVAR(Post)
+
+c(model_pre$p, model_post$p)
 ```
 
 
@@ -177,7 +185,7 @@ To study the function of the main process, that is, the changes in the
 blood pressure due to changes in heart rate, we use the
 indices index1 = 1 and index2 = 2:
 
-```{r Plot 1, eval = TRUE}
+```{r Plot 1, eval = TRUE, fig.align = "center", fig.width = 7}
 PlotTransferFun(good_model, 1, 2)
 ```
 
@@ -185,7 +193,7 @@ To study the controller process, that is, the regulation of the frequency
 cardiac from changes in blood pressure, we use the indices
 index1 = 2 and index2 = 1:
 
-```{r Plot 2, eval = TRUE}
+```{r Plot 2, eval = TRUE, fig.align = "center", fig.width = 7}
 PlotTransferFun(good_model, 2, 1)
 ```
 
@@ -196,7 +204,7 @@ the changes that occur when taking into account non-lag interactions within the
 transfer function of the controlling process compared to
 ignore them:
 
-```{r Plot 3, eval = TRUE}
+```{r Plot 3, eval = TRUE, fig.align = "center", fig.width = 7}
 PlotTransferFun(good_model, 2, 1) # We take these effects into account
 PlotTransferFun(freq_model_pre, 2, 1) # We don't take them into account
 ```
@@ -205,7 +213,7 @@ Alternatively, you can perform the graphical representation of the estimate
 of both transfer functions assuming open loop conditions.
 To do this, we use the open argument. Compare both representations:
 
-```{r Plot 4, eval = TRUE}
+```{r Plot 4, eval = TRUE, fig.align = "center", fig.width = 7}
 PlotTransferFun(good_model, 2, 1) # We assume closed loop conditions
 PlotTransferFun(good_model, 2, 1, open = TRUE) # We assume open loop conditions
 ```
@@ -227,14 +235,30 @@ str. For example, to locate the representative index
 of the controlling process transfer function (feedback)
 in the LF band, we use the following expression:
 ```{r Get expected values 2, eval = TRUE}
-GetExpectedValues(good_model, coherence = coh, str = FALSE)$LF$Transfer_Functions[2,1,]
+GetExpectedValues(good_model, coherence = coh, str = FALSE, weight = FALSE)$LF$Transfer_Functions[2,1,]
 ```
 
 Now, we will calculate the representative index of the feedforward function
 for this same band, LF:
 ```{r Get expected values 3, eval = TRUE}
-GetExpectedValues(good_model, coherence = coh, str = FALSE)$LF$Transfer_Functions[1,2,]
+GetExpectedValues(good_model, coherence = coh, str = FALSE, weight = FALSE)$LF$Transfer_Functions[1,2,]
 ```
 
 To obtain the same results in the HF band, it is enough to use the
 same expressions, substituting in them LF by HF.
+
+We can also produce estimates by calculating a weighted mean instead of using the coherence:
+```{r Get expected values 4, eval = TRUE}
+GetExpectedValues(good_model, use.coh = FALSE, weight = TRUE)
+```
+
+And we can also produce estimates at the maximum coherence level:
+```{r Get expected values 5, eval = TRUE}
+GetEstimateAtMaxCoh(good_model, coherence = coh)
+```
+
+
+
+
+
+
