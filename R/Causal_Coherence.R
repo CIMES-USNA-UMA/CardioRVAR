@@ -139,7 +139,7 @@ PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim 
 #' GetMeanCoherence(freq_model, coh, weight = FALSE) # No Gaussian weights
 #' GetMeanCoherence(freq_model, coh, weight = TRUE) # Gaussian weights are applied
 GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
-                             weight = TRUE){
+                             weight = FALSE){
   frequency <- SM$Freqs 
   F <- NROW(frequency)
   LF_f <- frequency[frequency >= VLF]
