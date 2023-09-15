@@ -4,7 +4,14 @@
 \alias{GetMeanCoherence}
 \title{Get mean coherence}
 \usage{
-GetMeanCoherence(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04, weight = TRUE)
+GetMeanCoherence(
+  SM,
+  coherence,
+  HF = 0.4,
+  LF = 0.15,
+  VLF = 0.04,
+  weight = FALSE
+)
 }
 \arguments{
 \item{SM}{the computed frequency domain model from the system to be analyzed}
@@ -18,7 +25,7 @@ GetMeanCoherence(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04, weight = TRUE)
 \item{VLF}{maximum limit for the VLF band. Default is 0.04}
 
 \item{weight}{applies gaussian-weighting function to the estimates before
-calculating the expected values. Default is TRUE}
+calculating the expected values. Default is FALSE}
 }
 \value{
 A list with the computed expected values at the LF and HF bands for the 

@@ -123,7 +123,7 @@ PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim 
 #' @param LF maximum limit for the LF band. Default is 0.15
 #' @param HF maximum limit for the HF band. Default is 0.4
 #' @param weight applies gaussian-weighting function to the estimates before
-#'               calculating the expected values. Default is TRUE
+#'               calculating the expected values. Default is FALSE
 #'
 #' @return A list with the computed expected values at the LF and HF bands for the 
 #'         coherence
