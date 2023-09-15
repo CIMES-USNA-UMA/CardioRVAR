@@ -63,9 +63,21 @@ CheckStationarity(Data, verbose = TRUE)
 CheckStationarity(Data)
 
 ```
-As there is a breakpoint, the data is not stationary. We will separate the data into two stationary subsets, Pre and Post. We will also detrend this data:
-
+As there is a breakpoint, the data is not stationary. We can make the data stationary by detrending it:
 ```{r Check stationarity again, eval = TRUE}
+Detrended_Data <- Data
+
+Detrended_Data[,"IBI"] <- DetrendByCutoff(Data[,"IBI"])
+Detrended_Data[,"SBP"] <- DetrendByCutoff(Data[,"SBP"])
+
+CheckStationarity(Detrended_Data, warnings = FALSE)
+```
+
+
+
+Now, we will separate the data into two stationary subsets, Pre and Post. We will also detrend this data:
+
+```{r Check stationarity again 2, eval = TRUE}
 Pre <- Data[1:400,]
 Post <- Data[500:928,]
 
