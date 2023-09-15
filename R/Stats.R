@@ -158,7 +158,7 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
     if(verbose & (min(p_vals) <= alpha)){
        print("Residuals are not white processes")
     } else if(verbose & (min(p_vals) > alpha)){
-       print("Model residuals are white processes")
+       print("Model residuals are white noise processes")
     } else {
        return(min(p_vals) > alpha)
     }
