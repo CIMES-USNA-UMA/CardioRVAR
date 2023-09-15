@@ -54,8 +54,8 @@ CalculateCausalCoherence <- function(SM, Mod = TRUE){
   S <- SM$Spectra
   H <- SM$Noise_Transfer_fun
   sigma <- SM$Noise_Spectra
-  C1 <- sigma[2,2]*abs(H[1,2,]^2)/S[1,1,] #H21 = 0, Causalidad de S2 a S1 
-  C2 <- sigma[1,1]*abs(H[2,1,]^2)/S[2,2,] #H12 = 0, Causalidad de S1 a S2
+  C1 <- sigma[2,2]*abs(H[1,2,]^2)/S[1,1,] #H21 = 0, Causality from S2 to S1 
+  C2 <- sigma[1,1]*abs(H[2,1,]^2)/S[2,2,] #H12 = 0, Causality from S1 to S2
   # S2 = Input (RR)
   # S1 = Output (SBP)
   C3 <- CalculateCoherence(SM, 1, 2)
