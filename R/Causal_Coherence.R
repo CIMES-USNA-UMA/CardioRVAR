@@ -135,7 +135,7 @@ PlotCausalCoherence <- function(SM, CCoh, VLF = 0.04, LF = 0.15, HF = 0.4, xlim 
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' coh <- CalculateCoherence(freq_model)
+#' coh <- CalculateCoherence(freq_model, 1, 2)
 #' GetMeanCoherence(freq_model, coh, weight = FALSE) # No Gaussian weights
 #' GetMeanCoherence(freq_model, coh, weight = TRUE) # Gaussian weights are applied
 GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
@@ -191,7 +191,7 @@ GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' coh <- abs(CalculateCoherence(freq_model))^2
+#' coh <- abs(CalculateCoherence(freq_model, 1, 2))^2
 #' GetMaxCoherence(freq_model, coh)
 GetMaxCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04){
   frequency <- SM$Freqs 

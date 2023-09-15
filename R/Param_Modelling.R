@@ -10,6 +10,13 @@
 #' @param coefs Include VAR coefficients; otherwise these are obtained from the
 #'              VAR model. Default is NULL
 #' @param freq_support Method to compute the frequency support vector
+#' @param use.cross Boolean; use cross-spectrum to compute the open transfer functions.
+#'                  default is TRUE. If FALSE, an alpha-index is used to compute the
+#'                  open transfer functions
+#' @param preserve.signals Boolean, include the input and output signals into the model list. Default
+#'               is TRUE
+#' @param preserve.p Boolean, include VAR model order p into the model list. Default
+#'               is TRUE
 #'
 #' @return A list with the estimated components of the frequency domain model:
 #' \item{Freqs}{Vector of frequency values}
@@ -63,7 +70,8 @@
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL,
-   coefs = NULL, freq_support = c("pgram", "seq")){
+   coefs = NULL, freq_support = c("pgram", "seq"), use.cross = TRUE, preserve.signals = TRUE,
+   preserve.p = TRUE){
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
                       sigma <- summary(model)$cov
@@ -80,7 +88,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    TFuns <- GetTransFuns(A)
                    sigma <- sigma * 2
                    S <- GetSpectra(H, sigma)
-                   OpenTFuns <- GetOpenTFuns(S)
+                   OpenTFuns <- GetOpenTFuns(S, use.cross = use.cross)
                    OpenVSClosed <- GetOpenVSClosedDif(OpenTFuns, TFuns)
                    a0 <- diag(1,2)
                    output <- list(Freqs = freqs / dt, Vars_Transfer_funs = B,
@@ -91,6 +99,8 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    if(A0){
                       output <- IncludeA0Effects(output)
                    }
+                   if(preserve.signals & !is.null(model$Signals)) output$Signals <-model$Signals
+                   if(preserve.p) output$p <- model$p
                    return(output)
 }
 

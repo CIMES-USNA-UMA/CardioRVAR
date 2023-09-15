@@ -1,5 +1,5 @@
 
-#' Noise source constribution
+#' Noise source contribution
 #' 
 #' Estimates the noise source contribution for the variables of the analyzed system
 #'

@@ -13,7 +13,8 @@ EstimateVAR(
   correction = "bonferroni",
   type = "none",
   exogen = NULL,
-  warnings = TRUE
+  warnings = TRUE,
+  preserve.signals = TRUE
 )
 }
 \arguments{
@@ -41,6 +42,9 @@ Default is none}
 exogenous variables. Default is NULL}
 
 \item{warnings}{Boolean, show warnings regarding the test results. Default is FALSE}
+
+\item{preserve.signals}{Boolean, include the input and output signals into the model list. Default
+is TRUE}
 }
 \value{
 A boolean variable indicating if the multivariate time series is stationary or not,
@@ -60,8 +64,8 @@ references section.
 \examples{
 data(DetrendedData)
 
-CheckStationarity(DetrendedData)
-CheckStationarity(DetrendedData, verbose = TRUE)
+
+model <- EstimateVAR(DetrendedData)
 }
 \references{
 Bernhard Pfaff (2008). VAR, SVAR and SVEC Models: Implementation Within R Package vars. Journal of

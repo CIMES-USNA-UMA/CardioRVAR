@@ -21,4 +21,3 @@
 #' @importFrom stats weighted.mean
 ## usethis namespace: end
 NULL
-

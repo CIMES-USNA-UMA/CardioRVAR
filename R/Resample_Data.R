@@ -1,6 +1,6 @@
-#' Interpolate data
+#' Resample data
 #'
-#' Interpolates data up to a particular sample rate
+#' Resamples data up to a particular sample rate
 #' @param x a list containing data to be interpolated
 #' @param f sample rate for the interpolated series. Default is 4 Hz
 #'
@@ -13,10 +13,10 @@
 #'
 #' @examples
 #' data(Cardiovascular)
-#' interpolated <- InterpolateData(Cardiovascular)
+#' interpolated <- ResampleData(Cardiovascular)
 #' plot(interpolated$Time, interpolated$RR, xlab = "Time (sec)", ylab = "RR intervals (ms)")
 
-InterpolateData <- function(x, f = 4){
+ResampleData <- function(x, f = 4){
                    IntFunRR <- splinefun(x$Time, x$RR, 
                        method = "monoH.FC", ties = "ordered")
                    IntFunSBP <- splinefun(x$Time, x$SBP, 

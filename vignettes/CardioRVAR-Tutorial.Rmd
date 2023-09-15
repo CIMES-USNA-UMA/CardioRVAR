@@ -1,0 +1,240 @@
+---
+title: "CardioRVAR Tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CardioRVAR Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This tutorial is intended to serve as a general guide for the CardioRVAR package.
+To start the package, use the following command in R:
+
+```{r setup}
+library(CardioRVAR)
+```
+
+With this, the functions available in the package can now be used. We will use the example
+data known as Cardiovascular:
+
+```{r Get data, eval = TRUE}
+data("Cardiovascular")
+Data <- cbind(SBP = Cardiovascular$SBP, IBI = Cardiovascular$RR)
+```
+
+
+To examine the recordings, use the following commands:
+
+```{r Plot recordings, eval = TRUE}
+par(mfrow = c(1,2))
+plot(Cardiovascular$Time, Data[,"IBI"], xlab = "Time", ylab = "IBI", type = "l")
+plot(Cardiovascular$Time, Data[, "SBP"], xlab = "Time", ylab = "SBP", type = "l")
+```
+
+## PART 1: CHECK THAT RECORDS ARE STATIONARY
+
+
+Our registers are in the "control" and "tilt" objects.
+These records belong to RCC and correspond to the interval
+pre-tilt and tilt respectively. Each object is an array of
+N x M, where N is the number of observations, and M is the number of variables
+(2 in this case).
+
+We will use the tilt registers. The trend of these records
+and its mean have already been removed, so they should be stationary.
+To check this, we use the CheckStationarity function:
+
+
+```{r Check stationarity, eval = TRUE}
+CheckStationarity(Data, verbose = TRUE)
+
+# If we do not supply the "verbose" argument, we should get a
+# value of type TRUE/FALSE (in this case, TRUE):
+
+CheckStationarity(Data)
+
+```
+As there is a breakpoint, the data is not stationary. We will separate the data into two stationary subsets, Pre and Post:
+
+```{r Check stationarity again, eval = TRUE}
+Pre <- Data[1:120,]
+Post <- Data[150:230,]
+
+CheckStationarity(Pre, warnings = FALSE)
+CheckStationarity(Post, warnings = FALSE)
+
+```
+
+
+
+## PART 2: ESTIMATE VAR MODEL (PART 1)
+
+
+Once the records have been verified to be
+stationary, you can go to the next step, which
+consists of estimating a VAR model. It can be done in two ways.
+For the first one, we'll use the tilt object, and the VAR function of the package
+vars:
+
+```{r Model data in time domain, eval = TRUE}
+model_pre <- vars::VAR(Pre, type = "none", lag.max = 22, ic = "AIC")
+model_post <- vars::VAR(Post, type = "none", lag.max = 22, ic = "AIC")
+
+c(model_pre$p, model_post$p)
+```
+
+With this we have estimated a VAR model of order p, or VAR(p). This
+model is of order 12, that is, VAR(12). To check it, simply
+we wrote
+
+
+
+Now the next step is to validate the model. To do this, we use the functions
+DiagnoseResiduals and DiagnoseStability. For the model to be valid, it must be
+stable and its residuals must be white noise processes:
+
+```{r Diagnose models, eval = TRUE}
+DiagnoseResiduals(model_pre, verbose = TRUE)
+DiagnoseStability(model_pre, verbose = TRUE)
+
+DiagnoseResiduals(model_post, verbose = TRUE)
+DiagnoseStability(model_post, verbose = TRUE)
+```
+
+The results should confirm that the model is valid
+
+## PART 3: ESTIMATE VAR MODEL (PART 2)
+
+The previous steps can be performed automatically using the following function:
+
+```{r Generate full model automatically, eval = TRUE}
+model_pre <- EstimateVAR(Pre)
+model_post <- EstimateVAR(Post)
+```
+
+
+
+## PART 4: Estimating Transfer Functions
+
+
+The estimation is made in a simple way by means of
+the ParamFreqModel function, which is applied to a model
+valid VAR(p). In tutorial 3, a VAR(12) model was estimated
+corresponding to the tilt interval. We will save your expression
+in the frequency domain in the freq_model object:
+
+```{r Estimate freq model 1, eval = TRUE}
+freq_model_pre <- ParamFreqModel(model_pre, A0 = FALSE)
+```
+
+
+By specifying that we don't want to use the A0 argument,
+we estimate transfer functions that only have
+account for interactions between past values of
+the variables, regardless of their instantaneous interactions
+no lag. To collect these interactions without lag in functions
+of transfer, we will do the following:
+
+```{r Estimate freq model 2, eval = TRUE}
+freq_model_pre_A0 <- ParamFreqModel(model_pre)
+good_model <- freq_model_pre_A0
+```
+
+
+This allows us to calculate the transfer functions. He
+next step will be to observe its behavior graphically
+and calculate representative indices of these.
+
+
+## PART 5: Plotting the estimates
+
+
+To study the graphical representation of functions
+of transfer, we will use the PlotTransferFun function.
+We will apply it to the freq_model object, generated in the
+tutorial 4. The function requires two indices, which
+mark the variables of the main process, or feedforward.
+In this way, index1 represents the variable x or input of the process
+main, while index2 represents your variable y or output.
+
+In our case, the main process (feedforward) characterizes
+cardiovascular hemodynamic properties: by increasing the frequency
+Cardiac, a rise in blood pressure is achieved. said process
+is regulated by a controller process (feedback) that allows
+the regulation and control of this heart rate according to the
+changes in blood pressure, thus allowing the heart rate to be regulated
+according to physiological needs.
+
+To study the function of the main process, that is, the changes in the
+blood pressure due to changes in heart rate, we use the
+indices index1 = 1 and index2 = 2:
+
+```{r Plot 1, eval = TRUE}
+PlotTransferFun(good_model, 1, 2)
+```
+
+To study the controller process, that is, the regulation of the frequency
+cardiac from changes in blood pressure, we use the indices
+index1 = 2 and index2 = 1:
+
+```{r Plot 2, eval = TRUE}
+PlotTransferFun(good_model, 2, 1)
+```
+
+
+The representations show on the one hand the magnitude of the transfer function
+(above) and on the other hand the phase of said function in radians (below). watch yourself now
+the changes that occur when taking into account non-lag interactions within the
+transfer function of the controlling process compared to
+ignore them:
+
+```{r Plot 3, eval = TRUE}
+PlotTransferFun(good_model, 2, 1) # We take these effects into account
+PlotTransferFun(freq_model_pre, 2, 1) # We don't take them into account
+```
+
+Alternatively, you can perform the graphical representation of the estimate
+of both transfer functions assuming open loop conditions.
+To do this, we use the open argument. Compare both representations:
+
+```{r Plot 4, eval = TRUE}
+PlotTransferFun(good_model, 2, 1) # We assume closed loop conditions
+PlotTransferFun(good_model, 2, 1, open = TRUE) # We assume open loop conditions
+```
+
+
+# PART 6: Calculation of indices
+
+
+Using the GetExpectedValues function we can obtain
+representative indices of each transfer function
+for HF and LF bands:
+```{r Get expected values, eval = TRUE}
+coh <- CalculateCoherence(good_model, 1, 2)
+GetExpectedValues(good_model, coherence = coh)
+```
+
+To locate a specific value, we will inactivate the argument
+str. For example, to locate the representative index
+of the controlling process transfer function (feedback)
+in the LF band, we use the following expression:
+```{r Get expected values 2, eval = TRUE}
+GetExpectedValues(good_model, coherence = coh, str = FALSE)$LF$Transfer_Functions[2,1,]
+```
+
+Now, we will calculate the representative index of the feedforward function
+for this same band, LF:
+```{r Get expected values 3, eval = TRUE}
+GetExpectedValues(good_model, coherence = coh, str = FALSE)$LF$Transfer_Functions[1,2,]
+```
+
+To obtain the same results in the HF band, it is enough to use the
+same expressions, substituting in them LF by HF.

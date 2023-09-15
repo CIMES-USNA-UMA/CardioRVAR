@@ -19,6 +19,8 @@
 #' @param exogen Parameter to be passed into the \link[vars]{VAR} function, indicating 
 #'               exogenous variables. Default is NULL
 #' @param warnings Boolean, show warnings regarding the test results. Default is FALSE
+#' @param preserve.signals Boolean, include the input and output signals into the model list. Default
+#'               is TRUE
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
@@ -47,11 +49,12 @@
 #' @examples
 #' data(DetrendedData)
 #' 
-#' CheckStationarity(DetrendedData)
-#' CheckStationarity(DetrendedData, verbose = TRUE)
+#' 
+#' model <- EstimateVAR(DetrendedData)
 
 EstimateVAR <- function(x, pmax = 22, p = NULL, ic = "AIC", alpha = 0.05, 
-    correction = "bonferroni", type = "none", exogen = NULL, warnings = TRUE){
+    correction = "bonferroni", type = "none", exogen = NULL, warnings = TRUE,
+    preserve.signals = TRUE){
                      if(!CheckStationarity(x, alpha = alpha,
                          warnings = warnings, correction = correction)){
                          #stop("Time series are not stationary")
@@ -69,6 +72,7 @@ EstimateVAR <- function(x, pmax = 22, p = NULL, ic = "AIC", alpha = 0.05,
                         warning("Model is not stable. Non 
                           valid model")
                      }
+                     if(preserve.signals) model$Signals <- x
                      return(model)
                      }
 }

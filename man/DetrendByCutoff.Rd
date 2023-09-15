@@ -32,7 +32,7 @@ for more information regarding this package, please check the references section
 }
 \examples{
 data(Cardiovascular)
-int_data <- InterpolateData(Cardiovascular)
+int_data <- ResampleData(Cardiovascular)
 RR <- DetrendByCutoff(int_data$RR) # The RR series is detrended
 SBP <- DetrendByCutoff(int_data$SBP) # The SBP series is detrended
 }
