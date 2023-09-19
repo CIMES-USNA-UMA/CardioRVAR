@@ -52,7 +52,7 @@ GetTransFunPhase <- function(SM, index1, index2){
 #' Phase_open <- GetOpenTransFunPhase(freq_model, 1, 2)
 #' Phase_open[1:100]
 GetOpenTransFunPhase <- function(SM, index1, index2){
-  S <- GetMatrixAfromH(SM$Spectra)
+  S <- SM$Spectra
   chosenS <- S[index1, index2,]
   phase <- atan2(Im(chosenS), Re(chosenS))
   return(phase)
