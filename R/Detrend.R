@@ -33,9 +33,9 @@
 #' @examples
 #' data(Cardiovascular)
 #' int_data <- ResampleData(Cardiovascular)
-#' RR <- DetrendByCutoff(int_data$RR) # The RR series is detrended
-#' SBP <- DetrendByCutoff(int_data$SBP) # The SBP series is detrended
-DetrendByCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16", 
+#' RR <- DetrendWithCutoff(int_data$RR) # The RR series is detrended
+#' SBP <- DetrendWithCutoff(int_data$SBP) # The SBP series is detrended
+DetrendWithCutoff <- function(x, cutoff = 0.04, f = 4, wv = "d16", 
                             max_f = 0.4){
   N = NROW(x)
   Nf = f/2

@@ -67,8 +67,8 @@ As there is a breakpoint, the data is not stationary. We can make the data stati
 ```{r Check stationarity again, eval = TRUE}
 Detrended_Data <- Data
 
-Detrended_Data[,"IBI"] <- DetrendByCutoff(Data[,"IBI"])
-Detrended_Data[,"SBP"] <- DetrendByCutoff(Data[,"SBP"])
+Detrended_Data[,"IBI"] <- DetrendWithCutoff(Data[,"IBI"])
+Detrended_Data[,"SBP"] <- DetrendWithCutoff(Data[,"SBP"])
 
 CheckStationarity(Detrended_Data, warnings = FALSE)
 ```
@@ -81,10 +81,10 @@ Now, we will separate the data into two stationary subsets, Pre and Post. We wil
 Pre <- Data[1:400,]
 Post <- Data[500:928,]
 
-Pre[,"IBI"] <- DetrendByCutoff(Pre[,"IBI"])
-Pre[,"SBP"] <- DetrendByCutoff(Pre[,"SBP"])
-Post[,"IBI"] <- DetrendByCutoff(Post[,"IBI"])
-Post[,"SBP"] <- DetrendByCutoff(Post[,"SBP"])
+Pre[,"IBI"] <- DetrendWithCutoff(Pre[,"IBI"])
+Pre[,"SBP"] <- DetrendWithCutoff(Pre[,"SBP"])
+Post[,"IBI"] <- DetrendWithCutoff(Post[,"IBI"])
+Post[,"SBP"] <- DetrendWithCutoff(Post[,"SBP"])
 
 CheckStationarity(Pre, warnings = FALSE)
 CheckStationarity(Post, warnings = FALSE)
