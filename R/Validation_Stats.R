@@ -70,24 +70,36 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
    sig_kpss <- (1:M)[kpss_p_vals <= alpha]
    if(sum(sig_kpss) != 0){
       if(warnings){
-      warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+        warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+        return(FALSE)
+      } else if(!warnings & verbose){
+        return(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+      } else if(!warnings & !verbose){
+        return(FALSE)
       }
-      return(FALSE)
    } else if(sum(non_sig_adf) != 0){
       if(warnings){
       warning(paste("\n", "ADF testing suggest non stationarity for time series", non_sig_adf,
        "\n"))
       }
       if(sum(sig_kpss) != 0){
-         if(warnings){
-         warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
-         }
-         return(FALSE)
+        if(warnings){
+          warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+          return(FALSE)
+        } else if(!warnings & verbose){
+          return(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+        } else if(!warnings & !verbose){
+          return(FALSE)
+        }
       } else {
       if(warnings){
       warning(paste("Time series are stationary according to KPSS test"))
       }
-      return(TRUE)
+        if(verbose){
+          return("Time series are stationary")
+        } else {
+          return(TRUE)
+        }
       }
    } else {
       if(verbose){

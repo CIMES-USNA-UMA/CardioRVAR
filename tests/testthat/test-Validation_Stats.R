@@ -1,13 +1,13 @@
 test_that("Stationarity check should work", {
   data(DetrendedData)
-  expect_true(CheckStationarity(DetrendedData))
+  expect_true(CheckStationarity(DetrendedData, warnings = F))
 })
 
 test_that("Stationarity check should work and should give a statement if required", {
   data(DetrendedData)
-  expect_true(CheckStationarity(DetrendedData))
-  First <- CheckStationarity(DetrendedData)
-  Second <- CheckStationarity(DetrendedData, verbose = TRUE)
+  expect_true(CheckStationarity(DetrendedData, warnings = F))
+  First <- CheckStationarity(DetrendedData, warnings = F)
+  Second <- CheckStationarity(DetrendedData, verbose = TRUE, warnings = F)
   expect_true(First & is.character(Second))
 })
 
