@@ -10,7 +10,7 @@ DetrendWithCutoff(
   per = FALSE,
   cutoff = 0.04,
   f = 4,
-  wv = "haar",
+  wv = "d16",
   max_f = 0.4,
   do.VHF = FALSE,
   use.universal = FALSE,
@@ -31,7 +31,7 @@ DetrendWithCutoff(
 
 \item{wv}{Wavelet to be passed into the function \link[waveslim]{modwt} of package
 \href{https://CRAN.R-project.org/package=waveslim}{waveslim}. Default is
-haar}
+d16}
 
 \item{max_f}{Maximum frequency to be accounted for in the detrending. default is 0.4 Hz}
 
