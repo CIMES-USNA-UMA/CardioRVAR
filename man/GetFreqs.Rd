@@ -27,11 +27,8 @@ or by spectral estimation. This second option was introduced to make the results
 reproducible) with the ones obtained from other packages such as package grangers (for more information
 regarding this package, please check the reference section).
 }
-\examples{
-#ADD EXAMPLE
-}
 \references{
-Matteo Farne' and Angela Montanari (2019). grangers: Inference on Granger-Causality in the Frequency
+Matteo Farne and Angela Montanari (2019). grangers: Inference on Granger-Causality in the Frequency
 Domain. R package version 0.1.0. https://CRAN.R-project.org/package=grangers
 }
 \author{

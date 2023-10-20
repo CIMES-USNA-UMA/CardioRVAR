@@ -4,10 +4,26 @@
 \alias{DetrendWithCutoff}
 \title{Detrend variables}
 \usage{
-DetrendWithCutoff(x, cutoff = 0.04, f = 4, wv = "d16", max_f = 0.4)
+DetrendWithCutoff(
+  x,
+  thr = NULL,
+  per = FALSE,
+  cutoff = 0.04,
+  f = 4,
+  wv = "haar",
+  max_f = 0.4,
+  do.VHF = FALSE,
+  use.universal = FALSE,
+  n.universal = NULL,
+  thr.type = c("hard", "soft")
+)
 }
 \arguments{
 \item{x}{A vector of observations}
+
+\item{thr}{Manual threshold. Default is NULL.}
+
+\item{per}{Boolean, use a percentage as a threshold value}
 
 \item{cutoff}{A frequency used as limit for the detrending. Default is 0.04 Hz}
 
@@ -15,9 +31,18 @@ DetrendWithCutoff(x, cutoff = 0.04, f = 4, wv = "d16", max_f = 0.4)
 
 \item{wv}{Wavelet to be passed into the function \link[waveslim]{modwt} of package
 \href{https://CRAN.R-project.org/package=waveslim}{waveslim}. Default is
-d16}
+haar}
 
 \item{max_f}{Maximum frequency to be accounted for in the detrending. default is 0.4 Hz}
+
+\item{do.VHF}{Boolean. If true, Very High Frequency bands will also be processed.}
+
+\item{use.universal}{Boolean. If TRUE, universal thresholding will be performed.}
+
+\item{n.universal}{Number of scales in which to applied the universal thresholding, if
+applied. If NULL (default), it will be computed automatically.}
+
+\item{thr.type}{Perform hard or soft thresholdings}
 }
 \value{
 The detrended vector of observations

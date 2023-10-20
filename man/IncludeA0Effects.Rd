@@ -40,7 +40,6 @@ Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P,
 Carrault. Linear multivariate models for physiological signal analysis: applications. 
 Comput Methods Programs Biomed. 1996;51(1-2):121-30
 
-
 Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 Communications and Software. 2011

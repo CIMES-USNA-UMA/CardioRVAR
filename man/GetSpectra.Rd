@@ -18,9 +18,6 @@ The spectral matrix
 Calculates spectral matrix from the noise transfer function and the covariance
 matrix
 }
-\examples{
-#ADD EXAMPLE
-}
 \references{
 Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42

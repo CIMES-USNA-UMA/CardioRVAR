@@ -1,27 +1,3 @@
-# Developed by Alvaro Chao-Ecija
-
-# Several functions have been developed, according to the proposed
-# strategy by Seth for MVAR validation. The functions allow corrections
-# for multiple comparisons offered by p.adjust.methods. The bonferroni
-# correction has been selected as default, as suggested by Seth. 
-
-# Therefore, these functions evaluate the stationarity of the 
-# signals. They also test if the residuals of the MVAR model are
-# white-noise, and evaluate the stability of the model.
-#
-# References: ---------------------------------------------------
-#
-#
-#
-# Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
-# Neurosci Methods. 2010;186(2):262-73.
-#
-# Seth AK. Granger Causal Conectivity Analysis: A MATLAB Toolbox. 2011.
-#
-# Ding M, Bressler S, Yang W, Liang H. Short-window spectral analysis of cortical 
-# event-related potentials by adaptative multivariate autoregressive modelling: data
-# preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
-
 
 #' Check stationarity
 #'
@@ -33,14 +9,26 @@
 #' @param warnings boolean, show warnings regarding the test results. Default is TRUE
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
-#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust} from
-#'                  package \href{https://CRAN.R-project.org/package=stats}{stats}
+#'                  is bonferroni. For other methods, please check \link[stats]{p.adjust}
+#'                  and \link[stats]{p.adjust.methods} from package
+#'                  \href{https://CRAN.R-project.org/package=stats}{stats}
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
 #'         FALSE
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
+#' 
+#' @details 
+#' Several functions are available in this package to statistically validate
+#' properties of the evaluated time series and VAR models. These functions are based
+#' on the validation algorithms proposed in Seth (2010) and Seth (2011) for MVAR validation.
+#' The functions allow corrections for multiple comparisons offered by \link[stats]{p.adjust} 
+#' and in \link[stats]{p.adjust.methods}. The bonferroni correction has been selected as
+#' default, as suggested in Seth (2010). 
+#'  
+#' In this function, stationarity of the time series is evaluated according to the criteria
+#' established in Seth (2010) and more specifically in Seth (2011).
 #' 
 #'         
 #' @references 
@@ -65,7 +53,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
    N <- dim(x)[1]
    M <- dim(x)[2]
    if(is.null(lags)){
-      lags <- sqrt(N)
+      lags <- sqrt(N) # As suggested in Seth (2011)
    }
    adf_p_vals <- double(M)
    kpss_p_vals <- double(M)
@@ -127,8 +115,17 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
+#' @details 
+#' Several functions are available in this package to statistically validate
+#' properties of the evaluated time series and VAR models. These functions are based
+#' on the validation algorithms proposed in Seth (2010) and Seth (2011) for MVAR validation.
+#' The functions allow corrections for multiple comparisons offered by \link[stats]{p.adjust} 
+#' and in \link[stats]{p.adjust.methods}. The bonferroni correction has been selected as
+#' default, as suggested in Seth (2010). 
+#'  
+#' In this function, residuals obtained from the estimated models are evaluated according 
+#' to the criteria established in Seth (2010) and Seth (2011).
 #' 
-#'         
 #' @references 
 #' Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
 #' Neurosci Methods. 2010;186(2):262-73.
@@ -155,7 +152,7 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
         p_vals[n] <- lmtest::dwtest(mod)$p
     }
     p_vals <- p.adjust(p_vals, correction)
-    if(verbose & (min(p_vals) <= alpha)){
+    if(verbose & (max(p_vals) <= alpha)){
        print("Residuals are not white processes")
     } else if(verbose & (min(p_vals) > alpha)){
        print("Model residuals are white noise processes")
@@ -182,7 +179,11 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
-#' 
+#' #' @details 
+#' Several functions are available in this package to validate
+#' properties of the evaluated time series and VAR models. In this function, 
+#' stability of the VAR model is evaluated according to the criteria
+#' established in Ding (2000).
 #'         
 #' @references 
 #' Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 

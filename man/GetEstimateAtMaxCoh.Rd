@@ -39,6 +39,12 @@ str = FALSE)
 Estimates
 
 }
+\references{
+Bari V, Vaini E, De Maria B, Cairo B, Pistuddi V, Ranucci M, Porta A. 
+Comparison of Different Strategies to Assess Cardiac Baroreflex Sensitivity 
+Based on Transfer Function Technique in Patients Undergoing General Anesthesia. 
+Annu Int Conf IEEE Eng Med Biol Soc 2018. 2018;2780–3, doi:10.1109/EMBC.2018.8512782.
+}
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 }

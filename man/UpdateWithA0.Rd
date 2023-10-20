@@ -17,9 +17,6 @@ The updated coefficients
 \description{
 Updates VAR model coefficients using an A0 function
 }
-\examples{
-#ADD EXAMPLE
-}
 \references{
 Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42

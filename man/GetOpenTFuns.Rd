@@ -18,9 +18,6 @@ Open-loop transfer functions
 \description{
 Calculates open-loop transfer functions from the spectral matrix
 }
-\examples{
-#ADD EXAMPLE
-}
 \references{
 Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
 Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
@@ -28,7 +25,6 @@ Baroreflex. IEEE Eng Med Biol Mag. 2001;20(2):33-42
 Korhonen I, Mainardi L, Baselli G, Bianchi A, Loula P, 
 Carrault. Linear multivariate models for physiological signal analysis: applications. 
 Comput Methods Programs Biomed. 1996;51(1-2):121-30
-
 
 Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,

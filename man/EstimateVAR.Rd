@@ -25,8 +25,8 @@ to the number of variables.}
 
 \item{p}{A specific model order for the VAR model. Default is NULL}
 
-\item{ic}{An information criterium to estimate the model order, if not previously
-specified. Default is AIC, the Akaike criterium}
+\item{ic}{An information criterion to estimate the model order, if not previously
+specified. Default is AIC, the Akaike criterion}
 
 \item{alpha}{Significance level for testing. Default is 0.05}
 
@@ -64,7 +64,6 @@ references section.
 \examples{
 data(DetrendedData)
 
-
 model <- EstimateVAR(DetrendedData)
 }
 \references{
@@ -73,6 +72,15 @@ Bernhard Pfaff (2008). VAR, SVAR and SVEC Models: Implementation Within R Packag
 
   Pfaff, B. (2008) Analysis of Integrated and Cointegrated Time Series with R. Second Edition. Springer,
   New York. ISBN 0-387-27960-1
+  
+  Seth AK. A MATLAB toolbox for Granger causal connectivity analysis. J 
+  Neurosci Methods. 2010;186(2):262-73.
+
+  Seth AK. Granger Causal Conectivity Analysis: A MATLAB Toolbox. 2011.
+
+  Ding M, Bressler S, Yang W, Liang H. Short-window spectral analysis of cortical 
+  event-related potentials by adaptative multivariate autoregressive modelling: data
+  preprocessing, model validation, and variability assessment. Biol Cybern. 2000;83:35-45
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

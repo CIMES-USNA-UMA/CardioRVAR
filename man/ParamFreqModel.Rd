@@ -32,7 +32,8 @@ from the VAR model. Default is NULL}
 \item{coefs}{Include VAR coefficients; otherwise these are obtained from the
 VAR model. Default is NULL}
 
-\item{freq_support}{Method to compute the frequency support vector}
+\item{freq_support}{Method to compute the frequency support vector, either "pgram" or "seq".
+Default is "pgram".}
 
 \item{use.cross}{Boolean; use cross-spectrum to compute the open transfer functions.
 default is TRUE. If FALSE, an alpha-index is used to compute the
@@ -64,19 +65,26 @@ This function calculates the frequency domain components and transfer functions
 from the time domain MVAR model. The functions are estimated taking into account the following representations 
 of the model:
 
-X = BX + W
-AX = W
-X = HW
+\eqn{X = BX + W}
+\eqn{AX = W}
+\eqn{X = HW}
 
 So that:
 
-S = H * sigma * t(Conj(H))
-A * S * t(Conj(A)) = sigma
+\eqn{S = H * sigma * t(Conj(H))}
+\eqn{A * S * t(Conj(A)) = sigma}
 
 By allowing immediate effects from SBP to RR, the baroreflex transfer function
 is calculated as:
 
-b21/(1-b22) = -a21/a22 = h21/h11
+\eqn{b_{21}/(1-b_{22}) = -a_{21}/a_{22} = h_{21}/h_{11}}
+
+
+Some of the modules integrated in these functions have been designed so that the outputs
+have compatible characteristics (and are thus reproducible) with the ones obtained from 
+other packages such as \href{https://CRAN.R-project.org/package=grangers}{package grangers}
+(e.g., the freq_support option available in this function allows said compatibility). For
+more information, please check the references section.
 }
 \examples{
 data(DetrendedData)
@@ -97,6 +105,9 @@ Communications and Software. 2011
 
 Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 J Clin Monit Comput. 2006;20(1):101-8
+
+Matteo Farne and Angela Montanari (2019). grangers: Inference on Granger-Causality 
+in the Frequency Domain. R package version 0.1.0. https://CRAN.R-project.org/package=grangers
 }
 \author{
 Alvaro Chao-Ecija, Marc Stefan Dawid-Milner

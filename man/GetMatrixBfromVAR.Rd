@@ -4,7 +4,7 @@
 \alias{GetMatrixBfromVAR}
 \title{Calculate transfer function B from VAR model}
 \usage{
-GetMatrixBfromVAR(var, freqs, dt = 0.25)
+GetMatrixBfromVAR(var, freqs, dt = 0.25, coefs = NULL)
 }
 \arguments{
 \item{var}{A var model}
@@ -18,9 +18,6 @@ The auxiliary matrix B
 }
 \description{
 Calculates transfer function B from a specific VAR model
-}
-\examples{
-#ADD EXAMPLE
 }
 \references{
 Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate

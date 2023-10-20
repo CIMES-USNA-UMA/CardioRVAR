@@ -9,7 +9,8 @@
 #'              from the VAR model. Default is NULL
 #' @param coefs Include VAR coefficients; otherwise these are obtained from the
 #'              VAR model. Default is NULL
-#' @param freq_support Method to compute the frequency support vector
+#' @param freq_support Method to compute the frequency support vector, either "pgram" or "seq".
+#'                     Default is "pgram".
 #' @param use.cross Boolean; use cross-spectrum to compute the open transfer functions.
 #'                  default is TRUE. If FALSE, an alpha-index is used to compute the
 #'                  open transfer functions
@@ -35,19 +36,26 @@
 #' from the time domain MVAR model. The functions are estimated taking into account the following representations 
 #' of the model:
 #'
-#' X = BX + W
-#' AX = W
-#' X = HW
+#' \eqn{X = BX + W}
+#' \eqn{AX = W}
+#' \eqn{X = HW}
 #'
 #' So that:
 #'
-#' S = H * sigma * t(Conj(H))
-#' A * S * t(Conj(A)) = sigma
+#' \eqn{S = H * sigma * t(Conj(H))}
+#' \eqn{A * S * t(Conj(A)) = sigma}
 #'
 #' By allowing immediate effects from SBP to RR, the baroreflex transfer function
 #' is calculated as:
 #'
-#' b21/(1-b22) = -a21/a22 = h21/h11
+#' \eqn{b_{21}/(1-b_{22}) = -a_{21}/a_{22} = h_{21}/h_{11}}
+#' 
+#' 
+#' Some of the modules integrated in these functions have been designed so that the outputs
+#' have compatible characteristics (and are thus reproducible) with the ones obtained from 
+#' other packages such as \href{https://CRAN.R-project.org/package=grangers}{package grangers}
+#' (e.g., the freq_support option available in this function allows said compatibility). For
+#' more information, please check the references section.
 #'         
 #' @references 
 #' Barbieri R, Parati G, Saul JP. Closed- versus Open-Loop Assessment of Heart Rate
@@ -63,6 +71,10 @@
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
+#' 
+#' Matteo Farne and Angela Montanari (2019). grangers: Inference on Granger-Causality 
+#' in the Frequency Domain. R package version 0.1.0. https://CRAN.R-project.org/package=grangers
+#' 
 #' @export
 #'
 #' @examples
@@ -74,7 +86,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
    preserve.p = TRUE){
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
-                      sigma <- summary(model)$cov
+                      sigma <- summary(model)$cov / 2
                    } else if(is.null(sigma) & !is.null(coefs)){
                              stop("Indicate coeficients")
                    } else if(is.null(sigma) & !is.null(coefs)){
@@ -86,7 +98,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    A <- GetMatrixAfromB(B)
                    H <- GetMatrixHfromA(A)
                    TFuns <- GetTransFuns(A)
-                   sigma <- sigma * 2
+                   #sigma <- sigma * 2
                    S <- GetSpectra(H, sigma)
                    OpenTFuns <- GetOpenTFuns(S, use.cross = use.cross)
                    OpenVSClosed <- GetOpenVSClosedDif(OpenTFuns, TFuns)
@@ -131,7 +143,6 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
@@ -157,7 +168,7 @@ IncludeA0Effects <- function(system){
                 new_sigma <- a0_Effects$sigma
                 a0 <- a0_Effects$a0
                 I <- diag(c(1,1), 2, 2)
-                B <- array(0, dim = dim(Vars_Transfer_fun))
+                B <- array(0, dim(Vars_Transfer_fun))
                 for(n in 1:(dim(Noise_Transfer_fun)[3])){
                     Noise_Transfer_fun[,,n] <- Noise_Transfer_fun[,,n] %*% 
                        solve(a0)
@@ -199,16 +210,12 @@ IncludeA0Effects <- function(system){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetA0Fun <- function(sigma){
             b <- t(chol(sigma))
             D <- diag(b)
@@ -244,9 +251,6 @@ GetA0Fun <- function(sigma){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 UpdateWithA0 <- function(A0, coefs){
             ncoefs <- coefs
             for(n in 1:length(coefs)){
@@ -274,16 +278,12 @@ UpdateWithA0 <- function(A0, coefs){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetCoefs <- function(var){
             max.lag = var$p
             K <- var$K
@@ -295,9 +295,9 @@ GetCoefs <- function(var){
             for(k in 1:K){
                 sel_coefs <- cbind(sel_coefs, coefs[[k]][,1])
             }
-            for(lag in lags){
-                coef_list[[lag]] <- t(sel_coefs[(1:K) + (K*(lag-1)),])
-            }
+            indices <- as.vector(rbind(lags, lags))
+            coef_list <-
+              lapply(lapply(split(sel_coefs, indices), matrix, ncol = K), t)
             return(coef_list)
 }
 
@@ -330,14 +330,11 @@ GetCoefs <- function(var){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
-GetMatrixBfromVAR <- function(var, freqs, dt = 0.25){
+GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, coefs = NULL){
               K <- var$K
               lags <- 1:var$p
-              if(is.null(coefs)) coefs <- GetCoefs(var)
-              B <- array(0, dim = c(K, K, NROW(freqs)))
+              coefs <- GetCoefs(var)
+              B <- array(0, c(K, K, NROW(freqs)))
               for(n in 1:K){
                   for(m in 1:K){
                       for(lag in lags){
@@ -371,20 +368,16 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
               K <- ncol(coefs[[1]])
               lags <- 1:length(coefs)
-              B <- array(0, dim = c(K, K, NROW(freqs)))
+              B <- array(0, c(K, K, NROW(freqs)))
               for(n in 1:K){
                   for(m in 1:K){
                       for(lag in lags){
@@ -416,16 +409,12 @@ GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetMatrixAfromB <- function(B){
               A <- array(0, dim(B))
               for(n in 1:dim(B)[3]){
@@ -453,16 +442,12 @@ GetMatrixAfromB <- function(B){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetMatrixHfromA <- function(A){
               H <- array(0, dim(A))
               for(n in 1:dim(A)[3]){
@@ -490,16 +475,12 @@ GetMatrixHfromA <- function(A){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
 GetTransFuns <- function(A){
               TFuns <- array(0, dim(A))
               dims <- dim(A)
@@ -540,9 +521,7 @@ GetTransFuns <- function(A){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-#' 
-#' @examples
-#' #ADD EXAMPLE
+
 GetSpectra <- function(H, sigma){
               S <- array(0, dim(H))
               for(n in 1:dim(H)[3]){
@@ -577,7 +556,6 @@ GetSpectra <- function(H, sigma){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
@@ -585,8 +563,6 @@ GetSpectra <- function(H, sigma){
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
 #' 
-#' @examples
-#' #ADD EXAMPLE
 GetOpenTFuns <- function(S, use.cross = TRUE){
   OpenTFuns <- array(0, dim(S))
   dims <- dim(S)
@@ -623,7 +599,6 @@ GetOpenTFuns <- function(S, use.cross = TRUE){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
@@ -631,8 +606,6 @@ GetOpenTFuns <- function(S, use.cross = TRUE){
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
 #' 
-#' @examples
-#' #ADD EXAMPLE
 GetOpenVSClosedDif <- function(open, closed){
               pers <- array(0, dim(open))
               dims <- dim(open)
@@ -664,7 +637,6 @@ GetOpenVSClosedDif <- function(open, closed){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
@@ -672,8 +644,6 @@ GetOpenVSClosedDif <- function(open, closed){
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
 #' 
-#' @examples
-#' #ADD EXAMPLE
 GetMatrixBfromA <- function(A, a0){
               B <- array(0, dim(A))
               for(n in 1:dim(B)[3]){
@@ -702,7 +672,6 @@ GetMatrixBfromA <- function(A, a0){
 #' Carrault. Linear multivariate models for physiological signal analysis: applications. 
 #' Comput Methods Programs Biomed. 1996;51(1-2):121-30
 #'
-#'
 #' Faes L, Nollo G. Multivariate Frequency Domain Analysis of Causal Interactions
 #' in Physiological Time Series. In Biomedical Engineering, Trends in Electronics,
 #' Communications and Software. 2011
@@ -710,8 +679,6 @@ GetMatrixBfromA <- function(A, a0){
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
 #' 
-#' @examples
-#' #ADD EXAMPLE
 GetMatrixAfromH <- function(H){
               A <- array(0, dim(H))
               for(n in 1:dim(A)[3]){
@@ -739,18 +706,17 @@ GetMatrixAfromH <- function(H){
 #' @keywords internal
 #'      
 #' @references 
-#' Matteo Farne' and Angela Montanari (2019). grangers: Inference on Granger-Causality in the Frequency
+#' Matteo Farne and Angela Montanari (2019). grangers: Inference on Granger-Causality in the Frequency
 #' Domain. R package version 0.1.0. https://CRAN.R-project.org/package=grangers
 #' 
-#' @examples
-#' #ADD EXAMPLE
 GetFreqs <- function(type, model, len, dt){
   if(type == "pgram"){
     # For compatibility and reproducibility with other packages such as grangers.
     freqs <- spec.pgram(model$y[,1], plot = FALSE, 
                         pad = len/(model$totobs/2) - 1)$freq
   } else {
-    freqs <- seq(0, 1/(2*dt), len = len)
+    #freqs <- seq(0, 1/(2*dt), len = len)
+    freqs <- seq(0, 1/(2), len = len)
   }
   return(freqs)
 }                      
