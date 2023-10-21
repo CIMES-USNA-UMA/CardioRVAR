@@ -25,7 +25,8 @@ DetrendWithCutoff(
 
 \item{per}{Boolean, use a percentage as a threshold value}
 
-\item{cutoff}{A frequency used as limit for the detrending. Default is 0.04 Hz}
+\item{cutoff}{A frequency used as limit for the detrending, or a reference
+frequency for calculating said limit. Default is 0.04 Hz}
 
 \item{f}{Sample rate of the vector of observations. Default is 4 Hz}
 

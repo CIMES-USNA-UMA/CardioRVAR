@@ -4,7 +4,8 @@
 #' @param x A vector of observations
 #' @param thr Manual threshold. Default is NULL.
 #' @param per Boolean, use a percentage as a threshold value
-#' @param cutoff A frequency used as limit for the detrending. Default is 0.04 Hz
+#' @param cutoff A frequency used as limit for the detrending, or a reference
+#'               frequency for calculating said limit. Default is 0.04 Hz
 #' @param f Sample rate of the vector of observations. Default is 4 Hz
 #' @param wv Wavelet to be passed into the function \link[waveslim]{modwt} of package
 #'           \href{https://CRAN.R-project.org/package=waveslim}{waveslim}. Default is
