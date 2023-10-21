@@ -61,7 +61,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
    options(warn = -1)
    for(m in 1:M){
        adf_p_vals[m] <- tseries::adf.test(x[,m], k = lags)$p.value
-       kpss_p_vals[m] <- tseries::kpss.test(x[,m])$p.value
+       kpss_p_vals[m] <- tseries::kpss.test(x[,m], lshort = F)$p.value
    }
    options(warn = w)
    adf_p_vals <- p.adjust(adf_p_vals, correction)
