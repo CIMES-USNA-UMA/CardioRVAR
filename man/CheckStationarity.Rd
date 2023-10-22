@@ -10,7 +10,8 @@ CheckStationarity(
   lags = NULL,
   warnings = TRUE,
   verbose = FALSE,
-  correction = "bonferroni"
+  correction = "bonferroni",
+  verbose.method = c("c", "p")
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ to the number of variables.}
 is bonferroni. For other methods, please check \link[stats]{p.adjust}
 and \link[stats]{p.adjust.methods} from package
 \href{https://CRAN.R-project.org/package=stats}{stats}}
+
+\item{verbose.method}{method for the verbose option, either "c" (cat) or
+"p" (print). Default is c.}
 }
 \value{
 A boolean variable indicating if the multivariate time series is stationary or not,

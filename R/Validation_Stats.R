@@ -12,6 +12,8 @@
 #'                  is bonferroni. For other methods, please check \link[stats]{p.adjust}
 #'                  and \link[stats]{p.adjust.methods} from package
 #'                  \href{https://CRAN.R-project.org/package=stats}{stats}
+#' @param verbose.method method for the verbose option, either "c" (cat) or
+#'                  "p" (print). Default is c.
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
@@ -49,7 +51,10 @@
 #' CheckStationarity(DetrendedData)
 #' CheckStationarity(DetrendedData, verbose = TRUE)
 CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
-  verbose = FALSE, correction = "bonferroni"){
+  verbose = FALSE, correction = "bonferroni", verbose.method = c("c", "p")){
+   verbose.method <- match.arg(verbose.method)
+   catfun <- function(x) {cat(paste("\n", x, "\n"))}
+   verbosefun <- ifelse(verbose.method == "c", catfun , print)
    N <- dim(x)[1]
    M <- dim(x)[2]
    if(is.null(lags)){
@@ -72,9 +77,10 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
       if(warnings){
         warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
         return(FALSE)
-      } else if(!warnings & verbose){
-        return(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
-      } else if(!warnings & !verbose){
+      } else if(!warnings & verbose & verbose.method == "p"){
+        verbosefun(paste("Time series", sig_kpss, "is not stationary"))
+      } else if(!warnings & verbose.method != "p"){
+        if(verbose) verbosefun(paste("Time series", sig_kpss, "is not stationary"))
         return(FALSE)
       }
    } else if(sum(non_sig_adf) != 0){
@@ -93,19 +99,21 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
         }
       } else {
       if(warnings){
-      warning(paste("Time series are stationary according to KPSS test"))
+      message(paste("Time series are stationary according to KPSS test"))
       }
-        if(verbose){
-          return("Time series are stationary")
+        if(verbose & (verbose.method == "p")){
+          verbosefun("Time series are stationary")
         } else {
+          if(verbose) verbosefun("Time series are stationary")
           return(TRUE)
         }
       }
    } else {
-      if(verbose){
-         return("Time series are stationary")
+      if(verbose & (verbose.method == "p")){
+        verbosefun("Time series are stationary")
       } else {
-         return(TRUE)
+        if(verbose) verbosefun("Time series are stationary")
+        return(TRUE)
       }
    }
 }
@@ -120,6 +128,9 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #' @param correction choose a p-value correction method for multiple hypotheses. Default
 #'                  is bonferroni. For other methods, please check \link[stats]{p.adjust}
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
+#' @param verbose.method method for the verbose option, either "c" (cat) or
+#'                  "p" (print). Default is c.
+#'
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, whether the argument verbose is TRUE or
@@ -156,7 +167,10 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #' model <- EstimateVAR(DetrendedData)
 #' DiagnoseResiduals(model)
 DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
-   verbose = FALSE){
+    verbose = FALSE, verbose.method = c("c", "p")){
+    verbose.method <- match.arg(verbose.method)
+    catfun <- function(x) {cat(paste(x, "\n"))}
+    verbosefun <- ifelse(verbose.method == "c", catfun , print)
     lms <- model$varresult
     p_vals <- double(length(lms))
     for(n in 1:length(lms)){
@@ -165,9 +179,11 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
     }
     p_vals <- p.adjust(p_vals, correction)
     if(verbose & (max(p_vals) <= alpha)){
-       print("Residuals are not white processes")
+       verbosefun("Residuals are not white processes")
+       if(verbose.method != "p") return(FALSE)
     } else if(verbose & (min(p_vals) > alpha)){
-       print("Model residuals are white noise processes")
+       verbosefun("Model residuals are white noise processes")
+       if(verbose.method != "p") return(TRUE)
     } else {
        return(min(p_vals) > alpha)
     }
@@ -184,6 +200,9 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #' @param verbose boolean, show results from the test in captions. Default is FALSE
 #' @param col color for the roots inside the unit circle. Default is blue
 #' @param col2 color for the roots outside the unit circle. Default is red
+#' @param verbose.method method for the verbose option, either "c" (cat) or
+#'                  "p" (print). Default is c.
+#'
 #'
 #' @return A boolean variable indicating if the multivariate time series is stationary or not,
 #'         or a caption indicating so, whether the argument verbose is TRUE or
@@ -215,13 +234,18 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #' model <- EstimateVAR(DetrendedData)
 #' DiagnoseStability(model, do.plot = TRUE)
 DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "blue",
-                              col2 = "red"){
+                              col2 = "red", verbose.method = c("c", "p")){
+    verbose.method <- match.arg(verbose.method)
+    catfun <- function(x) {cat(paste(x, "\n"))}
+    verbosefun <- ifelse(verbose.method == "c", catfun , print)
     roots <- vars::roots(model)
     if(do.plot) PlotRoots(model)
     if(verbose & !(TRUE %in% (roots >= 1))){
-       print("The model is stable")
+       verbosefun("The model is stable")
+       if(verbose.method != "p") return(TRUE)
     } else if(verbose & !(TRUE %in% (roots < 1))){
-       print("The model is not stable")
+       verbosefun("The model is not stable")
+      if(verbose.method != "p") return(FALSE)
     } else {
        return(!(TRUE %in% (roots >= 1)))
     }

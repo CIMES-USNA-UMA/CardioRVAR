@@ -8,7 +8,8 @@ DiagnoseResiduals(
   model,
   alpha = 0.05,
   correction = "bonferroni",
-  verbose = FALSE
+  verbose = FALSE,
+  verbose.method = c("c", "p")
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ DiagnoseResiduals(
 is bonferroni. For other methods, please check \link[stats]{p.adjust}}
 
 \item{verbose}{boolean, show results from the test in captions. Default is FALSE}
+
+\item{verbose.method}{method for the verbose option, either "c" (cat) or
+"p" (print). Default is c.}
 }
 \value{
 A boolean variable indicating if the multivariate time series is stationary or not,

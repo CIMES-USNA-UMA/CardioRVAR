@@ -9,7 +9,8 @@ DiagnoseStability(
   do.plot = FALSE,
   verbose = FALSE,
   col = "blue",
-  col2 = "red"
+  col2 = "red",
+  verbose.method = c("c", "p")
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ model. Default is FALSE}
 \item{col}{color for the roots inside the unit circle. Default is blue}
 
 \item{col2}{color for the roots outside the unit circle. Default is red}
+
+\item{verbose.method}{method for the verbose option, either "c" (cat) or
+"p" (print). Default is c.}
 }
 \value{
 A boolean variable indicating if the multivariate time series is stationary or not,
