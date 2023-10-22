@@ -35,9 +35,7 @@ and \link[stats]{p.adjust.methods} from package
 "p" (print). Default is c.}
 }
 \value{
-A boolean variable indicating if the multivariate time series is stationary or not,
-        or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
-        FALSE
+A boolean variable indicating if the multivariate time series is stationary or not.
 }
 \description{
 Check stationarity of the data

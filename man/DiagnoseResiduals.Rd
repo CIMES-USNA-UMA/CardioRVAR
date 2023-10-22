@@ -26,9 +26,7 @@ is bonferroni. For other methods, please check \link[stats]{p.adjust}}
 "p" (print). Default is c.}
 }
 \value{
-A boolean variable indicating if the multivariate time series is stationary or not,
-        or a caption indicating so, whether the argument verbose is TRUE or
-        FALSE
+A boolean variable indicating if the multivariate time series is stationary or not.
 }
 \description{
 Check that residuals from a VAR model are a white-noise process

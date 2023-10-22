@@ -14,9 +14,7 @@ PlotRoots(model, col = "blue", col2 = "red")
 \item{col2}{color for the roots outside the unit circle. Default is red}
 }
 \value{
-A boolean variable indicating if the multivariate time series is stationary or not,
-        or a caption indicating so, whether the argument verbose is TRUE or
-        FALSE
+None
 }
 \description{
 Plot a unit circle with inverse roots computed from a VAR model
