@@ -59,28 +59,9 @@ DetrendWithCutoff <-
     thr.type <- match.arg(thr.type)
     N = NROW(x)
     Nf = f / 2
-    level = 1
-    repeat {
-      target_f <- Nf / (2 ^ level)
-      if (target_f <= cutoff) {
-        break
-      }
-      else {
-        level = level + 1
-      }
-    }
-    level2 = 1
-    if (do.VHF) {
-      repeat {
-        target_m <- Nf/(2^level2)
-        if (target_m <= max_f) {
-          break
-        }
-        else {
-          level2 = level2 + 1
-        }
-      }
-    }
+    if(cutoff >= Nf) stop("Refrence frequency must be smaller than the Nyquist frequency")
+    level <- ceiling(log2(Nf) - log2(cutoff)) 
+    if (do.VHF) level2 <- ceiling(log2(Nf) - log2(max_f)) 
     if (is.null(n.universal)){
       if(do.VHF){
         n.universal <- level2
@@ -114,3 +95,4 @@ DetrendWithCutoff <-
     trend = waveslim::imodwt(trend)
     return(x - trend)
   }
+
