@@ -53,8 +53,9 @@
 CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
   verbose = FALSE, correction = "bonferroni", verbose.method = c("c", "p")){
    verbose.method <- match.arg(verbose.method)
-   catfun <- function(x) {cat(paste("\n", x, "\n"))}
-   verbosefun <- ifelse(verbose.method == "c", catfun , print)
+   printfun <- function(x) {for(n in 1:NROW(x)) print(x[n])}
+   catfun <- function(x) {cat(paste(x), sep = "\n")}
+   verbosefun <- ifelse(verbose.method == "c", catfun , printfun)
    N <- dim(x)[1]
    M <- dim(x)[2]
    if(is.null(lags)){
@@ -169,8 +170,9 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
     verbose = FALSE, verbose.method = c("c", "p")){
     verbose.method <- match.arg(verbose.method)
-    catfun <- function(x) {cat(paste(x, "\n"))}
-    verbosefun <- ifelse(verbose.method == "c", catfun , print)
+    printfun <- function(x) {for(n in 1:NROW(x)) print(x[n])}
+    catfun <- function(x) {cat(paste(x), sep = "\n")}
+    verbosefun <- ifelse(verbose.method == "c", catfun , printfun)
     lms <- model$varresult
     p_vals <- double(length(lms))
     for(n in 1:length(lms)){
@@ -236,8 +238,9 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "blue",
                               col2 = "red", verbose.method = c("c", "p")){
     verbose.method <- match.arg(verbose.method)
-    catfun <- function(x) {cat(paste(x, "\n"))}
-    verbosefun <- ifelse(verbose.method == "c", catfun , print)
+    printfun <- function(x) {for(n in 1:NROW(x)) print(x[n])}
+    catfun <- function(x) {cat(paste(x), sep = "\n")}
+    verbosefun <- ifelse(verbose.method == "c", catfun , printfun)
     roots <- vars::roots(model)
     if(do.plot) PlotRoots(model)
     if(verbose & !(TRUE %in% (roots >= 1))){
