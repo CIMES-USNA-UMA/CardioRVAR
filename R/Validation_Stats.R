@@ -77,11 +77,11 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
    if(sum(sig_kpss) != 0){
       if(warnings){
         warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
-        return(FALSE)
-      } else if(!warnings & verbose & verbose.method == "p"){
+        return(invisible(FALSE))
+      } else if(!warnings & verbose){
         verbosefun(paste("Time series", sig_kpss, "is not stationary"))
-      } else if(!warnings & verbose.method != "p"){
-        if(verbose) verbosefun(paste("Time series", sig_kpss, "is not stationary"))
+        return(invisible(FALSE))
+      } else if(!warnings & !verbose){
         return(FALSE)
       }
    } else if(sum(non_sig_adf) != 0){
@@ -92,9 +92,10 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
       if(sum(sig_kpss) != 0){
         if(warnings){
           warning(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
-          return(FALSE)
+          return(invisible(FALSE))
         } else if(!warnings & verbose){
-          return(paste("\n", "Time series", sig_kpss, "is not stationary", "\n"))
+          verbosefun(paste("Time series", sig_kpss, "is not stationary"))
+          return(invisible(FALSE))
         } else if(!warnings & !verbose){
           return(FALSE)
         }
@@ -102,18 +103,18 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
       if(warnings){
       message(paste("Time series are stationary according to KPSS test"))
       }
-        if(verbose & (verbose.method == "p")){
+        if(verbose){
           verbosefun("Time series are stationary")
+          return(invisible(TRUE))
         } else {
-          if(verbose) verbosefun("Time series are stationary")
           return(TRUE)
         }
       }
    } else {
-      if(verbose & (verbose.method == "p")){
-        verbosefun("Time series are stationary")
+      if(verbose){
+        return(verbosefun("Time series are stationary"))
+        return(invisible(TRUE))
       } else {
-        if(verbose) verbosefun("Time series are stationary")
         return(TRUE)
       }
    }
@@ -182,10 +183,10 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
     p_vals <- p.adjust(p_vals, correction)
     if(verbose & (max(p_vals) <= alpha)){
        verbosefun("Residuals are not white processes")
-       if(verbose.method != "p") return(FALSE)
+       return(invisible(FALSE))
     } else if(verbose & (min(p_vals) > alpha)){
        verbosefun("Model residuals are white noise processes")
-       if(verbose.method != "p") return(TRUE)
+       return(invisible(TRUE))
     } else {
        return(min(p_vals) > alpha)
     }
@@ -245,10 +246,10 @@ DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "bl
     if(do.plot) PlotRoots(model)
     if(verbose & !(TRUE %in% (roots >= 1))){
        verbosefun("The model is stable")
-       if(verbose.method != "p") return(TRUE)
+       return(invisible(TRUE))
     } else if(verbose & !(TRUE %in% (roots < 1))){
        verbosefun("The model is not stable")
-      if(verbose.method != "p") return(FALSE)
+       return(invisible(FALSE))
     } else {
        return(!(TRUE %in% (roots >= 1)))
     }
