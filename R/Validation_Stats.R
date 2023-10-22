@@ -15,9 +15,7 @@
 #' @param verbose.method method for the verbose option, either "c" (cat) or
 #'                  "p" (print). Default is c.
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not,
-#'         or a caption indicating so, depending on whether the arguments verbose and warning are TRUE or
-#'         FALSE
+#' @return A boolean variable indicating if the multivariate time series is stationary or not.
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
@@ -112,7 +110,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
       }
    } else {
       if(verbose){
-        return(verbosefun("Time series are stationary"))
+        verbosefun("Time series are stationary")
         return(invisible(TRUE))
       } else {
         return(TRUE)
@@ -134,9 +132,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #'                  "p" (print). Default is c.
 #'
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not,
-#'         or a caption indicating so, whether the argument verbose is TRUE or
-#'         FALSE
+#' @return A boolean variable indicating if the multivariate time series is stationary or not.
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
@@ -207,9 +203,7 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #'                  "p" (print). Default is c.
 #'
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not,
-#'         or a caption indicating so, whether the argument verbose is TRUE or
-#'         FALSE
+#' @return A boolean variable indicating if the multivariate time series is stationary or not.
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
@@ -263,9 +257,7 @@ DiagnoseStability <- function(model, do.plot = FALSE, verbose = FALSE, col = "bl
 #' @param col color for the roots inside the unit circle. Default is blue
 #' @param col2 color for the roots outside the unit circle. Default is red
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not,
-#'         or a caption indicating so, whether the argument verbose is TRUE or
-#'         FALSE
+#' @return None
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
