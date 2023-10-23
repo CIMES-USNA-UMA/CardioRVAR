@@ -11,7 +11,6 @@ GetExpectedValues(
   HF = 0.4,
   str = TRUE,
   weight = TRUE,
-  factor = 3,
   use.coh = TRUE,
   thr = 0.5,
   coherence
