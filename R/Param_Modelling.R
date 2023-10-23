@@ -86,7 +86,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
    preserve.p = TRUE){
                    if(is.null(sigma) & is.null(coefs)){
                       coefs <- GetCoefs(model)
-                      sigma <- summary(model)$cov / 2
+                      sigma <- summary(model)$cov * 2 * dt 
                    } else if(is.null(sigma) & !is.null(coefs)){
                              stop("Indicate coeficients")
                    } else if(is.null(sigma) & !is.null(coefs)){
