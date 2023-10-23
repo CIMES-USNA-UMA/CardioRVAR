@@ -132,7 +132,7 @@ CheckStationarity <- function(x, alpha = 0.05, lags = NULL, warnings = TRUE,
 #'                  "p" (print). Default is c.
 #'
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not.
+#' @return A boolean variable indicating if the model residuals are uncorrelated processes
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 
@@ -203,7 +203,7 @@ DiagnoseResiduals <- function(model, alpha = 0.05, correction = "bonferroni",
 #'                  "p" (print). Default is c.
 #'
 #'
-#' @return A boolean variable indicating if the multivariate time series is stationary or not.
+#' @return A boolean variable indicating if the multivariate VAR model is stable.
 #'
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
 #' 

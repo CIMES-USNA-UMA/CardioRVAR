@@ -29,7 +29,7 @@ model. Default is FALSE}
 "p" (print). Default is c.}
 }
 \value{
-A boolean variable indicating if the multivariate time series is stationary or not.
+A boolean variable indicating if the multivariate VAR model is stable.
 }
 \description{
 Check that the estimated VAR model is stable
