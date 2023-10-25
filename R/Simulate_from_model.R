@@ -10,7 +10,6 @@
 #' @param SM A computed frequency domain model
 #' @param noises Which noise spectra to be included in the simulation
 #' @param a0 Which immediate effects to be included in the simulation
-#' @param f Sample frequency
 #' @param xlim Specific limits for the frequency axis. Default is NULL
 #' @param HFcolor Color for the HF band. Default is yellow
 #' @param LFcolor color for the LF band. Default is green
@@ -32,7 +31,7 @@
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 #' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
-SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
+SimulateWithModel <- function(SM, noises, a0, xlim = NULL, HFcolor = "yellow", LFcolor = "green", VLF = 0.04,
                               LF = 0.15, HF = 0.4, show.cols = TRUE, phase.col = "red" ){
   sigma <- diag(noises)
   H <- SM$Noise_Transfer_fun
@@ -45,7 +44,7 @@ SimulateWithModel <- function(SM, noises, a0, f, xlim = NULL, HFcolor = "yellow"
     H[,,n] <- (H[,,n] %*% SM$a0) %*% solve(a0)
     S[,,n] <- H[,,n] %*% sigma %*% Conj(t(H[,,n]))
   }
-  return(S/f)
+  return(S)
 }
 
 

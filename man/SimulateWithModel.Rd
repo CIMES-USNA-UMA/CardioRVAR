@@ -8,7 +8,6 @@ SimulateWithModel(
   SM,
   noises,
   a0,
-  f,
   xlim = NULL,
   HFcolor = "yellow",
   LFcolor = "green",
@@ -25,8 +24,6 @@ SimulateWithModel(
 \item{noises}{Which noise spectra to be included in the simulation}
 
 \item{a0}{Which immediate effects to be included in the simulation}
-
-\item{f}{Sample frequency}
 
 \item{xlim}{Specific limits for the frequency axis. Default is NULL}
 
