@@ -2,7 +2,7 @@ test_that("Simulating model should work", {
   data(DetrendedData)
   model <- EstimateVAR(DetrendedData)
   freq_model <- ParamFreqModel(model)
-  new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
+  new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
   expect_true(is.array(new_model))
 })
 
