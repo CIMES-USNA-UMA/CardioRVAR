@@ -21,7 +21,7 @@ remotes::install_github("CIMES-USNA-UMA/CardioRVAR", build_vignettes = TRUE)
 
 ## Shiny application
 
-There is a complementary shinny application available for this package. To access it, you can either install
+There is a complementary shiny application available for this package. To access it, you can either install
 it and access it using the following commands (you may need to install package *shiny* separately):
 
 ```ruby
