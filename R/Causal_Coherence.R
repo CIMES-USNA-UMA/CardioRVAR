@@ -160,8 +160,8 @@ GetMeanCoherence <- function(SM, coherence, HF = 0.4, LF = 0.15, VLF = 0.04,
     wHF <- rep(1, NROW(HF_band)) 
   }
   for(n in 1:length(HF)){
-    HF[[n]] <- mean(coherence[[n]][HF_band])
-    LF[[n]] <- mean(coherence[[n]][LF_band])
+    #HF[[n]] <- mean(coherence[[n]][HF_band])
+    #LF[[n]] <- mean(coherence[[n]][LF_band])
     HF[[n]] <- weighted.mean(coherence[[n]][HF_band],
                   w = wHF, na.rm = TRUE)
     LF[[n]] <- weighted.mean(coherence[[n]][LF_band],
