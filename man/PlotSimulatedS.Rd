@@ -54,7 +54,7 @@ Generates a graphical representation of the noise transfer functions
 data(DetrendedData)
 model <- EstimateVAR(DetrendedData)
 freq_model <- ParamFreqModel(model)
-new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
+new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
 PlotSimulatedS(freq_model, new_model, 2)
 
 }

@@ -77,7 +77,7 @@ SimulateWithModel <- function(SM, noises, a0, xlim = NULL, HFcolor = "yellow", L
 #' data(DetrendedData)
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
-#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2, f = 4)
+#' new_model <- SimulateWithModel(freq_model, c(2,3), a0 = 2)
 #' PlotSimulatedS(freq_model, new_model, 2)
 #' 
 PlotSimulatedS <- function(SM, S, index, unit = "ms2/Hz",
