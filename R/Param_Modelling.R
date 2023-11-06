@@ -174,7 +174,7 @@ IncludeA0Effects <- function(system){
                        solve(a0)
                 }
                 A <- GetMatrixAfromH(Noise_Transfer_fun)
-                Vars_Transfer_fun <- GetMatrixBfromA(A, a0)
+                Vars_Transfer_fun <- GetMatrixBfromA(A)
                 TFuns <- GetTransFuns(A)
                 OpenVSClosed <- GetOpenVSClosedDif(Open_Transfer_Functions, 
                     TFuns)
@@ -621,7 +621,6 @@ GetOpenVSClosedDif <- function(open, closed){
 #'
 #' 
 #' @param A Transfer function A
-#' @param a0 An A0 function
 #'
 #' @return Transfer function B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -644,7 +643,7 @@ GetOpenVSClosedDif <- function(open, closed){
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
 #' 
-GetMatrixBfromA <- function(A, a0){
+GetMatrixBfromA <- function(A){
               B <- array(0, dim(A))
               for(n in 1:dim(B)[3]){
                   B[ , , n] <- diag(c(1,1), dim(B)[1]) - A[ , , n]

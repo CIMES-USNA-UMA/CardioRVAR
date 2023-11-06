@@ -4,12 +4,10 @@
 \alias{GetMatrixBfromA}
 \title{Calculate transfer function B from transfer function A}
 \usage{
-GetMatrixBfromA(A, a0)
+GetMatrixBfromA(A)
 }
 \arguments{
 \item{A}{Transfer function A}
-
-\item{a0}{An A0 function}
 }
 \value{
 Transfer function B
