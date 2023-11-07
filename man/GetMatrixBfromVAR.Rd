@@ -4,7 +4,7 @@
 \alias{GetMatrixBfromVAR}
 \title{Calculate transfer function B from VAR model}
 \usage{
-GetMatrixBfromVAR(var, freqs, dt = 0.25, a0 = NULL)
+GetMatrixBfromVAR(var, freqs, dt = 0.25, a0 = FALSE)
 }
 \arguments{
 \item{var}{A var model}
@@ -13,9 +13,8 @@ GetMatrixBfromVAR(var, freqs, dt = 0.25, a0 = NULL)
 
 \item{dt}{Inverse sample rate. Default is 0.25}
 
-\item{a0}{Use an a0 function to adjust the var model before extracting matrix B.
-The default is NULL, in which case, the identity matrix I is assumed
-to be the a0 function.}
+\item{a0}{Boolean. Should the coefficients of the VAR model be adjusted with 
+instantaneous interactions? Default is FALSE}
 }
 \value{
 The auxiliary matrix B

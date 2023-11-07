@@ -253,7 +253,8 @@ GetA0Fun <- function(sigma){
 #' J Clin Monit Comput. 2006;20(1):101-8
 UpdateWithA0 <- function(A0, coefs){
             ncoefs <- coefs
-            for(n in 1:length(coefs)){
+            ncoefs[[1]] <- diag(1, nrow(A0)) - A0
+            for(n in 2:length(coefs)){
                 ncoefs[[n]] <- A0 %*% coefs[[n]]
             }  
             return(ncoefs)
@@ -287,11 +288,14 @@ UpdateWithA0 <- function(A0, coefs){
 GetCoefs <- function(var){
             max.lag = var$p
             K <- var$K
-            lags <- 1:max.lag
+            lags <- 0:max.lag
             coefs <- coef(var)
+            for(k in 1:K){
+              coefs[[k]] <- rbind(matrix(0, nrow = K, ncol = 4), coefs[[k]])
+            }
             sel_coefs <- NULL
             coef_list <- list()
-            length(coef_list) <- max.lag
+            length(coef_list) <- max.lag + 1
             for(k in 1:K){
                 sel_coefs <- cbind(sel_coefs, coefs[[k]][,1])
             }
@@ -309,9 +313,8 @@ GetCoefs <- function(var){
 #' @param var A var model
 #' @param freqs A vector of frequencies 
 #' @param dt Inverse sample rate. Default is 0.25
-#' @param a0 Use an a0 function to adjust the var model before extracting matrix B.
-#'           The default is NULL, in which case, the identity matrix I is assumed
-#'           to be the a0 function.
+#' @param a0 Boolean. Should the coefficients of the VAR model be adjusted with 
+#'           instantaneous interactions? Default is FALSE
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -333,10 +336,13 @@ GetCoefs <- function(var){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = NULL){
+GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = FALSE){
               coefs <- GetCoefs(var)
-              if(!is.null(a0)) coefs <- UpdateWithA0(a0, coefs)
-              B <- GetMatrixBfromCoefs(coefs, freqs, dt, a0)
+              if((a0)){
+                a0 <- GetA0Fun(summary(model)$cov * 2 * dt)$a0
+                coefs <- UpdateWithA0(a0, coefs)
+              }
+              B <- GetMatrixBfromCoefs(coefs, freqs, dt)
               return(B)
 }
 
@@ -347,9 +353,6 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = NULL){
 #' @param coefs Coefficients from a var model
 #' @param freqs A vector of frequencies 
 #' @param dt Inverse sample rate. Default is 0.25
-#' @param a0 Use an a0 function (only valid if the coefficients have been
-#'           previously adjusted with an a0 function). The default is NULL,
-#'           in which case, the identity matrix I is assumed to be the a0 function.
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -371,21 +374,17 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = NULL){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25, a0 = NULL){
+GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
               if(max(freqs) > 0.5) freqs <- freqs * dt
-              if(is.null(a0)) a0 <- diag(1, nrow(coefs[[1]]))
-              I <- diag(1, nrow(coefs[[1]]))
-              delta <- I - a0
               K <- ncol(coefs[[1]])
-              lags <- 1:length(coefs)
+              lags <- (1:length(coefs)) - 1
               B <- array(0, c(K, K, NROW(freqs)))
               for(n in 1:K){
                   for(m in 1:K){
-                      for(lag in lags){
+                      for(lag in 1:length(coefs)){
                           B[n, m, ] <- B[n, m, ] +
-                               coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag) 
+                               coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lags[lag]) 
                       }
-                      B[n, m, ] <- B[n, m, ] + delta[n, m]
                   }
               }
               return(B)
