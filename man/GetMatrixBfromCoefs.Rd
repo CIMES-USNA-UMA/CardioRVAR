@@ -4,7 +4,7 @@
 \alias{GetMatrixBfromCoefs}
 \title{Calculate transfer function B from VAR coefficients}
 \usage{
-GetMatrixBfromCoefs(coefs, freqs, dt = 0.25)
+GetMatrixBfromCoefs(coefs, freqs, dt = 0.25, a0 = NULL)
 }
 \arguments{
 \item{coefs}{Coefficients from a var model}
@@ -12,6 +12,10 @@ GetMatrixBfromCoefs(coefs, freqs, dt = 0.25)
 \item{freqs}{A vector of frequencies}
 
 \item{dt}{Inverse sample rate. Default is 0.25}
+
+\item{a0}{Use an a0 function (only valid if the coefficients have been
+previously adjusted with an a0 function). The default is NULL,
+in which case, the identity matrix I is assumed to be the a0 function.}
 }
 \value{
 The auxiliary matrix B

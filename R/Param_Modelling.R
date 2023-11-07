@@ -94,7 +94,7 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    }
                    freq_support <- match.arg(freq_support)
                    freqs <- GetFreqs(freq_support, model, len, dt)
-                   B <- GetMatrixBfromCoefs(coefs, freqs) 
+                   B <- GetMatrixBfromCoefs(coefs, freqs, dt) 
                    A <- GetMatrixAfromB(B)
                    H <- GetMatrixHfromA(A)
                    TFuns <- GetTransFuns(A)
@@ -309,6 +309,9 @@ GetCoefs <- function(var){
 #' @param var A var model
 #' @param freqs A vector of frequencies 
 #' @param dt Inverse sample rate. Default is 0.25
+#' @param a0 Use an a0 function to adjust the var model before extracting matrix B.
+#'           The default is NULL, in which case, the identity matrix I is assumed
+#'           to be the a0 function.
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -330,19 +333,10 @@ GetCoefs <- function(var){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, coefs = NULL){
-              K <- var$K
-              lags <- 1:var$p
+GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = NULL){
               coefs <- GetCoefs(var)
-              B <- array(0, c(K, K, NROW(freqs)))
-              for(n in 1:K){
-                  for(m in 1:K){
-                      for(lag in lags){
-                          B[n, m, ] <- B[n, m, ] +
-                              coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag)
-                      }
-                  }
-              }
+              if(!is.null(a0)) coefs <- UpdateWithA0(a0, coefs)
+              B <- GetMatrixBfromCoefs(coefs, freqs, dt, a0)
               return(B)
 }
 
@@ -353,6 +347,9 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, coefs = NULL){
 #' @param coefs Coefficients from a var model
 #' @param freqs A vector of frequencies 
 #' @param dt Inverse sample rate. Default is 0.25
+#' @param a0 Use an a0 function (only valid if the coefficients have been
+#'           previously adjusted with an a0 function). The default is NULL,
+#'           in which case, the identity matrix I is assumed to be the a0 function.
 #'
 #' @return The auxiliary matrix B
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -374,7 +371,11 @@ GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, coefs = NULL){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
+GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25, a0 = NULL){
+              if(max(freqs) > 0.5) freqs <- freqs * dt
+              if(is.null(a0)) a0 <- diag(1, nrow(coefs[[1]]))
+              I <- diag(1, nrow(coefs[[1]]))
+              delta <- I - a0
               K <- ncol(coefs[[1]])
               lags <- 1:length(coefs)
               B <- array(0, c(K, K, NROW(freqs)))
@@ -384,6 +385,7 @@ GetMatrixBfromCoefs <- function(coefs, freqs, dt = 0.25){
                           B[n, m, ] <- B[n, m, ] +
                                coefs[[lag]][n, m] * exp(-2*pi*freqs*1i*lag) 
                       }
+                      B[n, m, ] <- B[n, m, ] + delta[n, m]
                   }
               }
               return(B)
