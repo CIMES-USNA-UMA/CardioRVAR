@@ -714,8 +714,7 @@ GetFreqs <- function(type, model, len, dt){
     freqs <- spec.pgram(model$y[,1], plot = FALSE, 
                         pad = len/(model$totobs/2) - 1)$freq
   } else {
-    #freqs <- seq(0, 1/(2*dt), len = len)
-    freqs <- seq(0, 1/(2), len = len)
+    freqs <- seq(0, 1/2, len = len)
   }
   return(freqs)
 }                      
