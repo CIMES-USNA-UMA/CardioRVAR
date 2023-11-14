@@ -98,7 +98,6 @@ ParamFreqModel <- function(model, len = 1000, dt = 0.25, A0 = TRUE, sigma = NULL
                    A <- GetMatrixAfromB(B)
                    H <- GetMatrixHfromA(A)
                    TFuns <- GetTransFuns(A)
-                   #sigma <- sigma * 2
                    S <- GetSpectra(H, sigma)
                    OpenTFuns <- GetOpenTFuns(S, use.cross = use.cross)
                    OpenVSClosed <- GetOpenVSClosedDif(OpenTFuns, TFuns)
@@ -338,7 +337,7 @@ GetCoefs <- function(var){
 #' J Clin Monit Comput. 2006;20(1):101-8
 GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = FALSE){
               coefs <- GetCoefs(var)
-              if((a0)){
+              if(a0){
                 a0 <- GetA0Fun(summary(model)$cov * 2 * dt)$a0
                 coefs <- UpdateWithA0(a0, coefs)
               }
