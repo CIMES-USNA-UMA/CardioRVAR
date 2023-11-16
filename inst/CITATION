@@ -1,0 +1,15 @@
+bibentry(
+  bibtype  = "Article",
+  key = "biology12111438",
+  title    = "CardioRVAR: A New R Package and Shiny Application for the Evaluation of Closed-Loop Cardiovascular Interactions",
+  author   = "Chao-Écija, Alvaro and López-González, Manuel Víctor and Dawid-Milner, Marc Stefan",
+  journal  = "Biology",
+  year     = 2023,
+  volume   = 12,
+  number   = 11,
+  pages = 1438,
+  doi      = "https://doi.org/10.3390/biology12111438",
+  url = "https://www.mdpi.com/2079-7737/12/11/1438",
+  issn = "2079-7737",
+  textVersion = paste("Chao-Écija, A.; López-González, M.V.; Dawid-Milner, M.S. CardioRVAR: A New R Package and Shiny Application for the Evaluation of Closed-Loop Cardiovascular Interactions. Biology 2023, 12, 1438. https://doi.org/10.3390/biology12111438")
+)
