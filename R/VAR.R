@@ -5,7 +5,7 @@
 #' Estimates and validates a VAR model
 #' @param x A matrix with the data to be checked. Number of columns should be equal
 #'          to the number of variables.
-#' @param pmax The maximum order of the model to be estimated. Default is 22.
+#' @param pmax The maximum order of the model to be estimated. Default is 22
 #' @param p A specific model order for the VAR model. Default is NULL
 #' @param ic An information criterion to estimate the model order, if not previously
 #'           specified. Default is AIC, the Akaike criterion

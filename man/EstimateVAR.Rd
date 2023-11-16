@@ -21,7 +21,7 @@ EstimateVAR(
 \item{x}{A matrix with the data to be checked. Number of columns should be equal
 to the number of variables.}
 
-\item{pmax}{The maximum order of the model to be estimated. Default is 22.}
+\item{pmax}{The maximum order of the model to be estimated. Default is 22}
 
 \item{p}{A specific model order for the VAR model. Default is NULL}
 
