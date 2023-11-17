@@ -84,7 +84,7 @@ NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.
 #' @param cont1 estimated contribution from one noise source
 #' @param cont2 estimated contribution from a second noise source
 #' @param label1 label for the first noise source. Default is "RR noise"
-#' @param label2 label for the second noise source. Default is "RR noise"
+#' @param label2 label for the second noise source. Default is "SBP noise"
 #' 
 #' @return None
 #' @author Alvaro Chao-Ecija, Marc Stefan Dawid-Milner
@@ -96,12 +96,12 @@ NoiseContribution <- function(SM, index1, index2, VLF = 0.04, LF = 0.15, HF = 0.
 #' model <- EstimateVAR(DetrendedData)
 #' freq_model <- ParamFreqModel(model)
 #' 
-#' noise_con1 <- NoiseContribution(freq_model, 1, 2, use.coh = FALSE)
-#' noise_con2 <- NoiseContribution(freq_model, 1, 1, use.coh = FALSE)
+#' noise_con1 <- NoiseContribution(freq_model, 1, 2, use.coh = FALSE, print.flow = TRUE)
+#' noise_con2 <- NoiseContribution(freq_model, 1, 1, use.coh = FALSE, print.flow = TRUE)
 #' noise_con1
 #' noise_con2
 #' noise_con1 + noise_con2
-#' PlotNoiseContribution(noise_con1, noise_con2)
+#' PlotNoiseContribution(noise_con1, noise_con2, label1 = "RR noise", label2 = "SBP noise")
 #' 
 PlotNoiseContribution <- function(cont1, cont2, label1 = "RR noise", label2 = "SBP noise"){
   par(mfrow = c(1,2))
