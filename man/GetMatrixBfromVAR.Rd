@@ -4,10 +4,10 @@
 \alias{GetMatrixBfromVAR}
 \title{Calculate transfer function B from VAR model}
 \usage{
-GetMatrixBfromVAR(var, freqs, dt = 0.25, a0 = FALSE)
+GetMatrixBfromVAR(model, freqs, dt = 0.25, a0 = FALSE)
 }
 \arguments{
-\item{var}{A var model}
+\item{model}{A var model}
 
 \item{freqs}{A vector of frequencies}
 

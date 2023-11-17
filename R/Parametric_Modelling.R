@@ -309,7 +309,7 @@ GetCoefs <- function(var){
 #' Calculate transfer function B from VAR model
 #'
 #' Calculates transfer function B from a specific VAR model
-#' @param var A var model
+#' @param model A var model
 #' @param freqs A vector of frequencies 
 #' @param dt Inverse sample rate. Default is 0.25
 #' @param a0 Boolean. Should the coefficients of the VAR model be adjusted with 
@@ -335,8 +335,8 @@ GetCoefs <- function(var){
 #'
 #' Hytti H, Takalo R, Ihalainen H. Tutorial on Multivariate Autoregressive Modelling.
 #' J Clin Monit Comput. 2006;20(1):101-8
-GetMatrixBfromVAR <- function(var, freqs, dt = 0.25, a0 = FALSE){
-              coefs <- GetCoefs(var)
+GetMatrixBfromVAR <- function(model, freqs, dt = 0.25, a0 = FALSE){
+              coefs <- GetCoefs(model)
               if(a0){
                 a0 <- GetA0Fun(summary(model)$cov * 2 * dt)$a0
                 coefs <- UpdateWithA0(a0, coefs)
