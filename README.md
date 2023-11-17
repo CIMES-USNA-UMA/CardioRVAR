@@ -3,7 +3,6 @@
   [![DOI:10.3390/biology12111438](https://img.shields.io/badge/DOI-10.3390/biology12111438-7592ca.svg)](https://doi.org/10.3390/biology12111438)
   <!-- badges: end -->
 
-Warning: DOI badge may not work yet as the DOI is currently being registered and this could take some time.
 
 ## Description
 
